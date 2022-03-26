@@ -30,19 +30,28 @@ public class IPLSimulation {
         String name;
         double basePrice;
         boolean isWicketkeeper;
+        Long tempStat; //temporarily stores java.lang.Long value for each player stat
 
         for (Map playerMapObject : playerMapObjects) {
-            playerStats[0] = (int)(playerMapObject.get("numMatches"));
-            playerStats[1] = (int)(playerMapObject.get("careerRunsScored"));
-            playerStats[2] = (int)(playerMapObject.get("timesOut"));
-            playerStats[3] = (int)(playerMapObject.get("careerBallsFaced"));
-            playerStats[4] = (int)(playerMapObject.get("careerWickets"));
-            playerStats[5] = (int)(playerMapObject.get("careerRunsConceded"));
-            playerStats[6] = (int)(playerMapObject.get("careerBallsBowled"));
-
             name = playerMapObject.get("name").toString();
-            basePrice = (double)(playerMapObject.get("basePrice"));
-            isWicketkeeper = (boolean)(playerMapObject.get("isWicketkeeper"));
+            tempStat = (Long) playerMapObject.get("basePrice");
+            basePrice = tempStat.doubleValue();
+            isWicketkeeper = (boolean) (playerMapObject.get("isWicketkeeper"));
+            tempStat = (Long)playerMapObject.get("numMatches");
+
+            playerStats[0] = tempStat.intValue();
+            tempStat = (Long) playerMapObject.get("careerRunsScored");
+            playerStats[1] = tempStat.intValue();
+            tempStat = (Long) playerMapObject.get("timesOut");
+            playerStats[2] = tempStat.intValue();
+            tempStat = (Long) playerMapObject.get("careerBallsFaced");
+            playerStats[3] = tempStat.intValue();
+            tempStat = (Long) playerMapObject.get("careerWickets");
+            playerStats[4] = tempStat.intValue();
+            tempStat = (Long) (playerMapObject.get("careerRunsConceded"));
+            playerStats[5] = tempStat.intValue();
+            tempStat = (Long) playerMapObject.get("careerBallsBowled");
+            playerStats[6] = tempStat.intValue();
 
             auctionPool.add(new Player(name, basePrice, isWicketkeeper, playerStats)); //add the player to the auction pool
         }
@@ -264,6 +273,8 @@ public class IPLSimulation {
         InstantiateTeams(teams, standardNames);
         */
         FirebaseInitialise.initialise();
+        ArrayList<Player> auctionPool = RegisterPlayersInAuction();
+        System.out.println(Integer.toString(auctionPool.size()));
     }
 }
 
