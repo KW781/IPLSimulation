@@ -47,20 +47,20 @@ public class TeamFranchise {
         double battingMaxPrice, bowlingMaxPrice;
         double randomFactor = 0.8 * Math.random() + 0.6; //A random factor to create a form of unpredictability in the auction process
         switch (biddingRole) {
-            case Wicketkeeper:
+            case WICKETKEEPER:
                 maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
                 if (this.squad.size() >= 10) { //will only start considering the ratio of roles in the squad once size >= 10
-                    wicketkeeperRatio = ((double)this.countRoleInSquad(Role.Wicketkeeper)) / this.squad.size();
+                    wicketkeeperRatio = ((double)this.countRoleInSquad(Role.WICKETKEEPER)) / this.squad.size();
                     if (wicketkeeperRatio < (1/11)) {
                         maxPrice *= 1.1; //increase the max price by 10% if the wicketkeeper ratio is too less
                     } else if (wicketkeeperRatio > (2.5/11)) {
                         maxPrice *= 0.9; //decrease the max price by 10% if the wicketkeeper ratio is too much
                     }
                 }
-            case Batsman:
+            case BATSMAN:
                 maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
                 if (this.squad.size() >= 10) { //will only start considering the ratio of roles in the squad once size >= 10
-                    batsmanRatio = ((double)this.countRoleInSquad(Role.Batsman)) / this.squad.size();
+                    batsmanRatio = ((double)this.countRoleInSquad(Role.BATSMAN)) / this.squad.size();
                     if (batsmanRatio < (3/11)) {
                         maxPrice *= 1.2; //increase max price by 20% if batsman ratio is less than 3 for every 11
                     } else if (batsmanRatio < (5/11)) {
@@ -71,10 +71,10 @@ public class TeamFranchise {
                         maxPrice *= 0.9; //decrease max price by 10% if batsman ratio is more than 7 for every 11
                     }
                 }
-            case Bowler:
+            case BOWLER:
                 maxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg());
                 if (this.squad.size() >= 10) {
-                    bowlerRatio = ((double)this.countRoleInSquad(Role.Bowler)) / this.squad.size();
+                    bowlerRatio = ((double)this.countRoleInSquad(Role.BOWLER)) / this.squad.size();
                     if (bowlerRatio < (3/11)) {
                         maxPrice *= 1.2; //increase max price by 20% if batsman ratio is less than 3 for every 11
                     } else if (bowlerRatio < (5/11)) {
@@ -85,12 +85,12 @@ public class TeamFranchise {
                         maxPrice *= 0.9; //decrease max price by 10% if bowler ratio is more than 7 for every 11
                     }
                 }
-            case AllRounder:
+            case ALL_ROUNDER:
                 battingMaxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
                 bowlingMaxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg());
                 maxPrice = (battingMaxPrice + bowlingMaxPrice) / 2; //calculate average of batting and bowling max prices
                 if (this.squad.size() >= 10) {
-                    allRounderRatio = ((double)this.countRoleInSquad(Role.AllRounder)) / this.squad.size();
+                    allRounderRatio = ((double)this.countRoleInSquad(Role.ALL_ROUNDER)) / this.squad.size();
                     if (allRounderRatio < (1/11)) {
                         maxPrice *= 1.1; //increase max price by 10% if all-rounder ratio is too less
                     } else {
@@ -176,7 +176,7 @@ public class TeamFranchise {
         int passes; //keep track of the number of passes made through the squad whe selecting any role, to avoid infinite loop
         int batPointer, bowlPointer, wkPointer, allRoundPointer; //pointers to point to players in squad when automatically generating an XI, initially randomly generated
         int numBatsmen, numBowlers; //keep track of the number of batsmen and bowlers that have been selected in the XI, when automatically generating one
-        int numAllRounders = this.countRoleInSquad(Role.AllRounder); //extract the number of all-rounders in the squad, to determine how many to play in XI when automatically generating one
+        int numAllRounders = this.countRoleInSquad(Role.ALL_ROUNDER); //extract the number of all-rounders in the squad, to determine how many to play in XI when automatically generating one
         int numBowlersToSelect; //number of bowlers that need to be selected, based on the number of all-rounders selected
 
         if (this.userControlled) {
@@ -203,7 +203,7 @@ public class TeamFranchise {
             for (int i = 0; i < this.squad.size(); i++) {
                 System.out.print(Integer.toString(i + 1) + ". " + this.squad.get(i).getName()); //output the player name
                 //add on the wicketkeeper role if the player is a wicketkeeper
-                if (this.squad.get(i).getRole() == Role.Wicketkeeper) {
+                if (this.squad.get(i).getRole() == Role.WICKETKEEPER) {
                     System.out.println(" (wk)");
                 } else {
                     System.out.println();
@@ -233,7 +233,7 @@ public class TeamFranchise {
                     } while (samePlayer || (!playerInSquad));
                     playerNumArray.add(playerNum); //add the player number to the array once validated
                     //if a wicketkeeper was just selected, then set the validation flag for that to true
-                    if (this.squad.get(playerNum - 1).getRole() == Role.Wicketkeeper) {
+                    if (this.squad.get(playerNum - 1).getRole() == Role.WICKETKEEPER) {
                         wicketkeeperSelected = true;
                     }
                 }
@@ -254,7 +254,7 @@ public class TeamFranchise {
             numBatsmen = 0;
             passes = 0;
             while (numBatsmen < 5) {
-                if (this.squad.get(batPointer).getRole() == Role.Batsman) {
+                if (this.squad.get(batPointer).getRole() == Role.BATSMAN) {
                     playerNumArray.add(batPointer + 1); //add player to the player num array, adding one because the numbers in the array are 1-indexed
                     numBatsmen++;
                 }
@@ -272,7 +272,7 @@ public class TeamFranchise {
             wicketkeeperSelected = false;
             passes = 0;
             while (!wicketkeeperSelected) {
-                if (this.squad.get(wkPointer).getRole() == Role.Wicketkeeper) {
+                if (this.squad.get(wkPointer).getRole() == Role.WICKETKEEPER) {
                     playerNumArray.add(wkPointer + 1); //add player to the player num array, adding one because the numbers in the array are 1-indexed
                     wicketkeeperSelected = true;
                 }
@@ -290,7 +290,7 @@ public class TeamFranchise {
             if (numAllRounders > 0) {
                 allRounderSelected = false;
                 while (!allRounderSelected) {
-                    if (this.squad.get(allRoundPointer).getRole() == Role.AllRounder) {
+                    if (this.squad.get(allRoundPointer).getRole() == Role.ALL_ROUNDER) {
                         playerNumArray.add(allRoundPointer + 1); //add player to the player num array, adding one because the numbers in the array are 1-indexed
                         allRounderSelected = true;
                     }
@@ -308,7 +308,7 @@ public class TeamFranchise {
             numBowlers = 0;
             passes = 0;
             while (numBowlers < numBowlersToSelect) {
-                if (this.squad.get(bowlPointer).getRole() == Role.AllRounder) {
+                if (this.squad.get(bowlPointer).getRole() == Role.ALL_ROUNDER) {
                     playerNumArray.add(bowlPointer + 1); //add player to the player num array, adding one because the numbers in the array are 1-indexed
                     numBowlers++;
                 }

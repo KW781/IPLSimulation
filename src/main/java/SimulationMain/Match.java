@@ -216,7 +216,7 @@ public class Match {
             //output all the bowler names
             for (int i = 0; i < battingFirstEleven.size(); i++) {
                 //first check if the player is a bowler or all-rounder
-                if ((battingFirstEleven.get(i).getRole() == Role.Bowler) || (battingFirstEleven.get(i).getRole() == Role.AllRounder)) {
+                if ((battingFirstEleven.get(i).getRole() == Role.BOWLER) || (battingFirstEleven.get(i).getRole() == Role.ALL_ROUNDER)) {
                     //next check if they are eligible to bowl the over (not the previous bowler, and also bowled less than 4 overs)
                     if ((i != prevBowlerSelection) && (battingFirstEleven.get(i).getCurrentBallsBowled() < 24)) {
                         //output the bowler choice if they are a valid choice to bowl the over
@@ -396,7 +396,7 @@ public class Match {
             //output the names of the bowlers that can bowl
             for (int i = 0; i < bowlingFirstEleven.size(); i++) {
                 //first check that the player is a bowler or an all-rounder
-                if ((bowlingFirstEleven.get(i).getRole() == Role.Bowler) || (bowlingFirstEleven.get(i).getRole() == Role.AllRounder)) {
+                if ((bowlingFirstEleven.get(i).getRole() == Role.BOWLER) || (bowlingFirstEleven.get(i).getRole() == Role.ALL_ROUNDER)) {
                     //next check whether the bowler is not the same as the bowler that bowled the previous bowler, and that they still have overs left
                     if ((i != prevBowlerSelection) && (bowlingFirstEleven.get(i).getCurrentBallsBowled() < 24)) {
                         //output the bowler's name if they are a valid choice to bowl the over

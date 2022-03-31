@@ -48,18 +48,18 @@ public class Player {
         //determine the role of the player based on the statistics
         avgOversPerMatch = (((double)this.totalBallsBowled) / 6) / this.numMatches; //calculate average overs bowled per match
         if (isWicketkeeper) {
-            this.playerRole = Role.Wicketkeeper;
+            this.playerRole = Role.WICKETKEEPER;
         } else {
             if (avgOversPerMatch >= 2.75) {
                 if ((this.strikeRate >= 120) && (this.battingAvg >= 15)) {
-                    this.playerRole = Role.AllRounder;
+                    this.playerRole = Role.ALL_ROUNDER;
                 } else {
-                    this.playerRole = Role.Bowler;
+                    this.playerRole = Role.BOWLER;
                 }
             } else if (avgOversPerMatch < 0.5) {
-                this.playerRole = Role.Batsman;
+                this.playerRole = Role.BATSMAN;
             } else {
-                this.playerRole = Role.AllRounder;
+                this.playerRole = Role.ALL_ROUNDER;
             }
         }
     }
@@ -80,7 +80,7 @@ public class Player {
         this.currentBallsFaced = 0;
         this.out = false;
         //only initialise the bowling stats if the player is a bowler or an all-rounder
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             this.currentWickets = 0;
             this.currentBallsBowled = 0;
             this.currentRunsConceded = 0;
@@ -105,7 +105,7 @@ public class Player {
     //method to increment the current runs conceded in the game for the player
     public void incrementCurrentRunsConceded(int runsToAdd) {
         //ensure that only the runs for a bowler or all-rounder are incremented
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             if (runsToAdd >= 0) {
                 this.currentRunsConceded += runsToAdd;
             } else {
@@ -118,7 +118,7 @@ public class Player {
 
     //method to get the current runs conceded, used when generating the scorecard
     public int getCurrentRunsConceded() {
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.currentRunsConceded;
         } else {
             throw new RuntimeException("Can't get current runs conceded for a batsman or wicketkeeper");
@@ -128,7 +128,7 @@ public class Player {
     //method to increment the number of wickets taken in the game for the player
     public void incrementCurrentWickets() {
         //ensure that only the wickets for a bowler or all-rounder are incremented
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             this.currentWickets++;
         } else {
             throw new RuntimeException("Can't increment wickets for a batsman or wicketkeeper");
@@ -138,7 +138,7 @@ public class Player {
     //method to get the current wickets, used when generating the scorecard
     public int getCurrentWickets() {
         //ensure that only the wickets for a bowler or all-rounder are returned
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.currentWickets;
         } else {
             throw new RuntimeException("Can't return current wickets for a batsman or wicketkeeper");
@@ -148,7 +148,7 @@ public class Player {
     //method to increment the number of balls bowled in the game for the player
     public void incrementCurrentBallsBowled() {
         //ensure that only the balls bowled for a bowler or all-rounder are incremented
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             this.currentBallsBowled++;
         } else {
             throw new RuntimeException("Can't increment balls bowled for a batsman or wicketkeeper");
@@ -167,7 +167,7 @@ public class Player {
 
     //method to get the current balls bowled by the player
     public int getCurrentBallsBowled() {
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.currentBallsBowled;
         } else {
             throw new RuntimeException("Current balls bowled not available for a batsman or wicketkeeper");
@@ -205,7 +205,7 @@ public class Player {
     }
 
     public double getEconomy() {
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.economy;
         } else {
             throw new RuntimeException("Bowling economy not available for a batsman or wicketkeeper");
@@ -213,7 +213,7 @@ public class Player {
     }
 
     public double getBowlingAvg() {
-        if ((this.playerRole == Role.Bowler) || (this.playerRole == Role.AllRounder)) {
+        if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.bowlingAvg;
         } else {
             throw new RuntimeException("Bowling average not available for a batsman or wicketkeeper");

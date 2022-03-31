@@ -67,7 +67,7 @@ public class ScorecardDetails {
                     losingEleven.get(i).wasDismissed());
 
             //only add the bowler to the array of bowler performance objects if the player is a bowler/all-rounder
-            if ((winningEleven.get(i).getRole() == Role.Bowler) || (winningEleven.get(i).getRole() == Role.AllRounder)) {
+            if ((winningEleven.get(i).getRole() == Role.BOWLER) || (winningEleven.get(i).getRole() == Role.ALL_ROUNDER)) {
                 bowlingWinningElevenArr[winningBowlerCount] = new BowlerPerformance(winningEleven.get(i).getName(),
                         winningEleven.get(i).getCurrentRunsConceded(),
                         winningEleven.get(i).getCurrentBallsBowled(),
@@ -76,7 +76,7 @@ public class ScorecardDetails {
             }
 
             //only add the bowler to the array of bowler performance objects if the player is a bowler/all-rounder
-            if ((losingEleven.get(i).getRole() == Role.Bowler) || (losingEleven.get(i).getRole() == Role.AllRounder)) {
+            if ((losingEleven.get(i).getRole() == Role.BOWLER) || (losingEleven.get(i).getRole() == Role.ALL_ROUNDER)) {
                 bowlingLosingElevenArr[losingBowlerCount] = new BowlerPerformance(losingEleven.get(i).getName(),
                         losingEleven.get(i).getCurrentRunsConceded(),
                         losingEleven.get(i).getCurrentBallsBowled(),

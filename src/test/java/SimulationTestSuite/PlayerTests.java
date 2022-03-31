@@ -27,11 +27,11 @@ public class PlayerTests {
             int[] suryakumarYadavStats = {115, 2341, 81, 1725, 0, 8, 6};
             Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, suryakumarYadavStats);
 
-            assertEquals(Role.Batsman, viratKohli.getRole());
-            assertEquals(Role.Batsman, kaneWilliamson.getRole());
-            assertEquals(Role.Batsman, abDeVilliers.getRole());
-            assertEquals(Role.Batsman, rohitSharma.getRole());
-            assertEquals(Role.Batsman, suryakumarYadav.getRole());
+            assertEquals(Role.BATSMAN, viratKohli.getRole());
+            assertEquals(Role.BATSMAN, kaneWilliamson.getRole());
+            assertEquals(Role.BATSMAN, abDeVilliers.getRole());
+            assertEquals(Role.BATSMAN, rohitSharma.getRole());
+            assertEquals(Role.BATSMAN, suryakumarYadav.getRole());
         }
 
         @Test
@@ -51,11 +51,11 @@ public class PlayerTests {
             int[] trentBoultStats = {62, 13, 3, 19, 76, 1983, 1417};
             Player trentBoult = new Player("Trent Boult", 150, false, trentBoultStats);
 
-            assertEquals(Role.Bowler, jaspritBumrah.getRole());
-            assertEquals(Role.Bowler, lasithMalinga.getRole());
-            assertEquals(Role.Bowler, rashidKhan.getRole());
-            assertEquals(Role.Bowler, adamZampa.getRole());
-            assertEquals(Role.Bowler, trentBoult.getRole());
+            assertEquals(Role.BOWLER, jaspritBumrah.getRole());
+            assertEquals(Role.BOWLER, lasithMalinga.getRole());
+            assertEquals(Role.BOWLER, rashidKhan.getRole());
+            assertEquals(Role.BOWLER, adamZampa.getRole());
+            assertEquals(Role.BOWLER, trentBoult.getRole());
         }
 
         @Test
@@ -75,11 +75,11 @@ public class PlayerTests {
             int[] nicholasPooranStats = {33, 606, 27, 391, 0, 0, 0};
             Player nicholasPooran = new Player("Nicholas Pooran", 100, true, nicholasPooranStats);
 
-            assertEquals(Role.Wicketkeeper, msDhoni.getRole());
-            assertEquals(Role.Wicketkeeper, rishabhPant.getRole());
-            assertEquals(Role.Wicketkeeper, josButtler.getRole());
-            assertEquals(Role.Wicketkeeper, jonnyBairstow.getRole());
-            assertEquals(Role.Wicketkeeper, nicholasPooran.getRole());
+            assertEquals(Role.WICKETKEEPER, msDhoni.getRole());
+            assertEquals(Role.WICKETKEEPER, rishabhPant.getRole());
+            assertEquals(Role.WICKETKEEPER, josButtler.getRole());
+            assertEquals(Role.WICKETKEEPER, jonnyBairstow.getRole());
+            assertEquals(Role.WICKETKEEPER, nicholasPooran.getRole());
         }
 
         @Test
@@ -99,11 +99,11 @@ public class PlayerTests {
             int[] shakibAlHasanStats = {71, 793, 40, 637, 63, 1839, 1484};
             Player shakibAlHasan = new Player("Shakib Al Hasan", 200, false, shakibAlHasanStats);
 
-            assertEquals(Role.AllRounder, hardikPandya.getRole());
-            assertEquals(Role.AllRounder, shaneWatson.getRole());
-            assertEquals(Role.AllRounder, benStokes.getRole());
-            assertEquals(Role.AllRounder, mohammadNabi.getRole());
-            assertEquals(Role.AllRounder, shakibAlHasan.getRole());
+            assertEquals(Role.ALL_ROUNDER, hardikPandya.getRole());
+            assertEquals(Role.ALL_ROUNDER, shaneWatson.getRole());
+            assertEquals(Role.ALL_ROUNDER, benStokes.getRole());
+            assertEquals(Role.ALL_ROUNDER, mohammadNabi.getRole());
+            assertEquals(Role.ALL_ROUNDER, shakibAlHasan.getRole());
         }
     }
 
