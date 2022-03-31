@@ -51,15 +51,20 @@ public class Player {
             this.playerRole = Role.WICKETKEEPER;
         } else {
             if (avgOversPerMatch >= 2.75) {
+                //all rounder if strike rate greater than 120 and batting avg greater than 15
                 if ((this.strikeRate >= 120) && (this.battingAvg >= 15)) {
                     this.playerRole = Role.ALL_ROUNDER;
+                //also all rounder if strike rate greater than 150 and batting avg greater than 10
+                } else if ((this.strikeRate >= 150) && (this.battingAvg >= 10)) {
+                    this.playerRole = Role.ALL_ROUNDER;
                 } else {
-                    this.playerRole = Role.BOWLER;
+                    this.playerRole = Role.BOWLER; //otherwise bowler
                 }
-            } else if (avgOversPerMatch < 0.5) {
+            //batsman if they bowl less than 1 over per match
+            } else if (avgOversPerMatch < 1) {
                 this.playerRole = Role.BATSMAN;
             } else {
-                this.playerRole = Role.ALL_ROUNDER;
+                this.playerRole = Role.ALL_ROUNDER; //otherwise all rounder
             }
         }
     }
