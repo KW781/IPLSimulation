@@ -55,7 +55,7 @@ public class TeamFranchise {
                 maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
                 if (this.squad.size() >= 10) { //will only start considering the ratio of roles in the squad once size >= 10
                     wicketkeeperRatio = ((double)this.countRoleInSquad(Role.WICKETKEEPER)) / this.squad.size();
-                    if (wicketkeeperRatio < (1/11)) {
+                    if (wicketkeeperRatio < (1.0/11)) {
                         maxPrice *= 1.1; //increase the max price by 10% if the wicketkeeper ratio is too less
                     } else if (wicketkeeperRatio > (2.5/11)) {
                         maxPrice *= 0.9; //decrease the max price by 10% if the wicketkeeper ratio is too much
@@ -65,13 +65,13 @@ public class TeamFranchise {
                 maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
                 if (this.squad.size() >= 10) { //will only start considering the ratio of roles in the squad once size >= 10
                     batsmanRatio = ((double)this.countRoleInSquad(Role.BATSMAN)) / this.squad.size();
-                    if (batsmanRatio < (3/11)) {
+                    if (batsmanRatio < (3.0/11)) {
                         maxPrice *= 1.2; //increase max price by 20% if batsman ratio is less than 3 for every 11
-                    } else if (batsmanRatio < (5/11)) {
+                    } else if (batsmanRatio < (5.0/11)) {
                         maxPrice *= 1.1; //increase max price by 10% if batsman ratio is less than 5 for every 11
-                    } else if (batsmanRatio > (9/11)) {
+                    } else if (batsmanRatio > (9.0/11)) {
                         maxPrice *= 0.8; //decrease max price by 20% if batsman ratio is more than 9 for every 11
-                    } else if (batsmanRatio > (7/11)) {
+                    } else if (batsmanRatio > (7.0/11)) {
                         maxPrice *= 0.9; //decrease max price by 10% if batsman ratio is more than 7 for every 11
                     }
                 }
@@ -79,13 +79,13 @@ public class TeamFranchise {
                 maxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg());
                 if (this.squad.size() >= 10) {
                     bowlerRatio = ((double)this.countRoleInSquad(Role.BOWLER)) / this.squad.size();
-                    if (bowlerRatio < (3/11)) {
+                    if (bowlerRatio < (3.0/11)) {
                         maxPrice *= 1.2; //increase max price by 20% if batsman ratio is less than 3 for every 11
-                    } else if (bowlerRatio < (5/11)) {
+                    } else if (bowlerRatio < (5.0/11)) {
                         maxPrice *= 1.1; //increase max price by 10% if bowler ratio is less than 5 for every 11
-                    } else if (bowlerRatio > (9/11)) {
+                    } else if (bowlerRatio > (9.0/11)) {
                         maxPrice *= 0.8; //decrease max price by 20% if bowler ratio is more than 9 for every 11
-                    } else if (bowlerRatio > (7/11)) {
+                    } else if (bowlerRatio > (7.0/11)) {
                         maxPrice *= 0.9; //decrease max price by 10% if bowler ratio is more than 7 for every 11
                     }
                 }
@@ -95,12 +95,28 @@ public class TeamFranchise {
                 maxPrice = (battingMaxPrice + bowlingMaxPrice) / 2; //calculate average of batting and bowling max prices
                 if (this.squad.size() >= 10) {
                     allRounderRatio = ((double)this.countRoleInSquad(Role.ALL_ROUNDER)) / this.squad.size();
-                    if (allRounderRatio < (1/11)) {
+                    if (allRounderRatio < (1.0/11)) {
                         maxPrice *= 1.1; //increase max price by 10% if all-rounder ratio is too less
                     } else {
                         maxPrice *= 0.9; //decrease max price by 10% if all-rounder ratio is too much
                     }
                 }
+        }
+
+        //account for overseas player ratio in squad for calculating max price
+        if ((biddingPlayer.isOverseas()) && (this.squad.size() >= 10)) {
+            overseasRatio = ((double)this.countOverseasInSquad()) / this.squad.size();
+            if (overseasRatio >= (4.0/11)) {
+                maxPrice *= 0.5;
+            } else if (overseasRatio >= (3.5/11)) {
+                maxPrice *= 0.6;
+            } else if (overseasRatio >= (3.0/11)) {
+                maxPrice *= 0.7;
+            } else if (overseasRatio >= (2.5/11)) {
+                maxPrice *= 0.8;
+            } else if (overseasRatio >= (2.0/11)) {
+                maxPrice *= 0.85;
+            }
         }
         maxPrice *= randomFactor; //apply the random factor to the max price
 
