@@ -5,6 +5,7 @@ public class Player {
     private Role playerRole;
     private double auctionPrice; //measured in lakhs
     private int numMatches;
+    private boolean overseas;
 
     //attributes storing career batting stats
     private int totalRuns;
@@ -28,12 +29,13 @@ public class Player {
     private int currentBallsBowled;
     private boolean out;
 
-    public Player(String playerName, double basePrice, boolean isWicketkeeper, int[] playerStats) {
+    public Player(String playerName, double basePrice, boolean isWicketkeeper, boolean isOverseas, int[] playerStats) {
         double avgOversPerMatch; //stores the average number of overs bowled per match, used to determine the player's role
 
         //set all the statistics to the statistics input
         this.name = playerName;
         this.auctionPrice = basePrice;
+        this.overseas = isOverseas;
         this.numMatches = playerStats[0];
         this.totalRuns = playerStats[1];
         this.numTimesOut = playerStats[2];

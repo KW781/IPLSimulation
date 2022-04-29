@@ -30,6 +30,7 @@ public class IPLSimulation {
         String name;
         double basePrice;
         boolean isWicketkeeper;
+        boolean isOverseas;
         Long tempStat; //temporarily stores java.lang.Long value for each player stat
 
         for (Map playerMapObject : playerMapObjects) {
@@ -37,8 +38,9 @@ public class IPLSimulation {
             tempStat = (Long) playerMapObject.get("basePrice");
             basePrice = tempStat.doubleValue();
             isWicketkeeper = (boolean) (playerMapObject.get("isWicketkeeper"));
-            tempStat = (Long)playerMapObject.get("numMatches");
+            isOverseas = (boolean)(playerMapObject.get("overseas"));
 
+            tempStat = (Long)playerMapObject.get("numMatches");
             playerStats[0] = tempStat.intValue();
             tempStat = (Long) playerMapObject.get("careerRunsScored");
             playerStats[1] = tempStat.intValue();
@@ -52,8 +54,9 @@ public class IPLSimulation {
             playerStats[5] = tempStat.intValue();
             tempStat = (Long) playerMapObject.get("careerBallsBowled");
             playerStats[6] = tempStat.intValue();
-
-            auctionPool.add(new Player(name, basePrice, isWicketkeeper, playerStats)); //add the player to the auction pool
+            
+            //add the player to the auction pool
+            auctionPool.add(new Player(name, basePrice, isWicketkeeper, isOverseas, playerStats));
         }
         return auctionPool;
     }
