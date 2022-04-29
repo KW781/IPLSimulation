@@ -199,6 +199,10 @@ public class Player {
         return this.auctionPrice;
     }
 
+    public boolean isOverseas() {
+        return this.overseas;
+    }
+
     public Role getRole() {
         return this.playerRole;
     }

@@ -171,9 +171,10 @@ public class TeamFranchise {
         int playerNum;
         ArrayList<Integer> playerNumArray = new ArrayList<Integer>();
         boolean wicketkeeperSelected, allRounderSelected;
-        boolean samePlayer, playerInSquad;
+        boolean samePlayer, playerInSquad, validPlayer;
+        int overseasCount; //counter for number of overseas players in the XI
 
-        int passes; //keep track of the number of passes made through the squad whe selecting any role, to avoid infinite loop
+        int passes; //keep track of the number of passes made through the squad when selecting any role, to avoid infinite loop
         int batPointer, bowlPointer, wkPointer, allRoundPointer; //pointers to point to players in squad when automatically generating an XI, initially randomly generated
         int numBatsmen, numBowlers; //keep track of the number of batsmen and bowlers that have been selected in the XI, when automatically generating one
         int numAllRounders = this.countRoleInSquad(Role.ALL_ROUNDER); //extract the number of all-rounders in the squad, to determine how many to play in XI when automatically generating one
@@ -199,46 +200,68 @@ public class TeamFranchise {
                 return this.currentPlayingEleven;
             }
 
-            System.out.println("Time to select your playing XI! Here is your squad, choose your playing XI based on the player numbers. Remember to select a wicketkeeper!");
+            System.out.println("Time to select your playing XI! Here is your squad, choose your playing XI based on the " +
+                    "player numbers. Remember to select a wicketkeeper, and to ensure you have a maximum of 4 overseas" +
+                    "players.");
             for (int i = 0; i < this.squad.size(); i++) {
                 System.out.print(Integer.toString(i + 1) + ". " + this.squad.get(i).getName()); //output the player name
-                //add on the wicketkeeper role if the player is a wicketkeeper
+                //add on the wicketkeeper tag if the player is a wicketkeeper
                 if (this.squad.get(i).getRole() == Role.WICKETKEEPER) {
-                    System.out.println(" (wk)");
-                } else {
-                    System.out.println();
+                    System.out.print(" (wk)");
                 }
+                //add on the overseas tag if the player is overseas
+                if (this.squad.get(i).isOverseas()) {
+                    System.out.print(" (O)");
+                }
+                System.out.println();
             }
 
             //enter all the player numbers from the user, ensuring that a wicketkeeper is selected through a validation loop
             wicketkeeperSelected = false;
+            overseasCount = 0;
             do {
                 for (int i = 1; i <= 11; i++) {
                     //use a validation loop to ensure the same player isn't already selected
                     do {
-                        samePlayer = false;
+                        validPlayer = true;
                         System.out.print("Enter player " + Integer.toString(i) + ": ");
                         playerNum = intScanner.nextInt();
                         playerInSquad = ((playerNum >= 1) && (playerNum <= this.squad.size())); //check whether the player number is a valid number
-                        for (int j = 0; j < playerNumArray.size(); j++) {
-                            //if player already in playing XI, break, and inform the user
-                            if (playerNum == playerNumArray.get(j)) {
-                                samePlayer = true;
-                                break;
+                        if (playerInSquad) {
+                            samePlayer = false;
+                            for (int j = 0; j < playerNumArray.size(); j++) {
+                                //if player already in playing XI, break, and inform the user
+                                if (playerNum == playerNumArray.get(j)) {
+                                    samePlayer = true;
+                                    break;
+                                }
                             }
+                            if (samePlayer) {
+                                System.out.println("Player already selected in the playing XI!");
+                                validPlayer = false;
+                            } else {
+                                if (this.squad.get(playerNum - 1).isOverseas() && (overseasCount == 4)) {
+                                    System.out.println("You aren't allowed any more overseas players!");
+                                    validPlayer = false;
+                                }
+                            }
+                        } else {
+                            validPlayer = false; //player is not valid if the number is not a valid squad number
                         }
-                        if (samePlayer) {
-                            System.out.println("Player already selected in the playing XI!");
-                        }
-                    } while (samePlayer || (!playerInSquad));
+                    } while (!validPlayer);
                     playerNumArray.add(playerNum); //add the player number to the array once validated
                     //if a wicketkeeper was just selected, then set the validation flag for that to true
                     if (this.squad.get(playerNum - 1).getRole() == Role.WICKETKEEPER) {
                         wicketkeeperSelected = true;
                     }
+                    //if an overseas player was just selected, then increment the overseas count
+                    if (this.squad.get(playerNum - 1).isOverseas()) {
+                        overseasCount++;
+                    }
                 }
                 if (!wicketkeeperSelected) {
                     System.out.println("You must select a wicketkeeper"); //inform the user if a wicketkeeper wasn't selected
+                    playerNumArray = new ArrayList<Integer>(); //reset the player num array
                 }
             } while (!wicketkeeperSelected);
         } else {
