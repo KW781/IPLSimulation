@@ -6,8 +6,8 @@ import TypeWrappers.*;
 
 public class TeamFranchise {
     //fundamental team data
-    private boolean userControlled;
-    private String name;
+    private final boolean userControlled;
+    private final String name;
     private double purse; //measured in lakhs
     private ArrayList<Player> squad;
 
@@ -249,9 +249,9 @@ public class TeamFranchise {
                         playerInSquad = ((playerNum >= 1) && (playerNum <= this.squad.size())); //check whether the player number is a valid number
                         if (playerInSquad) {
                             samePlayer = false;
-                            for (int j = 0; j < playerNumArray.size(); j++) {
+                            for (Integer num : playerNumArray) {
                                 //if player already in playing XI, break, and inform the user
-                                if (playerNum == playerNumArray.get(j)) {
+                                if (playerNum == num) {
                                     samePlayer = true;
                                     break;
                                 }
