@@ -41,7 +41,7 @@ public class TeamFranchise {
 
         Role biddingRole = biddingPlayer.getRole();
         double currentBidPrice = biddingPlayer.getPrice();
-        double batsmanRatio, bowlerRatio, allRounderRatio, wicketkeeperRatio;
+        double batsmanRatio, bowlerRatio, allRounderRatio, wicketkeeperRatio, overseasRatio;
 
         double maxPrice = 0; //the maximum price the franchise is willing to spend on current player being auctioned
         double battingMaxPrice, bowlingMaxPrice;
@@ -390,8 +390,8 @@ public class TeamFranchise {
         }
 
         //add all the selected players to the XI using the player numbers
-        for (int i = 0; i < playerNumArray.size(); i++) {
-            playingEleven.add(this.squad.get(playerNumArray.get(i) - 1)); //subtract one because the numbers in the array are 1-indexed
+        for (Integer num : playerNumArray) {
+            playingEleven.add(this.squad.get(num - 1)); //subtract one because the numbers in the array are 1-indexed
         }
         //store the current playing XI if the team is user controlled, so that the user can use the same XI again later on
         if (this.userControlled) {
@@ -432,8 +432,19 @@ public class TeamFranchise {
     //helper method to count the number of roles with a particular role in the squad
     private int countRoleInSquad(Role roleToCount) {
         int count = 0;
-        for (int i = 0; i < this.squad.size(); i++) {
-            if (this.squad.get(i).getRole() == roleToCount) {
+        for (Player player : this.squad) {
+            if (player.getRole() == roleToCount) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    //helper method to count the number of overseas players in the squad
+    private int countOverseasInSquad() {
+        int count = 0;
+        for (Player player : this.squad) {
+            if (player.isOverseas()) {
                 count++;
             }
         }
