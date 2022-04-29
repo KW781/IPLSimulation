@@ -54,7 +54,7 @@ public class IPLSimulation {
             playerStats[5] = tempStat.intValue();
             tempStat = (Long) playerMapObject.get("careerBallsBowled");
             playerStats[6] = tempStat.intValue();
-            
+
             //add the player to the auction pool
             auctionPool.add(new Player(name, basePrice, isWicketkeeper, isOverseas, playerStats));
         }
@@ -70,13 +70,11 @@ public class IPLSimulation {
     public static void RunAuction(ArrayList<TeamFranchise> teams, ArrayList<Player> auctionPool) {
         boolean bidOccurred;
         BooleanWrap userContinueBidding = new BooleanWrap();
-        Player currentPlayer;
         int nextTeamToBid;
         int playerCurrentTeam = -1;
         int numTimesUnsold;
 
-        for (int i = 0; i < auctionPool.size(); i++) {
-            currentPlayer = auctionPool.get(i); //extract the current player from the auction pool
+        for (Player currentPlayer : auctionPool) {
             System.out.println("Current player being auctioned: " + currentPlayer.getName());
             System.out.println("Base Price: " + Double.toString(currentPlayer.getPrice()));
 
@@ -181,8 +179,8 @@ public class IPLSimulation {
         int IPLWinnerPointer; //pointer to the team that won the final i.e. won the IPL
 
         //run all the league matches
-        for (int i = 0; i < schedule.size(); i++) {
-            schedule.get(i).playMatch();
+        for (Match currentMatch : schedule) {
+            currentMatch.playMatch();
         }
 
         //re order the teams array based on NRR

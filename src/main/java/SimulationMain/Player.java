@@ -1,8 +1,8 @@
 package SimulationMain;
 
 public class Player {
-    private String name;
-    private Role playerRole;
+    private final String name;
+    private final Role playerRole;
     private double auctionPrice; //measured in lakhs
     private int numMatches;
     private boolean overseas;
