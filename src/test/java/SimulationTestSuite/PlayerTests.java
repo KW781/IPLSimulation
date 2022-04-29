@@ -13,19 +13,24 @@ public class PlayerTests {
         @Test
         public void testBatsmen() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
 
             int[] kaneWilliamsonStats = {63, 1885, 47, 1436, 0, 31, 18};
-            Player kaneWilliamson = new Player("Kane Williamson", 150, false, kaneWilliamsonStats);
+            Player kaneWilliamson = new Player("Kane Williamson", 150, false, true,
+                    kaneWilliamsonStats);
 
             int[] abDeVilliersStats = {184, 5162, 130, 3403, 0, 0, 0};
-            Player abDeVilliers = new Player("AB de Villiers", 200, false, abDeVilliersStats);
+            Player abDeVilliers = new Player("AB de Villiers", 200, false, true,
+                    abDeVilliersStats);
 
             int[] rohitSharmaStats = {213, 5611, 180, 4303, 15, 453, 339};
-            Player rohitSharma = new Player("Rohit Sharma", 200, false, rohitSharmaStats);
+            Player rohitSharma = new Player("Rohit Sharma", 200, false, false,
+                    rohitSharmaStats);
 
             int[] suryakumarYadavStats = {115, 2341, 81, 1725, 0, 8, 6};
-            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, suryakumarYadavStats);
+            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, false,
+                    suryakumarYadavStats);
 
             assertEquals(Role.BATSMAN, viratKohli.getRole());
             assertEquals(Role.BATSMAN, kaneWilliamson.getRole());
@@ -37,19 +42,24 @@ public class PlayerTests {
         @Test
         public void testBowlers() {
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
 
             int[] lasithMalingaStats = {122, 88, 16, 99, 170, 3365, 2827};
-            Player lasithMalinga = new Player("Lasith Malinga", 200, false, lasithMalingaStats);
+            Player lasithMalinga = new Player("Lasith Malinga", 200, false, true,
+                    lasithMalingaStats);
 
             int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
-            Player rashidKhan = new Player("Rashid Khan", 200, false, rashidKhanStats);
+            Player rashidKhan = new Player("Rashid Khan", 200, false, true,
+                    rashidKhanStats);
 
             int[] adamZampaStats = {14, 5, 2, 8, 21, 370, 287};
-            Player adamZampa = new Player("Adam Zampa", 100, false, adamZampaStats);
+            Player adamZampa = new Player("Adam Zampa", 100, false, true,
+                    adamZampaStats);
 
             int[] trentBoultStats = {62, 13, 3, 19, 76, 1983, 1417};
-            Player trentBoult = new Player("Trent Boult", 150, false, trentBoultStats);
+            Player trentBoult = new Player("Trent Boult", 150, false, true,
+                    trentBoultStats);
 
             assertEquals(Role.BOWLER, jaspritBumrah.getRole());
             assertEquals(Role.BOWLER, lasithMalinga.getRole());
@@ -61,19 +71,24 @@ public class PlayerTests {
         @Test
         public void testWicketKeepers() {
             int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
-            Player msDhoni = new Player("MS Dhoni", 200, true, msDhoniStats);
+            Player msDhoni = new Player("MS Dhoni", 200, true, false,
+                    msDhoniStats);
 
             int[] rishabhPantStats = {84, 2498, 71, 1694, 0, 0, 0};
-            Player rishabhPant = new Player("Rishabh Pant", 200, true, rishabhPantStats);
+            Player rishabhPant = new Player("Rishabh Pant", 200, true, false,
+                    rishabhPantStats);
 
             int[] josButtlerStats = {65, 1968, 56, 1312, 0, 0, 0};
-            Player josButtler = new Player("Jos Buttler", 150, true, josButtlerStats);
+            Player josButtler = new Player("Jos Buttler", 150, true, true,
+                    josButtlerStats);
 
             int[] jonnyBairstowStats = {28, 1038, 25, 730, 0, 0, 0};
-            Player jonnyBairstow = new Player("Jonny Bairstow", 100, true, jonnyBairstowStats);
+            Player jonnyBairstow = new Player("Jonny Bairstow", 100, true, true,
+                    jonnyBairstowStats);
 
             int[] nicholasPooranStats = {33, 606, 27, 391, 0, 0, 0};
-            Player nicholasPooran = new Player("Nicholas Pooran", 100, true, nicholasPooranStats);
+            Player nicholasPooran = new Player("Nicholas Pooran", 100, true, true,
+                    nicholasPooranStats);
 
             assertEquals(Role.WICKETKEEPER, msDhoni.getRole());
             assertEquals(Role.WICKETKEEPER, rishabhPant.getRole());
@@ -85,19 +100,24 @@ public class PlayerTests {
         @Test
         public void testAllRounders() {
             int[] hardikPandyaStats = {92, 1476, 54, 959, 42, 1313, 869};
-            Player hardikPandya = new Player("Hardik Pandya", 150, false, hardikPandyaStats);
+            Player hardikPandya = new Player("Hardik Pandya", 150, false, false,
+                    hardikPandyaStats);
 
             int[] shaneWatsonStats = {145, 3874, 125, 2809, 92, 2682, 2029};
-            Player shaneWatson = new Player("Shane Watson", 150, false, shaneWatsonStats);
+            Player shaneWatson = new Player("Shane Watson", 150, false, true,
+                    shaneWatsonStats);
 
             int[] benStokesStats = {43, 920, 36, 684, 28, 974, 683};
-            Player benStokes = new Player("Ben Stokes", 150, false, benStokesStats);
+            Player benStokes = new Player("Ben Stokes", 150, false, true,
+                    benStokesStats);
 
             int[] mohammadNabiStats = {17, 180, 12, 119, 13, 408, 343};
-            Player mohammadNabi = new Player("Mohammad Nabi", 100, false, mohammadNabiStats);
+            Player mohammadNabi = new Player("Mohammad Nabi", 100, false, true,
+                    mohammadNabiStats);
 
             int[] shakibAlHasanStats = {71, 793, 40, 637, 63, 1839, 1484};
-            Player shakibAlHasan = new Player("Shakib Al Hasan", 200, false, shakibAlHasanStats);
+            Player shakibAlHasan = new Player("Shakib Al Hasan", 200, false, true,
+                    shakibAlHasanStats);
 
             assertEquals(Role.ALL_ROUNDER, hardikPandya.getRole());
             assertEquals(Role.ALL_ROUNDER, shaneWatson.getRole());
@@ -111,34 +131,44 @@ public class PlayerTests {
         @Test
         public void testBattingAverage() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
 
             int[] kaneWilliamsonStats = {63, 1885, 47, 1436, 0, 31, 18};
-            Player kaneWilliamson = new Player("Kane Williamson", 150, false, kaneWilliamsonStats);
+            Player kaneWilliamson = new Player("Kane Williamson", 150, false, true,
+                    kaneWilliamsonStats);
 
             int[] abDeVilliersStats = {184, 5162, 130, 3403, 0, 0, 0};
-            Player abDeVilliers = new Player("AB de Villiers", 200, false, abDeVilliersStats);
+            Player abDeVilliers = new Player("AB de Villiers", 200, false, true,
+                    abDeVilliersStats);
 
             int[] rohitSharmaStats = {213, 5611, 180, 4303, 15, 453, 339};
-            Player rohitSharma = new Player("Rohit Sharma", 200, false, rohitSharmaStats);
+            Player rohitSharma = new Player("Rohit Sharma", 200, false, false,
+                    rohitSharmaStats);
 
             int[] suryakumarYadavStats = {115, 2341, 81, 1725, 0, 8, 6};
-            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, suryakumarYadavStats);
+            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, false,
+                    suryakumarYadavStats);
 
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
 
             int[] lasithMalingaStats = {122, 88, 16, 99, 170, 3365, 2827};
-            Player lasithMalinga = new Player("Lasith Malinga", 200, false, lasithMalingaStats);
+            Player lasithMalinga = new Player("Lasith Malinga", 200, false, true,
+                    lasithMalingaStats);
 
             int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
-            Player rashidKhan = new Player("Rashid Khan", 200, false, rashidKhanStats);
+            Player rashidKhan = new Player("Rashid Khan", 200, false, true,
+                    rashidKhanStats);
 
             int[] adamZampaStats = {14, 5, 2, 8, 21, 370, 287};
-            Player adamZampa = new Player("Adam Zampa", 100, false, adamZampaStats);
+            Player adamZampa = new Player("Adam Zampa", 100, false, true,
+                    adamZampaStats);
 
             int[] trentBoultStats = {62, 13, 3, 19, 76, 1983, 1417};
-            Player trentBoult = new Player("Trent Boult", 150, false, trentBoultStats);
+            Player trentBoult = new Player("Trent Boult", 150, false, true,
+                    trentBoultStats);
 
             assertTrue((viratKohli.getBattingAvg() > 37.395) && (viratKohli.getBattingAvg() < 37.405));
             assertTrue((kaneWilliamson.getBattingAvg() > 40.105) && (kaneWilliamson.getBattingAvg() < 40.115));
@@ -156,34 +186,44 @@ public class PlayerTests {
         @Test
         public void testStrikeRate() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
 
             int[] kaneWilliamsonStats = {63, 1885, 47, 1436, 0, 31, 18};
-            Player kaneWilliamson = new Player("Kane Williamson", 150, false, kaneWilliamsonStats);
+            Player kaneWilliamson = new Player("Kane Williamson", 150, false, true,
+                    kaneWilliamsonStats);
 
             int[] abDeVilliersStats = {184, 5162, 130, 3403, 0, 0, 0};
-            Player abDeVilliers = new Player("AB de Villiers", 200, false, abDeVilliersStats);
+            Player abDeVilliers = new Player("AB de Villiers", 200, false, true,
+                    abDeVilliersStats);
 
             int[] rohitSharmaStats = {213, 5611, 180, 4303, 15, 453, 339};
-            Player rohitSharma = new Player("Rohit Sharma", 200, false, rohitSharmaStats);
+            Player rohitSharma = new Player("Rohit Sharma", 200, false, false,
+                    rohitSharmaStats);
 
             int[] suryakumarYadavStats = {115, 2341, 81, 1725, 0, 8, 6};
-            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, suryakumarYadavStats);
+            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, false,
+                    suryakumarYadavStats);
 
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
 
             int[] lasithMalingaStats = {122, 88, 16, 99, 170, 3365, 2827};
-            Player lasithMalinga = new Player("Lasith Malinga", 200, false, lasithMalingaStats);
+            Player lasithMalinga = new Player("Lasith Malinga", 200, false, true,
+                    lasithMalingaStats);
 
             int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
-            Player rashidKhan = new Player("Rashid Khan", 200, false, rashidKhanStats);
+            Player rashidKhan = new Player("Rashid Khan", 200, false, true,
+                    rashidKhanStats);
 
             int[] adamZampaStats = {14, 5, 2, 8, 21, 370, 287};
-            Player adamZampa = new Player("Adam Zampa", 100, false, adamZampaStats);
+            Player adamZampa = new Player("Adam Zampa", 100, false, true,
+                    adamZampaStats);
 
             int[] trentBoultStats = {62, 13, 3, 19, 76, 1983, 1417};
-            Player trentBoult = new Player("Trent Boult", 150, false, trentBoultStats);
+            Player trentBoult = new Player("Trent Boult", 150, false, true,
+                    trentBoultStats);
 
             assertTrue((viratKohli.getStrikeRate() > 129.945) && (viratKohli.getStrikeRate() < 129.955));
             assertTrue((kaneWilliamson.getStrikeRate() > 131.265) && (kaneWilliamson.getStrikeRate() < 131.275));
@@ -203,40 +243,52 @@ public class PlayerTests {
             boolean exceptThrown = false;
 
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
 
             int[] kaneWilliamsonStats = {63, 1885, 47, 1436, 0, 31, 18};
-            Player kaneWilliamson = new Player("Kane Williamson", 150, false, kaneWilliamsonStats);
+            Player kaneWilliamson = new Player("Kane Williamson", 150, false, true,
+                    kaneWilliamsonStats);
 
             int[] abDeVilliersStats = {184, 5162, 130, 3403, 0, 0, 0};
-            Player abDeVilliers = new Player("AB de Villiers", 200, false, abDeVilliersStats);
+            Player abDeVilliers = new Player("AB de Villiers", 200, false, true,
+                    abDeVilliersStats);
 
             int[] rohitSharmaStats = {213, 5611, 180, 4303, 15, 453, 339};
-            Player rohitSharma = new Player("Rohit Sharma", 200, false, rohitSharmaStats);
+            Player rohitSharma = new Player("Rohit Sharma", 200, false, false,
+                    rohitSharmaStats);
 
             int[] suryakumarYadavStats = {115, 2341, 81, 1725, 0, 8, 6};
-            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, suryakumarYadavStats);
+            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, true,
+                    suryakumarYadavStats);
 
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
 
             int[] lasithMalingaStats = {122, 88, 16, 99, 170, 3365, 2827};
-            Player lasithMalinga = new Player("Lasith Malinga", 200, false, lasithMalingaStats);
+            Player lasithMalinga = new Player("Lasith Malinga", 200, false, true,
+                    lasithMalingaStats);
 
             int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
-            Player rashidKhan = new Player("Rashid Khan", 200, false, rashidKhanStats);
+            Player rashidKhan = new Player("Rashid Khan", 200, false, true,
+                    rashidKhanStats);
 
             int[] adamZampaStats = {14, 5, 2, 8, 21, 370, 287};
-            Player adamZampa = new Player("Adam Zampa", 100, false, adamZampaStats);
+            Player adamZampa = new Player("Adam Zampa", 100, false, true,
+                    adamZampaStats);
 
             int[] trentBoultStats = {62, 13, 3, 19, 76, 1983, 1417};
-            Player trentBoult = new Player("Trent Boult", 150, false, trentBoultStats);
+            Player trentBoult = new Player("Trent Boult", 150, false, true,
+                    trentBoultStats);
 
             int[] hardikPandyaStats = {92, 1476, 54, 959, 42, 1313, 869};
-            Player hardikPandya = new Player("Hardik Pandya", 150, false, hardikPandyaStats);
+            Player hardikPandya = new Player("Hardik Pandya", 150, false, false,
+                    hardikPandyaStats);
 
             int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
-            Player msDhoni = new Player("MS Dhoni", 200, true, msDhoniStats);
+            Player msDhoni = new Player("MS Dhoni", 200, true, false,
+                    msDhoniStats);
 
             try {
                 viratKohli.getBowlingAvg();
@@ -300,40 +352,52 @@ public class PlayerTests {
             boolean exceptThrown = false;
 
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
 
             int[] kaneWilliamsonStats = {63, 1885, 47, 1436, 0, 31, 18};
-            Player kaneWilliamson = new Player("Kane Williamson", 150, false, kaneWilliamsonStats);
+            Player kaneWilliamson = new Player("Kane Williamson", 150, false, true,
+                    kaneWilliamsonStats);
 
             int[] abDeVilliersStats = {184, 5162, 130, 3403, 0, 0, 0};
-            Player abDeVilliers = new Player("AB de Villiers", 200, false, abDeVilliersStats);
+            Player abDeVilliers = new Player("AB de Villiers", 200, false, true,
+                    abDeVilliersStats);
 
             int[] rohitSharmaStats = {213, 5611, 180, 4303, 15, 453, 339};
-            Player rohitSharma = new Player("Rohit Sharma", 200, false, rohitSharmaStats);
+            Player rohitSharma = new Player("Rohit Sharma", 200, false, false,
+                    rohitSharmaStats);
 
             int[] suryakumarYadavStats = {115, 2341, 81, 1725, 0, 8, 6};
-            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, suryakumarYadavStats);
+            Player suryakumarYadav = new Player("Suryakumar Yadav", 150, false, false,
+                    suryakumarYadavStats);
 
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
 
             int[] lasithMalingaStats = {122, 88, 16, 99, 170, 3365, 2827};
-            Player lasithMalinga = new Player("Lasith Malinga", 200, false, lasithMalingaStats);
+            Player lasithMalinga = new Player("Lasith Malinga", 200, false, true,
+                    lasithMalingaStats);
 
             int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
-            Player rashidKhan = new Player("Rashid Khan", 200, false, rashidKhanStats);
+            Player rashidKhan = new Player("Rashid Khan", 200, false, true,
+                    rashidKhanStats);
 
             int[] adamZampaStats = {14, 5, 2, 8, 21, 370, 287};
-            Player adamZampa = new Player("Adam Zampa", 100, false, adamZampaStats);
+            Player adamZampa = new Player("Adam Zampa", 100, false, true,
+                    adamZampaStats);
 
             int[] trentBoultStats = {62, 13, 3, 19, 76, 1983, 1417};
-            Player trentBoult = new Player("Trent Boult", 150, false, trentBoultStats);
+            Player trentBoult = new Player("Trent Boult", 150, false, true,
+                    trentBoultStats);
 
             int[] hardikPandyaStats = {92, 1476, 54, 959, 42, 1313, 869};
-            Player hardikPandya = new Player("Hardik Pandya", 150, false, hardikPandyaStats);
+            Player hardikPandya = new Player("Hardik Pandya", 150, false, false,
+                    hardikPandyaStats);
 
             int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
-            Player msDhoni = new Player("MS Dhoni", 200, true, msDhoniStats);
+            Player msDhoni = new Player("MS Dhoni", 200, true, false,
+                    msDhoniStats);
 
             try {
                 viratKohli.getEconomy();
@@ -396,7 +460,8 @@ public class PlayerTests {
         @Test
         public void testStandardBid() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
             viratKohli.newBid(210);
             assertEquals(210, viratKohli.getPrice());
         }
@@ -404,7 +469,8 @@ public class PlayerTests {
         @Test
         public void testIllegalBid() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
             boolean illegalBid = false;
 
             try {
@@ -421,7 +487,8 @@ public class PlayerTests {
         @Test
         public void testValidRunsScored() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
 
             viratKohli.initialiseGameStats();
             assertEquals(0, viratKohli.getCurrentRunsScored());
@@ -434,7 +501,8 @@ public class PlayerTests {
         @Test
         public void testInvalidRunsScored() {
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
             boolean exceptThrown = false;
 
             jaspritBumrah.initialiseGameStats();
@@ -461,9 +529,11 @@ public class PlayerTests {
         @Test
         public void testValidRunsConceded() {
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
             int[] hardikPandyaStats = {92, 1476, 54, 959, 42, 1313, 869};
-            Player hardikPandya = new Player("Hardik Pandya", 150, false, hardikPandyaStats);
+            Player hardikPandya = new Player("Hardik Pandya", 150, false, false,
+                    hardikPandyaStats);
 
             jaspritBumrah.initialiseGameStats();
             hardikPandya.initialiseGameStats();
@@ -484,11 +554,14 @@ public class PlayerTests {
         @Test
         public void testInvalidRunsConceded() {
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
             int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
-            Player msDhoni = new Player("MS Dhoni", 200, true, msDhoniStats);
+            Player msDhoni = new Player("MS Dhoni", 200, true, false,
+                    msDhoniStats);
             boolean exceptThrown = false;
 
             jaspritBumrah.initialiseGameStats();
@@ -549,9 +622,11 @@ public class PlayerTests {
         @Test
         public void testValidWickets() {
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
             int[] hardikPandyaStats = {92, 1476, 54, 959, 42, 1313, 869};
-            Player hardikPandya = new Player("Hardik Pandya", 150, false, hardikPandyaStats);
+            Player hardikPandya = new Player("Hardik Pandya", 150, false, false,
+                    hardikPandyaStats);
 
             jaspritBumrah.initialiseGameStats();
             hardikPandya.initialiseGameStats();
@@ -572,9 +647,11 @@ public class PlayerTests {
         @Test
         public void testInvalidWickets() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
             int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
-            Player msDhoni = new Player("MS Dhoni", 200, true, msDhoniStats);
+            Player msDhoni = new Player("MS Dhoni", 200, true, false,
+                    msDhoniStats);
             boolean exceptThrown = false;
 
             viratKohli.initialiseGameStats();
@@ -616,9 +693,11 @@ public class PlayerTests {
         @Test
         public void testBallsFaced() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
 
             viratKohli.initialiseGameStats();
             jaspritBumrah.initialiseGameStats();
@@ -639,9 +718,11 @@ public class PlayerTests {
         @Test
         public void testValidBallsBowled() {
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
             int[] hardikPandyaStats = {92, 1476, 54, 959, 42, 1313, 869};
-            Player hardikPandya = new Player("Hardik Pandya", 150, false, hardikPandyaStats);
+            Player hardikPandya = new Player("Hardik Pandya", 150, false, false,
+                    hardikPandyaStats);
 
             jaspritBumrah.initialiseGameStats();
             hardikPandya.initialiseGameStats();
@@ -662,9 +743,11 @@ public class PlayerTests {
         @Test
         public void testInvalidBallsBowled() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
             int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
-            Player msDhoni = new Player("MS Dhoni", 200, true, msDhoniStats);
+            Player msDhoni = new Player("MS Dhoni", 200, true, false,
+                    msDhoniStats);
             boolean exceptThrown = false;
 
             viratKohli.initialiseGameStats();
@@ -706,9 +789,11 @@ public class PlayerTests {
         @Test
         public void testDismissal() {
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
-            Player viratKohli = new Player("Virat Kohli", 200, false, viratKohliStats);
+            Player viratKohli = new Player("Virat Kohli", 200, false, false,
+                    viratKohliStats);
             int[] jaspritBumrahStats = {106, 56, 5, 58, 130, 2997, 2422};
-            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, jaspritBumrahStats);
+            Player jaspritBumrah = new Player("Jasprit Bumrah", 200, false, false,
+                    jaspritBumrahStats);
 
             viratKohli.initialiseGameStats();
             jaspritBumrah.initialiseGameStats();
