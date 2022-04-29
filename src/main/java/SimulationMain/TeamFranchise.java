@@ -45,7 +45,11 @@ public class TeamFranchise {
 
         double maxPrice = 0; //the maximum price the franchise is willing to spend on current player being auctioned
         double battingMaxPrice, bowlingMaxPrice;
-        double randomFactor = 0.8 * Math.random() + 0.6; //A random factor to create a form of unpredictability in the auction process
+
+        //A random factor to create a form of unpredictability in the auction process
+        final double RANDOM_FACTOR_MAGNITUDE = 0.4;
+        double randomFactor = (RANDOM_FACTOR_MAGNITUDE * 2) * Math.random() + (1 - RANDOM_FACTOR_MAGNITUDE);
+
         switch (biddingRole) {
             case WICKETKEEPER:
                 maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
