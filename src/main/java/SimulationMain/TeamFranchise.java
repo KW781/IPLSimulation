@@ -38,8 +38,8 @@ public class TeamFranchise {
 
     /**
      * Method to bid for a player that's currently being auctioned. Uses an algorithm that takes into consideration the
-     * player's stats and the current balance of the team's squad. This method is for a franchise that is controlled
-     * by the COMPUTER.
+     * player's stats, the current balance of the team's squad, and the current purse of the team franchise. This method
+     * is for a franchise that is controlled by the COMPUTER.
      * @param biddingPlayer The player currently being auctioned
      * @return Boolean indicating whether the franchise bid for the player or not
      * @throws IllegalArgumentException If the team franchise is a user controlled franchise
@@ -203,6 +203,15 @@ public class TeamFranchise {
         }
     }
 
+    /**
+     * Selects the playing XI from the team franchise's squad. If the team is user controlled, it does so by collecting
+     * user input. If the team is computer controlled, it uses an algorithm that chooses an XI by randomly generating
+     * pointers at players in the squad (one pointer for each role), then iterating the pointers for each role until an
+     * XI is selected.
+     * @return An ArrayList of players, constituting the playing XI selected by the team franchise
+     * @throws RuntimeException If there are not enough players of a particular role to select a playing XI (e.g. not
+     *                          enough batsmen)
+     */
     public ArrayList<Player> selectPlayingEleven() {
         ArrayList<Player> playingEleven = new ArrayList<Player>();
         Scanner intScanner = new Scanner(System.in);
@@ -439,15 +448,34 @@ public class TeamFranchise {
         return playingEleven;
     }
 
+    /**
+     * Adjusts the points and NRR of the team franchise after a match.
+     * @param pointsToAdd The number of points to add to the team's points table (either 0 or 2)
+     * @param nrrToAdd The NRR to add to the team's overall NRR
+     */
     public void adjustPointsTableData(int pointsToAdd, double nrrToAdd) {
         this.points += pointsToAdd;
         this.netRunRate += nrrToAdd;
     }
 
+    /**
+     * Getter method for the current number of points of the team franchise.
+     * @return Current number of points of the team franchise
+     */
     public int getPoints() {return this.points;}
 
+    /**
+     * Getter method for the current NRR of the team franchise.
+     * @return Current NRR of the team franchise.
+     */
     public double getNRR() {return this.netRunRate;}
 
+    /**
+     * Adds a new player to the team franchise's squad, if the franchise has just won the bidding for the player in an
+     * auction.
+     * @param newPlayer The new plyaer to add to the squad
+     * @throws ArithmeticException If the team franchise's purse is not enough to afford to auction price of the player
+     */
     public void addPlayer(Player newPlayer) {
         if (this.purse >= newPlayer.getPrice()) {
             this.purse -= newPlayer.getPrice();
@@ -457,18 +485,36 @@ public class TeamFranchise {
         }
     }
 
+    /**
+     * Getter method for the current purse of the team franchise.
+     * @return The current purse of the team franchise
+     */
     public double getPurse() {
         return this.purse;
     }
 
+    /**
+     * Returns whether or not the team franchise is controlled by the user or not (otherwise controlled by the
+     * computer).
+     * @return A boolean indicating whether the team franchise is controlled by the user
+     */
     public boolean controlledByUser() {
         return this.userControlled;
     }
 
+    /**
+     * Getter method for the name of the team franchise.
+     * @return The name of the team franchise
+     */
     public String getName() {return this.name;}
 
 
-    //helper method to count the number of roles with a particular role in the squad
+    /**
+     * Helper method to count the number of players in the squad with a particular role e.g. the number of batsmen in
+     * the squad.
+     * @param roleToCount The role to count (batsman, bowler, all-rounder, wicket-keeper)
+     * @return The number of players in the squad with the role
+     */
     private int countRoleInSquad(Role roleToCount) {
         int count = 0;
         for (Player player : this.squad) {
@@ -479,7 +525,10 @@ public class TeamFranchise {
         return count;
     }
 
-    //helper method to count the number of overseas players in the squad
+    /**
+     * Helper method to count the number of overseas players in the squad.
+     * @return The number of overseas players in the squad
+     */
     private int countOverseasInSquad() {
         int count = 0;
         for (Player player : this.squad) {
@@ -490,14 +539,26 @@ public class TeamFranchise {
         return count;
     }
 
-    //helper method to calculate an auction price for a batsman just based on stats
+    /**
+     * Helper method to calculate the initial auction price for a batsman based purely on stats, used in the bidding
+     * algorithm for a computer controlled franchise.
+     * @param strikeRate The strike rate of the batsman
+     * @param battingAvg The batting average of the batsman
+     * @return The stats based auction price of the batsman
+     */
     private double calculateBatsmanStatsPrice(double strikeRate, double battingAvg) {
         double numerator = this.purse * Math.pow(strikeRate, 3) * Math.pow(battingAvg, 2);
         double denominator = 4 * Math.pow(10, 10);
         return numerator / denominator;
     }
 
-    //helper method to calculate an auction price for a bowler just based on stats
+    /**
+     * Helper method to calculate the initial auction price for a batsman based purely on stats, used in the bidding
+     * algorithm for a computer controlled franchise.
+     * @param economy The economy of the bowler
+     * @param bowlingAvg The bowling average of the bowler
+     * @return The stats based auction price of the bowler
+     */
     private double calculateBowlerStatsPrice(double economy, double bowlingAvg) {
         double numerator = this.purse * 3 * Math.pow(10, 4);
         double denominator = Math.pow(economy, 3) * Math.pow(bowlingAvg, 2);
