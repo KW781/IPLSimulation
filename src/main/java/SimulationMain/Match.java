@@ -114,6 +114,11 @@ public class Match {
         }
     }
 
+    /**
+     * Helper method to run both innings of the match when the user controlled team is batting first.
+     * @param pointsToAdd IntWrap object that will store the points to add for the first team (team 1)
+     * @param nrrToAdd DoubleWrap object that will store the NRR to add for the first team (team 2)
+     */
     private void runUserBattingFirst(IntWrap pointsToAdd, DoubleWrap nrrToAdd) {
         Scanner intScanner = new Scanner(System.in);
         ArrayList<Player> battingFirstEleven, bowlingFirstEleven;
@@ -359,6 +364,11 @@ public class Match {
                 secondInnsWicketsLost);
     }
 
+    /**
+     * Helper method to run both the innings when the user controlled team is bowling first.
+     * @param pointsToAdd IntWrap object that will store the points to add for the first team (team 1)
+     * @param nrrToAdd DoubleWrap object that will store the NRR to add for the first team (team 2)
+     */
     private void runUserBowlingFirst(IntWrap pointsToAdd, DoubleWrap nrrToAdd) {
         Scanner intScanner = new Scanner(System.in);
         ArrayList<Player> battingFirstEleven, bowlingFirstEleven;
@@ -604,6 +614,12 @@ public class Match {
                 secondInnsWicketsLost);
     }
 
+    /**
+     * Helper method to run both the innings when both the teams are computer controlled.
+     * @param numBatFirst Number indicating which team is batting first (1 for team 1 and 2 for team 2)
+     * @param pointsToAdd IntWrap object that will store the points to add for the first team (team 1)
+     * @param nrrToAdd DoubleWrap object that will store the NRR to add for the second team (team 1)
+     */
     private void runComputerFullGame(int numBatFirst, IntWrap pointsToAdd, DoubleWrap nrrToAdd) {
         ArrayList<Player> battingFirstEleven, bowlingFirstEleven;
         int firstInnsBallsPlayed, firstInnsWicketsLost, secondInnsBallsPlayed, secondInnsWicketsLost;
@@ -821,7 +837,13 @@ public class Match {
                 secondInnsWicketsLost);
     }
 
-    //helper function to determine the result of a ball being bowled, returns -1 for a wicket
+    /**
+     * Helper method that uses an algorithm to generate the result of any given ball (runs or wicket), based on the
+     * stats of the batsman and bowler.
+     * @param batsman Player object, which is the batsman facing the ball
+     * @param bowler Player object, which is the bowler bowling the ball
+     * @return The result of the ball (0, 1, 2, 3, 4, 6 runs, or -1 to indicate a wicket)
+     */
     private int determineBallResult(Player batsman, Player bowler) {
         ArrayList<Double> baseProbabilities = new ArrayList<Double>(); //stores the base probabilities of each ball outcome
         double baseProbabilitiesSum, cumulativeSum, newProbability;
@@ -902,7 +924,12 @@ public class Match {
     }
 
 
-    //method to get the pointer of the winning team in the teams array in the main class, for generating the playoff matches
+    /**
+     * Method to obtain the pointer of the winning team of the match in the ArrayList of teams in the tournament.
+     * @param teams ArrayList of the teams playing the tournament
+     * @return The pointer to the winning team in the ArrayList
+     * @throws RuntimeException If the winning team isn't found in the ArrayList of teams in the tournament
+     */
     public int getWinningPointer(ArrayList<TeamFranchise> teams) {
         String winningTeamName = this.matchScorecard.getWinningTeamName();
 
@@ -920,7 +947,12 @@ public class Match {
     }
 
 
-    //method to get the pointer of the losing team in the teams array in the main class, for generating the playoff matches
+    /**
+     * Method to obtain the pointer of the losing team of the match in the ArrayList of teams in the tournament.
+     * @param teams ArrayList of teams playing the tournament
+     * @return The pointer to the winning team in the ArrayList
+     * @throws RuntimeException If the losing isn't found in the ArrayList of teams in the tournament
+     */
     public int getLosingPointer(ArrayList<TeamFranchise> teams) {
         String losingTeamName = this.matchScorecard.getLosingTeamName();
 
