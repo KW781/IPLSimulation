@@ -17,6 +17,11 @@ public class TeamFranchise {
     private int points;
     private double netRunRate;
 
+    /**
+     * Creates a TeamFranchise object, which can be either user controlled or computer controlled.
+     * @param franchiseName The name of the franchise
+     * @param userControlled Boolean indicating whether the franchise is controlled by the user or not
+     */
     public TeamFranchise(String franchiseName, boolean userControlled) {
         this.name = franchiseName;
         this.purse = 9000;
@@ -31,8 +36,14 @@ public class TeamFranchise {
         }
     }
 
-    /*This method is used to bid for the player currently being auctioned. It returns true if it has made a new bid
-    for the player, and false if it hasn't. It is for the COMPUTER BASED FRANCHISE. */
+    /**
+     * Method to bid for a player that's currently being auctioned. Uses an algorithm that takes into consideration the
+     * player's stats and the current balance of the team's squad. This method is for a franchise that is controlled
+     * by the COMPUTER.
+     * @param biddingPlayer The player currently being auctioned
+     * @return Boolean indicating whether the franchise bid for the player or not
+     * @throws IllegalArgumentException If the team franchise is a user controlled franchise
+     */
     public boolean bid(Player biddingPlayer) {
         //throw an exception if the second argument is not given and it's a user controlled franchise
         if (this.userControlled) {
@@ -134,8 +145,16 @@ public class TeamFranchise {
 
     }
 
-    /*This method is used to bid for the player currently being auctioned. It returns true if it has made a new bid
-    for the player, and false if it hasn't. It is for the USER CONTROLLED FRANCHISE. */
+    /**
+     * Method to bid for a player that's currently being auctioned. This method is for the USER controlled franchise
+     * and so bids based on input from the user.
+     * @param biddingPlayer The player currently being auctioned
+     * @param continueBidding A BooleanWrap object, whose value indicates whether the user wants to continue bidding
+     *                        for the player currently being auctioned. Set to false if the user indicates they want to
+     *                        stop bidding
+     * @return Boolean indicating whether the franchise bid for the player or not
+     * @throws IllegalArgumentException If the team franchise is a computer controlled franchise
+     */
     public boolean bid(Player biddingPlayer, BooleanWrap continueBidding) {
         //throw an exception if the 'continueBidding' argument is passed for a computer based franchise
         if (!this.userControlled) {
