@@ -83,7 +83,11 @@ public class Player {
         }
     }
 
-    //method to change the auction price when a new franchise bids
+    /**
+     * Method to change the player's current auction price (i.e. place a new bid for the player).
+     * @param newPrice The new price of the player
+     * @throws IllegalArgumentException If the new price is less than the player's current auction price
+     */
     public void newBid(double newPrice) {
         if (newPrice > this.auctionPrice) {
             this.auctionPrice = newPrice;
@@ -92,7 +96,10 @@ public class Player {
         }
     }
 
-    //method to initialise the attributes to store data regarding player stats in a game currently being played
+    /**
+     * Initialises the game statistics for the player before playing a game. Sets the runs scored, balls faced, etc.,
+     * to zero.
+     */
     public void initialiseGameStats() {
         //initialise batting stats
         this.currentRunsScored = 0;
@@ -106,7 +113,12 @@ public class Player {
         }
     }
 
-    //method to increment the current runs scored in the game for the player
+    /**
+     * Increments the current number of runs scored for the player (i.e. for a particular game). This means the player
+     * played some shot and added to their individual total.
+     * @param runsToAdd The new runs to add to their total (0, 1, 2, 3, 4, 6)
+     * @throws RuntimeException If the new runs to add is negative
+     */
     public void incrementCurrentRunsScored(int runsToAdd) {
         if (runsToAdd >= 0) {
             this.currentRunsScored += runsToAdd;
@@ -115,13 +127,21 @@ public class Player {
         }
     }
 
-    //method to get the current runs scored, used when generating the scorecard
+    /**
+     * Getter method for the number of runs currently scored by the player in a particular game
+     * @return The current number of runs
+     */
     public int getCurrentRunsScored() {
         return this.currentRunsScored;
     }
 
 
-    //method to increment the current runs conceded in the game for the player
+    /**
+     * Increments the number of runs currently conceded in a game for a bowler or all-rounder
+     * @param runsToAdd The new runs to add to their total (0, 1, 2, 3, 4, 6)
+     * @throws RuntimeException Either if the runs to add is negative, or if the player is a batsman or wicket-keeper (
+     *                          batsmen and wicket-keepers don't bowl)
+     */
     public void incrementCurrentRunsConceded(int runsToAdd) {
         //ensure that only the runs for a bowler or all-rounder are incremented
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
@@ -135,7 +155,13 @@ public class Player {
         }
     }
 
-    //method to get the current runs conceded, used when generating the scorecard
+    /**
+     * Getter method for the number of runs currently conceded by the player in the current game (for a bowler or
+     * all-rounder).
+     * @return The number of runs currently conceded
+     * @throws RuntimeException If the method is called for a batsman or wicket-keeper (batsmen and wicket-keepers
+     *                          don't bowl)
+     */
     public int getCurrentRunsConceded() {
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.currentRunsConceded;
@@ -144,7 +170,12 @@ public class Player {
         }
     }
 
-    //method to increment the number of wickets taken in the game for the player
+    /**
+     * Increments the number of wickets taken by the player currently in a game, if the player has taken a wicket (for
+     * a bowler or all-rounder).
+     * @throws RuntimeException If the method is called for a batsman or wicket-keepr (batsmen and wicket-keepers don't
+     *                          bowl)
+     */
     public void incrementCurrentWickets() {
         //ensure that only the wickets for a bowler or all-rounder are incremented
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
@@ -154,7 +185,13 @@ public class Player {
         }
     }
 
-    //method to get the current wickets, used when generating the scorecard
+    /**
+     * Getter method for the current number of wickets taken by the player currently in a game, for a bowler or
+     * all-rounder. Used when generating the scorecard.
+     * @return The current number of wickets
+     * @throws RuntimeException If the method is called for a batsman or wicket-keeper (batsmen and wicket-keepers
+     *                          don't bowl).
+     */
     public int getCurrentWickets() {
         //ensure that only the wickets for a bowler or all-rounder are returned
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
@@ -164,7 +201,12 @@ public class Player {
         }
     }
 
-    //method to increment the number of balls bowled in the game for the player
+    /**
+     * Increments the number of balls currently bowled by the player in a game, for a bowler or all-rounder. Used when
+     * the player has just bowled a ball.
+     * @throws RuntimeException If the method is called for a batsman or wicket-keeper (batsmen and wicket-keepers
+     *                          don't bowl)
+     */
     public void incrementCurrentBallsBowled() {
         //ensure that only the balls bowled for a bowler or all-rounder are incremented
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
@@ -174,17 +216,30 @@ public class Player {
         }
     }
 
-    //method to increment the number of balls faced in the game for the player
+    /**
+     * Increments the number of balls currently faced by the player in a game. Used when the player has just faced a
+     * ball.
+     */
     public void incrementCurrentBallsFaced() {
         this.currentBallsFaced++;
     }
 
-    //method to get the current bowls faced by the player, used when generating the scorecard
+    /**
+     * Getter method for the number of balls currently faced by the player in a game. Used when generating the
+     * scorecard.
+     * @return The current number of balls faced
+     */
     public int getCurrentBallsFaced() {
         return this.currentBallsFaced;
     }
 
-    //method to get the current balls bowled by the player
+    /**
+     * Getter method for the current number of balls bowled by a player in a game, for a bowler or all-rounder. Used
+     * when generating the scorecard.
+     * @return The current number of balls bowled.
+     * @throws RuntimeException If the method is called for a batsman or wicket-keeper (batsmen and wicket-keepers
+     *                          don't bowl)
+     */
     public int getCurrentBallsBowled() {
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.currentBallsBowled;
@@ -193,40 +248,76 @@ public class Player {
         }
     }
 
-    //method to dismiss the batsman i.e. set the 'out' attribute to true
+    /**
+     * Dismisses the batsman in a game by setting the 'out' attribute to true.
+     */
     public void dismiss() {
         this.out = true;
     }
 
-    //method to return whether the batsman was dismissed in the match or not, used when generating the scorecard
+    /**
+     * A getter method for whether the batsman has been dismissed or not in a current game. Used when generating the
+     * scorecard.
+     * @return Whether or not the batsman has been dismissed
+     */
     public boolean wasDismissed() {
         return this.out;
     }
 
+    /**
+     * Getter method for the player's name
+     * @return The player's name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Getter method for the player's current auction price
+     * @return The player's auction price
+     */
     public double getPrice() {
         return this.auctionPrice;
     }
 
+    /**
+     * Returns whether the player is an overseas player or not.
+     * @return Whether player is an overseas player or not
+     */
     public boolean isOverseas() {
         return this.overseas;
     }
 
+    /**
+     * Getter method for the player's role (batsman, bowler, all-rounder, wicket-keeper).
+     * @return The player's role
+     */
     public Role getRole() {
         return this.playerRole;
     }
 
+    /**
+     * Getter method for the player's batting strike rate.
+     * @return The player's strike rate
+     */
     public double getStrikeRate() {
         return this.strikeRate;
     }
 
+    /**
+     * Getter method for the player's batting average.
+     * @return The player's batting average
+     */
     public double getBattingAvg() {
         return this.battingAvg;
     }
 
+    /**
+     * Getter method for the player's economy, for a bowler or all-rounder.
+     * @return The player's economy
+     * @throws RuntimeException If the method is called for a batsman or wicket-keeper (batsmen and wicket-keepers
+     *                          don't bowl).
+     */
     public double getEconomy() {
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.economy;
@@ -235,6 +326,12 @@ public class Player {
         }
     }
 
+    /**
+     * Getter method for the player's bowling average, for a bowler or all-rounder.
+     * @return The player's bowling average.
+     * @throws RuntimeException If the method is called for a batsman or wicket-keeper (batsmen and wicket-keepers
+     *                          don't bowl).
+     */
     public double getBowlingAvg() {
         if ((this.playerRole == Role.BOWLER) || (this.playerRole == Role.ALL_ROUNDER)) {
             return this.bowlingAvg;
@@ -243,7 +340,10 @@ public class Player {
         }
     }
 
-
+    /**
+     * Helper method to calculate all the stats for the player, based on the raw stats stored in the database.
+     * Calculates the batting average, strike rate, bowling average, and economy.
+     */
     private void calculateStats() {
         if (this.numTimesOut != 0) {
             this.battingAvg = ((double) this.totalRuns) / this.numTimesOut;
