@@ -10,11 +10,20 @@ public class Match {
     private ArrayList<Player> playingEleven2;
     private ScorecardDetails matchScorecard; //stores the scorecard for this match
 
+    /**
+     * Creates a Match object based on the teams that are playing the match.
+     * @param firstTeam First team playing the match
+     * @param secondTeam Second team playing the match
+     */
     public Match(TeamFranchise firstTeam, TeamFranchise secondTeam) {
         this.team1 = firstTeam;
         this.team2 = secondTeam;
     }
 
+    /**
+     * Plays the match, by simulating the toss and then calling helper methods to run the innings themselves, depending
+     * on which team bats first. Adjusts points table once match is complete.
+     */
     public void playMatch() {
         int tossNum; //number randomly generated to simulate coin toss
         Scanner batBowlChoiceInput = new Scanner(System.in);
