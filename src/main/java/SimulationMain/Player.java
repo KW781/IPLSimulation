@@ -29,6 +29,18 @@ public class Player {
     private int currentBallsBowled;
     private boolean out;
 
+    /**
+     * Creates and returns a player object based on the following parameters. Calculates the player's statistics e.g.
+     * average and strike rate. Determines the player's role based on its statistics (batsman, bowler, all-rounder,
+     * wicket-keeper).
+     * @param playerName Player's name e.g. 'Virat Kohli'
+     * @param basePrice The base price of the player (in lakhs)
+     * @param isWicketkeeper Whether player can keep wickets
+     * @param foreign Whether the player is an overseas player
+     * @param playerStats An array of integers storing all the player's stats in the following order: Number of matches,
+     *                    career runs, number of times out in career, number of balls faced in career, career wickets,
+     *                    career runs conceded, number of balls bowled in career
+     */
     public Player(String playerName, double basePrice, boolean isWicketkeeper, boolean foreign, int[] playerStats) {
         double avgOversPerMatch; //stores the average number of overs bowled per match, used to determine the player's role
 
