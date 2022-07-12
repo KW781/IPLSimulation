@@ -261,7 +261,10 @@ public class ScorecardDetails {
     }
 
 
-    //method to output the scorecard of the match to the console window
+    /**
+     * Outputs the scorecard to the console window. Outputs it in a typical cricketing fashion, top 3 batsmen and top 3
+     * bowlers alongside the winnings/losing teams with the victory margin.
+     */
     public void viewScorecard() {
         int firstInnsOversPlayed = this.firstInningsRuns / 6; //stores the overs played in the first innings; integer division so it will only account FULL overs bowled
         int firstInnsBallsRemaining = this.firstInningsRuns % 6; //stores the balls remaining i.e. balls bowled in an over that wasn't completed e.g. 18.3 overs
@@ -444,13 +447,23 @@ public class ScorecardDetails {
         }
     }
 
-    //method to return the winning team name, used to find the winner pointer in the main class
+    /**
+     * Getter method for name of the winning team on the scorecard.
+     * @return Name of the winning team
+     */
     public String getWinningTeamName(){return this.winningTeamName;}
 
-    //method to find the losing team name, used to find the loser pointer in the main class
+    /**
+     * Getter method for the name of the losing team on the scorecard.
+     * @return Name of the losing team
+     */
     public String getLosingTeamName() {return this.losingTeamName;}
 
-    //method to return the victory margin of the game, used to determine whether the match was actually a tie or not in Match class
+    /**
+     * Returns the victory margin of the winning team. The number is in terms of runs if the team batting first won
+     * and it's in terms of wickets if the team batting second won. Returns 0 of the match is a tie.
+     * @return Victory margin of winning team
+     */
     public int getVictoryMargin() {
         if (this.firstInningsRuns > this.secondInningsRuns) {
             return this.firstInningsRuns - this.secondInningsRuns; //return runs margin if team batting first won
