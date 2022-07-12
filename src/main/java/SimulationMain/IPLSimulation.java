@@ -273,9 +273,11 @@ public class IPLSimulation {
         ArrayList<Player> auctionPool = RegisterPlayersInAuction();
         InstantiateTeams(teams, standardNames);
         */
+
         FirebaseInitialise.initialise();
         ArrayList<Player> auctionPool = RegisterPlayersInAuction();
         System.out.println(Integer.toString(auctionPool.size()));
+
     }
 }
 
