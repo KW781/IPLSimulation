@@ -36,7 +36,7 @@ public class FirebaseService {
         if (user.exists()) {
             return user.getData();
         } else {
-            throw new RuntimeException();
+            throw new RuntimeException(); //throw exception if username doesn't exist in database
         }
     }
 }
