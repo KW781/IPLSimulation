@@ -16,6 +16,7 @@ public class User {
     private int numMatchLosses;
     private int numMatchesTied;
     private int numCompWins;
+    private int numCompsPlayed;
     private int numPlayersBought;
     private int highestRanking;
 
@@ -27,6 +28,7 @@ public class User {
             this.numMatchLosses = 0;
             this.numMatchesTied = 0;
             this.numCompWins = 0;
+            this.numCompsPlayed = 0;
             this.numPlayersBought = 0;
             this.highestRanking = 0;
         } else {
@@ -37,7 +39,7 @@ public class User {
     public void winMatch() {
         this.numMatchWins++;
     }
-    
+
     public void loseMatch() {
         this.numMatchLosses++;
     }
@@ -48,6 +50,10 @@ public class User {
 
     public void winTournament() {
         this.numCompWins++;
+    }
+
+    public void playedTournament() {
+        this.numCompsPlayed++;
     }
 
     public void playerBought() {
@@ -69,6 +75,7 @@ public class User {
         selfData.put("matchLosses", this.numMatchLosses);
         selfData.put("matchTies", this.numMatchesTied);
         selfData.put("compWins", this.numCompWins);
+        selfData.put("compsPlayed", this.numCompsPlayed);
         selfData.put("playersBought", this.numPlayersBought);
         selfData.put("highestRank", this.highestRanking);
 
@@ -94,6 +101,8 @@ public class User {
             this.numMatchesTied = tempStat.intValue();
             tempStat = (Long) userData.get("compWins");
             this.numCompWins = tempStat.intValue();
+            tempStat = (Long) userData.get("compsPlayed");
+            this.numCompsPlayed = tempStat.intValue();
             tempStat = (Long) userData.get("playersBought");
             this.numPlayersBought = tempStat.intValue();
             tempStat = (Long) userData.get("highestRank");
