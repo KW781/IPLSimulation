@@ -286,20 +286,20 @@ public class ScorecardDetails {
                     + " " + Integer.toString(firstInnsOversPlayed) + "." + Integer.toString(firstInnsBallsRemaining) + " overs");
             System.out.println();
             //output the top batsman scores for the winning team
-            for (int i = 0; i < this.winningTopThreeBatsman.size(); i++) {
-                System.out.print(this.winningTopThreeBatsman.get(i).getName() + " " + Integer.toString(this.winningTopThreeBatsman.get(i).getRunsScored()));
-                if (!this.winningTopThreeBatsman.get(i).wasOut()) {
+            for (BatsmanPerformance batsman : this.winningTopThreeBatsman) {
+                System.out.print(batsman.getName() + " " + Integer.toString(batsman.getRunsScored()));
+                if (!batsman.wasOut()) {
                     System.out.print("*"); //add on asterisk if batsman was not out
                 }
-                System.out.println(" (" + Integer.toString(this.winningTopThreeBatsman.get(i).getBallsFaced()) + ")");
+                System.out.println(" (" + Integer.toString(batsman.getBallsFaced()) + ")");
             }
             System.out.println();
             //output the top bowler figures for the losing team
-            for (int i = 0; i < this.losingTopThreeBowlers.size(); i++) {
-                bowlerOversBowled = this.losingTopThreeBowlers.get(i).getBallsBowled() / 6;
-                bowlerBallsRemaining = this.losingTopThreeBowlers.get(i).getBallsBowled() % 6;
-                System.out.print(this.losingTopThreeBowlers.get(i).getName() + " " + Integer.toString(this.losingTopThreeBowlers.get(i).getWickets()) + "-"
-                        + Integer.toString(this.losingTopThreeBowlers.get(i).getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
+            for (BowlerPerformance bowler : this.losingTopThreeBowlers) {
+                bowlerOversBowled = bowler.getBallsBowled() / 6;
+                bowlerBallsRemaining = bowler.getBallsBowled() % 6;
+                System.out.print(bowler.getName() + " " + Integer.toString(bowler.getWickets()) + "-"
+                        + Integer.toString(bowler.getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
                 if (bowlerBallsRemaining != 0) {
                     System.out.print("." + Integer.toString(bowlerBallsRemaining) + ")");
                 }
@@ -313,19 +313,19 @@ public class ScorecardDetails {
                     + " " + Integer.toString(secondInnsOversPlayed) + "." + Integer.toString(secondInnsBallsRemaining) + " overs");
             System.out.println();
             //output the top batsman scores for the losing team
-            for (int i = 0; i < this.losingTopThreeBatsman.size(); i++) {
-                System.out.print(this.losingTopThreeBatsman.get(i).getName() + " " + Integer.toString(this.losingTopThreeBatsman.get(i).getRunsScored()));
-                if (!this.losingTopThreeBatsman.get(i).wasOut()) {
+            for (BatsmanPerformance batsman : this.losingTopThreeBatsman) {
+                System.out.print(batsman.getName() + " " + Integer.toString(batsman.getRunsScored()));
+                if (!batsman.wasOut()) {
                     System.out.print("*"); //add on asterisk if batsman was not out
                 }
-                System.out.println(" (" + Integer.toString(this.losingTopThreeBatsman.get(i).getBallsFaced()) + ")");
+                System.out.println(" (" + Integer.toString(batsman.getBallsFaced()) + ")");
             }
             //output the top bowler figures for the winning team
-            for (int i = 0; i < this.winningTopThreeBowlers.size(); i++) {
-                bowlerOversBowled = this.winningTopThreeBowlers.get(i).getBallsBowled() / 6;
-                bowlerBallsRemaining = this.winningTopThreeBowlers.get(i).getBallsBowled() % 6;
-                System.out.print(this.winningTopThreeBowlers.get(i).getName() + " " + Integer.toString(this.winningTopThreeBowlers.get(i).getWickets()) + "-"
-                        + Integer.toString(this.winningTopThreeBowlers.get(i).getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
+            for (BowlerPerformance bowler : this.winningTopThreeBowlers) {
+                bowlerOversBowled = bowler.getBallsBowled() / 6;
+                bowlerBallsRemaining = bowler.getBallsBowled() % 6;
+                System.out.print(bowler.getName() + " " + Integer.toString(bowler.getWickets()) + "-"
+                        + Integer.toString(bowler.getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
                 if (bowlerBallsRemaining != 0) {
                     System.out.print("." + Integer.toString(bowlerBallsRemaining));
                 }
@@ -342,20 +342,20 @@ public class ScorecardDetails {
                     + " " + Integer.toString(firstInnsOversPlayed) + "." + Integer.toString(firstInnsBallsRemaining) + " overs");
             System.out.println();
             //output the top batsman scores for the losing team
-            for (int i = 0; i < this.losingTopThreeBatsman.size(); i++) {
-                System.out.print(this.losingTopThreeBatsman.get(i).getName() + " " + Integer.toString(this.losingTopThreeBatsman.get(i).getRunsScored()));
-                if (!this.losingTopThreeBatsman.get(i).wasOut()) {
+            for (BatsmanPerformance batsman : this.losingTopThreeBatsman) {
+                System.out.print(batsman.getName() + " " + Integer.toString(batsman.getRunsScored()));
+                if (!batsman.wasOut()) {
                     System.out.print("*");
                 }
-                System.out.println(" (" + Integer.toString(this.losingTopThreeBatsman.get(i).getBallsFaced()) + ")");
+                System.out.println(" (" + Integer.toString(batsman.getBallsFaced()) + ")");
             }
             System.out.println();
             //output the top bowler figures from the winning team
-            for (int i = 0; i < this.winningTopThreeBowlers.size(); i++) {
-                bowlerOversBowled = this.winningTopThreeBowlers.get(i).getRunsConceded() / 6;
-                bowlerBallsRemaining = this.winningTopThreeBowlers.get(i).getRunsConceded() % 6;
-                System.out.print(this.winningTopThreeBowlers.get(i).getName() + " " + Integer.toString(this.winningTopThreeBowlers.get(i).getWickets()) + "-"
-                        + Integer.toString(this.winningTopThreeBowlers.get(i).getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
+            for (BowlerPerformance bowler : this.winningTopThreeBowlers) {
+                bowlerOversBowled = bowler.getRunsConceded() / 6;
+                bowlerBallsRemaining = bowler.getRunsConceded() % 6;
+                System.out.print(bowler.getName() + " " + Integer.toString(bowler.getWickets()) + "-"
+                        + Integer.toString(bowler.getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
                 if (bowlerBallsRemaining != 0) {
                     System.out.print("." + Integer.toString(bowlerBallsRemaining));
                 }
@@ -370,20 +370,20 @@ public class ScorecardDetails {
                     + " " + Integer.toString(secondInnsOversPlayed) + "." + Integer.toString(secondInnsBallsRemaining) + " overs");
             System.out.println();
             //output the top batsman scores from the winning team
-            for (int i = 0; i < this.winningTopThreeBatsman.size(); i++) {
-                System.out.print(this.winningTopThreeBatsman.get(i).getName() + " " + Integer.toString(this.winningTopThreeBatsman.get(i).getRunsScored()));
-                if (!this.losingTopThreeBatsman.get(i).wasOut()) {
+            for (BatsmanPerformance batsman : this.winningTopThreeBatsman) {
+                System.out.print(batsman.getName() + " " + Integer.toString(batsman.getRunsScored()));
+                if (!batsman.wasOut()) {
                     System.out.print("*"); //print the asterisk if the batsman was not out
                 }
-                System.out.println(" (" + Integer.toString(this.winningTopThreeBatsman.get(i).getBallsFaced()) + ")");
+                System.out.println(" (" + Integer.toString(batsman.getBallsFaced()) + ")");
             }
             System.out.println();
             //output the top bowling figures from the losing team
-            for (int i = 0; i < this.losingTopThreeBowlers.size(); i++) {
-                bowlerOversBowled = this.losingTopThreeBowlers.get(i).getBallsBowled() / 6;
-                bowlerBallsRemaining = this.losingTopThreeBowlers.get(i).getBallsBowled() % 6;
-                System.out.print(this.losingTopThreeBowlers.get(i).getName() + " " + Integer.toString(this.losingTopThreeBowlers.get(i).getWickets()) + "-"
-                        + Integer.toString(this.losingTopThreeBowlers.get(i).getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
+            for (BowlerPerformance bowler : this.losingTopThreeBowlers) {
+                bowlerOversBowled = bowler.getBallsBowled() / 6;
+                bowlerBallsRemaining = bowler.getBallsBowled() % 6;
+                System.out.print(bowler.getName() + " " + Integer.toString(bowler.getWickets()) + "-"
+                        + Integer.toString(bowler.getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
                 if (bowlerBallsRemaining != 0) {
                     System.out.print("." + Integer.toString(bowlerBallsRemaining));
                 }
@@ -399,20 +399,20 @@ public class ScorecardDetails {
                     + " " + Integer.toString(firstInnsOversPlayed) + "." + Integer.toString(firstInnsBallsRemaining) + " overs");
             System.out.println();
             //output the top batsman scores for the winning team
-            for (int i = 0; i < this.winningTopThreeBatsman.size(); i++) {
-                System.out.print(this.winningTopThreeBatsman.get(i).getName() + " " + Integer.toString(this.winningTopThreeBatsman.get(i).getRunsScored()));
-                if (!this.winningTopThreeBatsman.get(i).wasOut()) {
+            for (BatsmanPerformance batsman : this.winningTopThreeBatsman) {
+                System.out.print(batsman.getName() + " " + Integer.toString(batsman.getRunsScored()));
+                if (!batsman.wasOut()) {
                     System.out.print("*"); //add on asterisk if batsman was not out
                 }
-                System.out.println(" (" + Integer.toString(this.winningTopThreeBatsman.get(i).getBallsFaced()) + ")");
+                System.out.println(" (" + Integer.toString(batsman.getBallsFaced()) + ")");
             }
             System.out.println();
             //output the top bowler figures for the losing team
-            for (int i = 0; i < this.losingTopThreeBowlers.size(); i++) {
-                bowlerOversBowled = this.losingTopThreeBowlers.get(i).getBallsBowled() / 6;
-                bowlerBallsRemaining = this.losingTopThreeBowlers.get(i).getBallsBowled() % 6;
-                System.out.print(this.losingTopThreeBowlers.get(i).getName() + " " + Integer.toString(this.losingTopThreeBowlers.get(i).getWickets()) + "-"
-                        + Integer.toString(this.losingTopThreeBowlers.get(i).getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
+            for (BowlerPerformance bowler : this.losingTopThreeBowlers) {
+                bowlerOversBowled = bowler.getBallsBowled() / 6;
+                bowlerBallsRemaining = bowler.getBallsBowled() % 6;
+                System.out.print(bowler.getName() + " " + Integer.toString(bowler.getWickets()) + "-"
+                        + Integer.toString(bowler.getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
                 if (bowlerBallsRemaining != 0) {
                     System.out.print("." + Integer.toString(bowlerBallsRemaining) + ")");
                 }
@@ -426,19 +426,19 @@ public class ScorecardDetails {
                     + " " + Integer.toString(secondInnsOversPlayed) + "." + Integer.toString(secondInnsBallsRemaining) + " overs");
             System.out.println();
             //output the top batsman scores for the losing team
-            for (int i = 0; i < this.losingTopThreeBatsman.size(); i++) {
-                System.out.print(this.losingTopThreeBatsman.get(i).getName() + " " + Integer.toString(this.losingTopThreeBatsman.get(i).getRunsScored()));
-                if (!this.losingTopThreeBatsman.get(i).wasOut()) {
+            for (BatsmanPerformance batsman : this.losingTopThreeBatsman) {
+                System.out.print(batsman.getName() + " " + Integer.toString(batsman.getRunsScored()));
+                if (!batsman.wasOut()) {
                     System.out.print("*"); //add on asterisk if batsman was not out
                 }
-                System.out.println(" (" + Integer.toString(this.losingTopThreeBatsman.get(i).getBallsFaced()) + ")");
+                System.out.println(" (" + Integer.toString(batsman.getBallsFaced()) + ")");
             }
             //output the top bowler figures for the winning team
-            for (int i = 0; i < this.winningTopThreeBowlers.size(); i++) {
-                bowlerOversBowled = this.winningTopThreeBowlers.get(i).getBallsBowled() / 6;
-                bowlerBallsRemaining = this.winningTopThreeBowlers.get(i).getBallsBowled() % 6;
-                System.out.print(this.winningTopThreeBowlers.get(i).getName() + " " + Integer.toString(this.winningTopThreeBowlers.get(i).getWickets()) + "-"
-                        + Integer.toString(this.winningTopThreeBowlers.get(i).getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
+            for (BowlerPerformance bowler : this.winningTopThreeBowlers) {
+                bowlerOversBowled = bowler.getBallsBowled() / 6;
+                bowlerBallsRemaining = bowler.getBallsBowled() % 6;
+                System.out.print(bowler.getName() + " " + Integer.toString(bowler.getWickets()) + "-"
+                        + Integer.toString(bowler.getRunsConceded()) + " (" + Integer.toString(bowlerOversBowled));
                 if (bowlerBallsRemaining != 0) {
                     System.out.print("." + Integer.toString(bowlerBallsRemaining));
                 }
