@@ -39,4 +39,9 @@ public class FirebaseService {
             throw new RuntimeException(); //throw exception if username doesn't exist in database
         }
     }
+
+    public static void updateUserDocument(String userName, Map userData) {
+        Firestore playerDatabase = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> writer = playerDatabase.collection("users").document(userName).set(userData);
+    }
 }

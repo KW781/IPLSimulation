@@ -2,6 +2,7 @@ package UserData;
 
 import FirebaseConnectivity.FirebaseService;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -26,11 +27,23 @@ public class User {
             this.numPlayersBought = 0;
             this.numMatchesPlayed = 0;
             this.highestRanking = 0;
-
-            this.addSelf(); //add user to firestore database
         } else {
             this.fetchUser(user, pass); //throws exception if either username doesn't exist or password is incorrect
         }
+    }
+
+    public void updateSelfToDatabase() {
+        Map<String, Object> selfData = new HashMap<>();
+
+        //place all data inside the map, to be placed as a firestore document
+        selfData.put("password", this.password);
+        selfData.put("matchWins", this.numMatchWins);
+        selfData.put("compWins", this.numCompWins);
+        selfData.put("playersBought", this.numPlayersBought);
+        selfData.put("matchesPlayed", this.numMatchesPlayed);
+        selfData.put("highestRank", this.highestRanking);
+
+        FirebaseService.updateUserDocument(this.username, selfData); //update user data in firestore
     }
 
     private void fetchUser(String user, String pass) throws ExecutionException, InterruptedException {
