@@ -14,8 +14,8 @@ import java.util.concurrent.ExecutionException;
 public class FirebaseService {
 
     public static ArrayList<Map> getPlayerMapObjects() throws ExecutionException, InterruptedException {
-        Firestore playerCollection = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> playersSnapshot = playerCollection.collection("players").get();
+        Firestore playerDatabase = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> playersSnapshot = playerDatabase.collection("players").get();
         List<QueryDocumentSnapshot> playerDocuments = playersSnapshot.get().getDocuments();
         ArrayList<Map> playerMapObjects = new ArrayList<Map>();
 
