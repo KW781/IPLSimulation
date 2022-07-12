@@ -13,6 +13,8 @@ public class User {
 
     //game statistics
     private int numMatchWins;
+    private int numMatchLosses;
+    private int numMatchesTied;
     private int numCompWins;
     private int numPlayersBought;
     private int numMatchesPlayed;
@@ -23,6 +25,8 @@ public class User {
             this.username = user;
             this.password = pass;
             this.numMatchWins = 0;
+            this.numMatchLosses = 0;
+            this.numMatchesTied = 0;
             this.numCompWins = 0;
             this.numPlayersBought = 0;
             this.numMatchesPlayed = 0;
@@ -32,12 +36,18 @@ public class User {
         }
     }
 
+    public void winMatch() {
+
+    }
+
     public void updateSelfToDatabase() {
         Map<String, Object> selfData = new HashMap<>();
 
         //place all data inside the map, to be placed as a firestore document
         selfData.put("password", this.password);
         selfData.put("matchWins", this.numMatchWins);
+        selfData.put("matchLosses", this.numMatchLosses);
+        selfData.put("matchTies", this.numMatchesTied);
         selfData.put("compWins", this.numCompWins);
         selfData.put("playersBought", this.numPlayersBought);
         selfData.put("matchesPlayed", this.numMatchesPlayed);
@@ -48,7 +58,7 @@ public class User {
 
     private void fetchUser(String user, String pass) throws ExecutionException, InterruptedException {
         Long tempStat; //used to temporarily store firestore document values, since they're of type 'Long'
-        Map userData = FirebaseService.getUser(user);
+        Map userData = FirebaseService.getUser(user); //throws exception if user doesn't exist in firestore
         String docPassword = userData.get("password").toString();
 
         if (pass.equals(docPassword)) {
@@ -59,6 +69,10 @@ public class User {
             //set attributes to game statistics collected from document map
             tempStat = (Long) userData.get("matchWins");
             this.numMatchWins = tempStat.intValue();
+            tempStat = (Long) userData.get("matchLosses");
+            this.numMatchLosses = tempStat.intValue();
+            tempStat = (Long) userData.get("matchTies");
+            this.numMatchesTied = tempStat.intValue();
             tempStat = (Long) userData.get("compWins");
             this.numCompWins = tempStat.intValue();
             tempStat = (Long) userData.get("playersBought");
