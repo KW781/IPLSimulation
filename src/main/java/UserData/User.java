@@ -12,19 +12,29 @@ public class User {
     private int numMatchesPlayed;
     private int highestRanking;
 
-    public User(String user, String pass, int[] stats) {
-
-    }
-
-    /*
-    public static User createUser(String user, String pass, boolean newUser) {
-        int[] stats = new int[5];
-
+    public User(String user, String pass, boolean newUser) {
         if (newUser) {
-            for (Integer stat : stats) {
-                stat = 0;
+            this.username = user;
+            this.password = pass;
+            this.numMatchWins = 0;
+            this.numCompWins = 0;
+            this.numPlayersBought = 0;
+            this.numMatchesPlayed = 0;
+            this.highestRanking = 0;
+
+            this.addSelf(); //add user to firestore database
+        } else {
+            if (!this.fetchUser(user, pass)) {
+                throw new RuntimeException();
             }
         }
     }
-     */
+
+    private void addSelf() {
+
+    }
+
+    private boolean fetchUser(String user, String pass) {
+        return true;
+    }
 }
