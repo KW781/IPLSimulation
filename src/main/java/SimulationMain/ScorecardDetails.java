@@ -16,6 +16,20 @@ public class ScorecardDetails {
     private ArrayList<BowlerPerformance> winningTopThreeBowlers;
     private ArrayList<BowlerPerformance> losingTopThreeBowlers;
 
+    /**
+     * Creates a ScorecardDetails object based on the following parameters, which is the scorecard for a particular
+     * match based on the data provided.
+     * @param winningEleven An ArrayList of players constituting the playing XI that won the match
+     * @param losingEleven An ArrayList of players constituting the playing XI that lost the match
+     * @param winningTeamName The name of the winning team franchise
+     * @param losingTeamName The name of the losing team franchise
+     * @param firstInnsRuns The number of runs made by the team batting first in the first innings
+     * @param firstInnsBallsPlayed The number of balls played by the team batting first in the first innings
+     * @param firstInnsWicketsLost The number of wickets lost by the team batting first in the first innings
+     * @param secondInnsRuns The number of runs made by the team batting second in the second innings
+     * @param secondInnsBallsPlayed The number of balls played by the team batting second in the second innings
+     * @param secondInnsWicketsLost The number of wickets lost by the team batting second in the second innings
+     */
     public ScorecardDetails(ArrayList<Player> winningEleven, ArrayList<Player> losingEleven, String winningTeamName, String losingTeamName,
                             int firstInnsRuns, int firstInnsBallsPlayed, int firstInnsWicketsLost, int secondInnsRuns,
                             int secondInnsBallsPlayed, int secondInnsWicketsLost) {
