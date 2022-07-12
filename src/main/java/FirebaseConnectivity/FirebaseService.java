@@ -1,9 +1,7 @@
 package FirebaseConnectivity;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 
 import java.util.ArrayList;
@@ -24,5 +22,21 @@ public class FirebaseService {
         }
 
         return playerMapObjects;
+    }
+
+    public static Map getUser(String userName) throws ExecutionException, InterruptedException {
+        Firestore playerDatabase = FirestoreClient.getFirestore();
+        DocumentReference userRef = playerDatabase.collection("users").document(userName);
+
+        //asynchronously retrieve user document
+        ApiFuture<DocumentSnapshot> future = userRef.get();
+
+        DocumentSnapshot user = future.get();
+
+        if (user.exists()) {
+            return user.getData();
+        } else {
+            throw new RuntimeException();
+        }
     }
 }

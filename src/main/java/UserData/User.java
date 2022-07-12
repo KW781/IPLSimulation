@@ -30,11 +30,4 @@ public class User {
         }
     }
 
-    private void addSelf() {
-
-    }
-
-    private boolean fetchUser(String user, String pass) {
-        return true;
-    }
 }
