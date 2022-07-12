@@ -17,7 +17,6 @@ public class User {
     private int numMatchesTied;
     private int numCompWins;
     private int numPlayersBought;
-    private int numMatchesPlayed;
     private int highestRanking;
 
     public User(String user, String pass, boolean newUser) throws ExecutionException, InterruptedException {
@@ -29,7 +28,6 @@ public class User {
             this.numMatchesTied = 0;
             this.numCompWins = 0;
             this.numPlayersBought = 0;
-            this.numMatchesPlayed = 0;
             this.highestRanking = 0;
         } else {
             this.fetchUser(user, pass); //throws exception if either username doesn't exist or password is incorrect
@@ -37,7 +35,29 @@ public class User {
     }
 
     public void winMatch() {
+        this.numMatchWins++;
+    }
+    
+    public void loseMatch() {
+        this.numMatchLosses++;
+    }
 
+    public void tieMatch() {
+        this.numMatchesTied++;
+    }
+
+    public void winTournament() {
+        this.numCompWins++;
+    }
+
+    public void playerBought() {
+        this.numPlayersBought++;
+    }
+
+    public void updateHighestRank(int newRank) {
+        if (newRank < this.highestRanking) {
+            this.highestRanking = newRank;
+        }
     }
 
     public void updateSelfToDatabase() {
@@ -50,7 +70,6 @@ public class User {
         selfData.put("matchTies", this.numMatchesTied);
         selfData.put("compWins", this.numCompWins);
         selfData.put("playersBought", this.numPlayersBought);
-        selfData.put("matchesPlayed", this.numMatchesPlayed);
         selfData.put("highestRank", this.highestRanking);
 
         FirebaseService.updateUserDocument(this.username, selfData); //update user data in firestore
@@ -77,8 +96,6 @@ public class User {
             this.numCompWins = tempStat.intValue();
             tempStat = (Long) userData.get("playersBought");
             this.numPlayersBought = tempStat.intValue();
-            tempStat = (Long) userData.get("matchesPlayed");
-            this.numMatchesPlayed = tempStat.intValue();
             tempStat = (Long) userData.get("highestRank");
             this.highestRanking = tempStat.intValue();
         } else {
