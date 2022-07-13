@@ -7,6 +7,13 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class UserLoginMethods {
+    /**
+     * Method that registers a new user by making them create a new username and password and validating the username
+     * and password. Both must be at least 6 characters long and the username must not already exist.
+     * @return 2 element string array, first element is username and second element is password
+     * @throws ExecutionException Firebase error
+     * @throws InterruptedException Firebase error
+     */
     public static String[] registerUser() throws ExecutionException, InterruptedException {
         String userName = "";
         String password = "";
