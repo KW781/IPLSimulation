@@ -42,6 +42,6 @@ public class FirebaseService {
 
     public static void updateUserDocument(String userName, Map userData) {
         Firestore playerDatabase = FirestoreClient.getFirestore();
-        playerDatabase.collection("users").document(userName).set(userData);
+        playerDatabase.collection("users").document(userName).set(userData, SetOptions.merge());
     }
 }
