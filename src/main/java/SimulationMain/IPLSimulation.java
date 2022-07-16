@@ -10,20 +10,20 @@ import FirebaseConnectivity.*;
 
 public class IPLSimulation {
     //helper function to find the factorial of a number, recursive solution
-    public static int Factorial(int number) {
+    public static int factorial(int number) {
         if (number > 1) {
-            number = number * Factorial(number - 1);
+            number = number * factorial(number - 1);
         }
         return number;
     }
 
     //helper function to find the combination of two numbers (used for the scheduling)
-    public static int Combination(int num1, int num2) {
-        return (Factorial(num1)) / (Factorial(num2) * Factorial(num1 - num2));
+    public static int combination(int num1, int num2) {
+        return (factorial(num1)) / (factorial(num2) * factorial(num1 - num2));
     }
 
     //this function will use database connectivity from the FirebaseConnectivity package to create the auction pool of players
-    public static ArrayList<Player> RegisterPlayersInAuction() throws ExecutionException, InterruptedException {
+    public static ArrayList<Player> registerPlayersInAuction() throws ExecutionException, InterruptedException {
         ArrayList<Player> auctionPool = new ArrayList<Player>(); //the auction pool of players
         ArrayList<Map> playerMapObjects = FirebaseService.getPlayerMapObjects(); //player map objects collected from the FirebaseConnectivity package
         int[] playerStats = new int[7];
@@ -61,7 +61,7 @@ public class IPLSimulation {
         return auctionPool;
     }
 
-    public static void InstantiateTeams(ArrayList<TeamFranchise> teams, String[] names) {
+    public static void instantiateTeams(ArrayList<TeamFranchise> teams, String[] names) {
         for (int i = 0; i < names.length; i++) {
             teams.add(new TeamFranchise(names[i], false));
         }
@@ -117,7 +117,7 @@ public class IPLSimulation {
         }
     }
 
-    public static ArrayList<Match> GenerateTournamentSchedule(ArrayList<TeamFranchise> teams) {
+    public static ArrayList<Match> generateTournamentSchedule(ArrayList<TeamFranchise> teams) {
         ArrayList<Match> schedule = new ArrayList<Match>();
         int numLeagueMatches; //number of league matches in the whole schedule (not including playoffs)
         int numTeams = teams.size();
@@ -131,7 +131,7 @@ public class IPLSimulation {
         }
 
         //allocate the teams to matches with each other, thereby generating a schedule
-        numLeagueMatches = Combination(numTeams, 2);
+        numLeagueMatches = combination(numTeams, 2);
         for (int i = 0; i < numLeagueMatches; i++) {
             //find the first team to play the match
             randTeamNumber = (int)(Math.random() * numTeams); //generate random number to find a team to put in the match
@@ -275,7 +275,7 @@ public class IPLSimulation {
         */
 
         FirebaseInitialise.initialise();
-        ArrayList<Player> auctionPool = RegisterPlayersInAuction();
+        ArrayList<Player> auctionPool = registerPlayersInAuction();
         System.out.println(Integer.toString(auctionPool.size()));
 
     }
