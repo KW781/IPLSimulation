@@ -18,7 +18,7 @@ public class UserLoginMethods {
         String userName = "";
         String password = "";
         Scanner loginScanner = new Scanner(System.in);
-        ArrayList<String> allUsernames;
+        ArrayList<String> allUsernames = FirebaseService.getAllUsernames(); //retrieve all usernames from firestore
         String[] loginDetails = new String[2];
         boolean nameValid = false;
         boolean usernameUnique;
@@ -32,8 +32,6 @@ public class UserLoginMethods {
             if (userName.length() < 6) {
                 System.out.println("Username MUST be at least 6 characters long.");
             } else {
-                allUsernames = FirebaseService.getAllUsernames(); //retrieve all usernames from firestore
-
                 //check that username isn't already taken
                 usernameUnique = true;
                 for (String otherUsername : allUsernames) {
@@ -86,5 +84,22 @@ public class UserLoginMethods {
         loginDetails[1] = password;
 
         return loginDetails;
+    }
+
+    /**
+     * Method to collect input from the user regarding whether they would like to create a new account or login using
+     * an existing account. Returns the choice as a boolean value.
+     * @return True if user wants to create new account, false is user wants to login with existing account
+     */
+    public static boolean newAccountWanted() {
+        Scanner choiceInput = new Scanner(System.in);
+        int choiceInt;
+
+        System.out.println("1. Create new account");
+        System.out.println("2. Login with existing account");
+        System.out.print("Enter a number for which you would like to do: ");
+        choiceInt = choiceInput.nextInt();
+
+        return choiceInt == 1;
     }
 }
