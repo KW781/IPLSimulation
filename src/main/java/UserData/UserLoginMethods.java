@@ -66,4 +66,25 @@ public class UserLoginMethods {
 
         return loginDetails;
     }
+
+
+    /**
+     * Method that logs in a user by inputting the username and password, and then returning them.
+     * @return 2 element string array, first element is username and second element is password
+     */
+    public static String[] loginUser() {
+        Scanner loginScanner = new Scanner(System.in);
+        String userName, password;
+        String loginDetails[] = new String[2];
+
+        System.out.println("Enter your username: ");
+        userName = loginScanner.next();
+        System.out.println("Enter your password: ");
+        password = loginScanner.next();
+
+        loginDetails[0] = userName;
+        loginDetails[1] = password;
+
+        return loginDetails;
+    }
 }
