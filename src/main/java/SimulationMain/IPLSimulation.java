@@ -257,7 +257,6 @@ public class IPLSimulation {
     }
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        /*
         String[] standardNames = {"Mumbai Indians",
                 "Chennai Super Kings",
                 "Punjab Kings",
@@ -270,12 +269,10 @@ public class IPLSimulation {
                 "Gujarat Titans"};
         ArrayList<TeamFranchise> teams = new ArrayList<TeamFranchise>();
 
-        ArrayList<Player> auctionPool = RegisterPlayersInAuction();
-        InstantiateTeams(teams, standardNames);
-        */
+        ArrayList<Player> auctionPool = registerPlayersInAuction();
+        instantiateTeams(teams, standardNames);
 
         FirebaseInitialise.initialise();
-        ArrayList<Player> auctionPool = registerPlayersInAuction();
         System.out.println(Integer.toString(auctionPool.size()));
 
     }
