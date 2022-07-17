@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 import TypeWrappers.*; //import all the wrapper classes from TypeWrappers
 import FirebaseConnectivity.*;
+import UserData.*;
 
 
 public class IPLSimulation {
@@ -40,7 +41,7 @@ public class IPLSimulation {
             isWicketkeeper = (boolean) (playerMapObject.get("isWicketkeeper"));
             isOverseas = (boolean)(playerMapObject.get("overseas"));
 
-            tempStat = (Long)playerMapObject.get("numMatches");
+            tempStat = (Long) playerMapObject.get("numMatches");
             playerStats[0] = tempStat.intValue();
             tempStat = (Long) playerMapObject.get("careerRunsScored");
             playerStats[1] = tempStat.intValue();
@@ -268,13 +269,38 @@ public class IPLSimulation {
                 "Lucknow Super Giants",
                 "Gujarat Titans"};
         ArrayList<TeamFranchise> teams = new ArrayList<TeamFranchise>();
+        User userPlaying;
+        boolean newUser;
+        boolean loginValid;
+        String[] loginDetails; //stores username and password of the user (first and second elements respectively)
 
         ArrayList<Player> auctionPool = registerPlayersInAuction();
         instantiateTeams(teams, standardNames);
-
         FirebaseInitialise.initialise();
-        System.out.println(Integer.toString(auctionPool.size()));
 
+        System.out.println("Welcome to the IPL Simulation! Here you can play as a team that competes against the other"
+            + " franchises in the auction and tournament in order to win the IPL! First you must login or register"
+            + "in order to play.");
+        System.out.println();
+
+        newUser = UserInteraction.newAccountWanted();
+        if (newUser) {
+            loginDetails = UserInteraction.registerUser();
+            userPlaying = new User(loginDetails[0], loginDetails[1], true);
+        } else {
+            //keep requesting the login details from the user until they are a valid set of login details
+            loginValid = false;
+            while (!loginValid) {
+                try {
+                    loginDetails = UserInteraction.loginUser();
+                    userPlaying = new User(loginDetails[0], loginDetails[1], false); //throws exception if login is invalid
+                    loginValid = true;
+                } catch (RuntimeException e) {
+                    System.out.println("Incorrect username or password.");
+                    loginValid= false;
+                }
+            }
+        }
     }
 }
 
