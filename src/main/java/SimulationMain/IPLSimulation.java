@@ -68,7 +68,7 @@ public class IPLSimulation {
         }
     }
 
-    public static void RunAuction(ArrayList<TeamFranchise> teams, ArrayList<Player> auctionPool) {
+    public static void runAuction(ArrayList<TeamFranchise> teams, ArrayList<Player> auctionPool, User userPlaying) {
         boolean bidOccurred;
         BooleanWrap userContinueBidding = new BooleanWrap();
         int nextTeamToBid;
@@ -89,6 +89,7 @@ public class IPLSimulation {
                 do {
                     nextTeamToBid = (int) (Math.random() * (teams.size() - 1));
                 } while (nextTeamToBid == playerCurrentTeam);
+
                 if (teams.get(nextTeamToBid).bid(currentPlayer)) {
                     playerCurrentTeam = nextTeamToBid;
                     bidOccurred = true;
@@ -113,6 +114,7 @@ public class IPLSimulation {
                 teams.get(playerCurrentTeam).addPlayer(currentPlayer);
                 if (teams.get(playerCurrentTeam).controlledByUser()) {
                     System.out.println("Congratulations, you've got " + currentPlayer.getName() + " in your squad!");
+                    userPlaying.playerBought(); //increment number players bought by user if they've bought a player
                 }
             }
         }
@@ -257,30 +259,16 @@ public class IPLSimulation {
         }
     }
 
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        String[] standardNames = {"Mumbai Indians",
-                "Chennai Super Kings",
-                "Punjab Kings",
-                "Sunrisers Hyderabad",
-                "Delhi Capitals",
-                "Royal Challengers Bangalore",
-                "Rajasthan Royals",
-                "Kolkata Knight Riders",
-                "Lucknow Super Giants",
-                "Gujarat Titans"};
-        ArrayList<TeamFranchise> teams = new ArrayList<TeamFranchise>();
-        User userPlaying;
+    public static void configureGame(User userPlaying) throws ExecutionException, InterruptedException {
         boolean newUser;
         boolean loginValid;
+        int numTeams;
+        boolean auctionWanted;
         String[] loginDetails; //stores username and password of the user (first and second elements respectively)
 
-        ArrayList<Player> auctionPool = registerPlayersInAuction();
-        instantiateTeams(teams, standardNames);
-        FirebaseInitialise.initialise();
-
         System.out.println("Welcome to the IPL Simulation! Here you can play as a team that competes against the other"
-            + " franchises in the auction and tournament in order to win the IPL! First you must login or register"
-            + "in order to play.");
+                + " franchises in the auction and tournament in order to win the IPL! First you must login or register"
+                + "in order to play.");
         System.out.println();
 
         newUser = UserInteraction.newAccountWanted();
@@ -301,6 +289,33 @@ public class IPLSimulation {
                 }
             }
         }
+
+        System.out.println("Welcome to IPL Simulation, " + userPlaying.getUsername() + "!");
+        System.out.println();
+        if (UserInteraction.tournamentWanted()) {
+            numTeams = UserInteraction.getNumTeams();
+            auctionWanted = UserInteraction.auctionWanted();
+        }
+    }
+
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+        String[] standardNames = {"Mumbai Indians",
+                "Chennai Super Kings",
+                "Punjab Kings",
+                "Sunrisers Hyderabad",
+                "Delhi Capitals",
+                "Royal Challengers Bangalore",
+                "Rajasthan Royals",
+                "Kolkata Knight Riders",
+                "Lucknow Super Giants",
+                "Gujarat Titans"};
+        ArrayList<TeamFranchise> teams = new ArrayList<TeamFranchise>();
+
+        ArrayList<Player> auctionPool = registerPlayersInAuction();
+        instantiateTeams(teams, standardNames);
+        FirebaseInitialise.initialise();
+
+
     }
 }
 

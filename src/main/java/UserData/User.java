@@ -60,6 +60,10 @@ public class User {
         this.numPlayersBought++;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
     public void updateHighestRank(int newRank) {
         if (newRank < this.highestRanking) {
             this.highestRanking = newRank;

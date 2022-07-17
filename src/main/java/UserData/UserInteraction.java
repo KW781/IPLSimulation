@@ -114,6 +114,7 @@ public class UserInteraction {
         Scanner choiceInput = new Scanner(System.in);
         int choiceInt;
 
+        System.out.println("Please select what you would like to play.");
         System.out.println("1. Play single match (randomised players)");
         System.out.println("2. Play full IPL tournament");
         System.out.print("Enter a number for which you would like to do: ");
