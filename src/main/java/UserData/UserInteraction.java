@@ -167,6 +167,28 @@ public class UserInteraction {
     }
 
     /**
+     * Method to input from the user whether they would like to bat or bowl first upon winning the toss. Returns the
+     * choice as an integer.
+     * @return 1 if the user wants to bat first, 2 if the user wants to bowl first
+     */
+    public static int chooseBatBowl() {
+        Scanner choiceInput = new Scanner(System.in);
+        int choiceInt;
+
+        System.out.println("You won the toss! Bat or bowl?");
+        System.out.println("1. Bat");
+        System.out.println("2. Bowl");
+        System.out.print("Please enter a number: ");
+        choiceInt = choiceInput.nextInt();
+        while ((choiceInt != 1) && (choiceInt != 2)) {
+            System.out.print("Please enter a number: ");
+            choiceInt = choiceInput.nextInt();
+        }
+
+        return choiceInt;
+    }
+
+    /**
      * Method to input from the user the name of the team franchise that they would like to control.
      * @return The team name (a string)
      */

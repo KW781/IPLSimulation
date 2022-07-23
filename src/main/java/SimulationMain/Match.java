@@ -1,8 +1,10 @@
 package SimulationMain;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import TypeWrappers.*;
 import UserData.User;
+import UserData.UserInteraction;
 
 public class Match {
     private TeamFranchise team1;
@@ -39,16 +41,7 @@ public class Match {
         tossNum = (int)((Math.random() * 2) + 1); //run coin toss
         if (tossNum == 1) { //team 1 won the toss
             if (this.team1.controlledByUser()) { //if team winning toss is user controlled, ask them to choose
-                System.out.println("You won the toss! Bat or bowl?");
-                System.out.println("1. Bat");
-                System.out.println("2. Bowl");
-                System.out.print("Please enter a number: ");
-                batBowlChoice = batBowlChoiceInput.nextInt();
-                //keep asking for user input until valid value is entered
-                while ((batBowlChoice != 1) && (batBowlChoice != 2)) {
-                    System.out.print("Please enter a valid number: ");
-                    batBowlChoice = batBowlChoiceInput.nextInt();
-                }
+                batBowlChoice = UserInteraction.chooseBatBowl();
 
                 //based on choice input, run what the user wants
                 if (batBowlChoice == 1) {
@@ -72,16 +65,7 @@ public class Match {
             }
         } else if (tossNum == 2) { //team 2 won the toss
             if (this.team2.controlledByUser()) { //if team winning toss is user controlled, ask them to choose
-                System.out.println("You won the toss! Bat or bowl?");
-                System.out.println("1. Bat");
-                System.out.println("2. Bowl");
-                System.out.print("Please enter a number: ");
-                batBowlChoice = batBowlChoiceInput.nextInt();
-                //keep asking for user input until valid value is entered
-                while ((batBowlChoice != 1) && (batBowlChoice != 2)) {
-                    System.out.print("Please enter a valid number: ");
-                    batBowlChoice = batBowlChoiceInput.nextInt();
-                }
+                batBowlChoice = UserInteraction.chooseBatBowl();
 
                 //based on choice input, run what the user wants
                 if (batBowlChoice == 1) {
