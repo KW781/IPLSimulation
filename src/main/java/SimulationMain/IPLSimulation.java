@@ -186,7 +186,7 @@ public class IPLSimulation {
 
         //run all the league matches
         for (Match currentMatch : schedule) {
-            currentMatch.playMatch();
+            currentMatch.playMatch(userPlaying);
         }
 
         //re order the teams array based on points and NRR
@@ -219,8 +219,8 @@ public class IPLSimulation {
         playoffs.add(new Match(teams.get(0), teams.get(1))); //first qualifier
         playoffs.add(new Match(teams.get(2), teams.get(3))); //eliminator
 
-        playoffs.get(0).playMatch(); //run the first qualifier
-        playoffs.get(1).playMatch(); //run the eliminator
+        playoffs.get(0).playMatch(userPlaying); //run the first qualifier
+        playoffs.get(1).playMatch(userPlaying); //run the eliminator
 
         //get the pointers of the winning and losing teams
         qualifier1WinnerPointer = playoffs.get(0).getWinningPointer(teams);
@@ -238,7 +238,7 @@ public class IPLSimulation {
         }
 
         playoffs.add(new Match(teams.get(qualifier1LoserPointer), teams.get(eliminatorWinnerPointer))); //create the second qualifier
-        playoffs.get(2).playMatch(); //run the second qualifier
+        playoffs.get(2).playMatch(userPlaying); //run the second qualifier
         qualifier2WinnerPointer = playoffs.get(2).getWinningPointer(teams); //get the pointer of the winning team
         qualifier2LoserPointer = playoffs.get(2).getLosingPointer(teams);
         //account for the match being tied by taking the team that lost the first qualifier, since that team would've finished higher in the points table
@@ -248,7 +248,7 @@ public class IPLSimulation {
         }
 
         playoffs.add(new Match(teams.get(qualifier1WinnerPointer), teams.get(qualifier2WinnerPointer))); //create the final
-        playoffs.get(3).playMatch(); //run the final
+        playoffs.get(3).playMatch(userPlaying); //run the final
         IPLWinnerPointer = playoffs.get(3).getWinningPointer(teams); //get the pointer of the winning team
         runnerUpPointer = playoffs.get(3).getLosingPointer(teams);
         if (IPLWinnerPointer == -1) {

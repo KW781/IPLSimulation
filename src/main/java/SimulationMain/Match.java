@@ -113,7 +113,23 @@ public class Match {
         } else {
             this.team1.adjustPointsTableData(pointsToAdd.value, nrrToAdd.value);
             this.team2.adjustPointsTableData(-1 * pointsToAdd.value, -1 * nrrToAdd.value);
-
+            if (pointsToAdd.value > 0) {
+                //if team 1 won the match, then adjust the user's number of wins/losses if either team is controlled by them
+                if (this.team1.controlledByUser()) {
+                    userPlaying.winMatch();
+                }
+                if (this.team2.controlledByUser()) {
+                    userPlaying.loseMatch();
+                }
+            } else {
+                //if team 2 won the match, then adjust the user's number of wins/losses if either team is controlled by them
+                if (this.team1.controlledByUser()) {
+                    userPlaying.loseMatch();
+                }
+                if (this.team2.controlledByUser()) {
+                    userPlaying.winMatch();
+                }
+            }
         }
     }
 
