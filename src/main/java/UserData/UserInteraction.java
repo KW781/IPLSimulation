@@ -165,4 +165,18 @@ public class UserInteraction {
 
         return choiceInt == 1;
     }
+
+    /**
+     * Method to input from the user the name of the team franchise that they would like to control.
+     * @return The team name (a string)
+     */
+    public static String chooseTeamName() {
+        Scanner nameInput = new Scanner(System.in);
+        String name;
+
+        System.out.print("Choose a name for your IPL franchise: ");
+        name = nameInput.next();
+
+        return name;
+    }
 }
