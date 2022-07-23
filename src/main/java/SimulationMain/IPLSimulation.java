@@ -170,7 +170,7 @@ public class IPLSimulation {
         return schedule;
     }
 
-    public static void runTournament(ArrayList<Match> schedule, ArrayList<TeamFranchise> teams) {
+    public static void runTournament(ArrayList<Match> schedule, ArrayList<TeamFranchise> teams, User userPlaying) {
         TeamFranchise tempTeam; //used for swapping when sorting the teams according to the points table
         boolean noMorePasses;
         int numElements;
@@ -178,15 +178,18 @@ public class IPLSimulation {
         int qualifier1WinnerPointer; //pointer to the position of the team that won qualifier 1 in the array
         int qualifier1LoserPointer; //pointer to the position of the team that lost qualifier 1 in the array
         int eliminatorWinnerPointer; //pointer to the position of the team that won the eliminator in the array
-        int qualifier2WinnerPointer; //pointer to the position of the team that won
-        int IPLWinnerPointer; //pointer to the team that won the final i.e. won the IPL
+        int eliminatorLoserPointer; //pointer to the position of the team that lost the eliminator in the array
+        int qualifier2WinnerPointer; //pointer to the position of the team that won qualifier 2 in the array
+        int qualifier2LoserPointer; //pointer to the position of the team that lost qualifier 2 in the array
+        int IPLWinnerPointer; //pointer to the team that won the final in the array i.e. won the IPL
+        int runnerUpPointer; //pointer to the team that lost the final in the array i.e. runners up to the IPL
 
         //run all the league matches
         for (Match currentMatch : schedule) {
             currentMatch.playMatch();
         }
 
-        //re order the teams array based on NRR
+        //re order the teams array based on points and NRR
         noMorePasses = false;
         numElements = teams.size() - 1;
         while (!noMorePasses) {
@@ -223,6 +226,7 @@ public class IPLSimulation {
         qualifier1WinnerPointer = playoffs.get(0).getWinningPointer(teams);
         qualifier1LoserPointer = playoffs.get(0).getLosingPointer(teams);
         eliminatorWinnerPointer = playoffs.get(1).getWinningPointer(teams);
+        eliminatorLoserPointer = playoffs.get(1).getLosingPointer(teams);
         //account for tied matches by taking the higher position in the points table
         if (qualifier1WinnerPointer == -1) {
             qualifier1WinnerPointer = 0;
@@ -230,32 +234,91 @@ public class IPLSimulation {
         }
         if (eliminatorWinnerPointer == -1) {
             eliminatorWinnerPointer = 2;
+            eliminatorLoserPointer = 3;
         }
 
         playoffs.add(new Match(teams.get(qualifier1LoserPointer), teams.get(eliminatorWinnerPointer))); //create the second qualifier
         playoffs.get(2).playMatch(); //run the second qualifier
         qualifier2WinnerPointer = playoffs.get(2).getWinningPointer(teams); //get the pointer of the winning team
+        qualifier2LoserPointer = playoffs.get(2).getLosingPointer(teams);
         //account for the match being tied by taking the team that lost the first qualifier, since that team would've finished higher in the points table
         if (qualifier2WinnerPointer == -1) {
             qualifier2WinnerPointer = qualifier1LoserPointer;
+            qualifier2LoserPointer = eliminatorWinnerPointer;
         }
 
         playoffs.add(new Match(teams.get(qualifier1WinnerPointer), teams.get(qualifier2WinnerPointer))); //create the final
         playoffs.get(3).playMatch(); //run the final
         IPLWinnerPointer = playoffs.get(3).getWinningPointer(teams); //get the pointer of the winning team
+        runnerUpPointer = playoffs.get(3).getLosingPointer(teams);
         if (IPLWinnerPointer == -1) {
             if (qualifier1WinnerPointer > qualifier2WinnerPointer) {
-                IPLWinnerPointer = qualifier1WinnerPointer; //make the qualifier 1 winner the IPL winner if they finished higher on the points table
+                //make the qualifier 1 winner the IPL winner if they finished higher on the points table
+                IPLWinnerPointer = qualifier1WinnerPointer;
+                runnerUpPointer = qualifier2WinnerPointer;
             } else {
-                IPLWinnerPointer = qualifier2WinnerPointer; //make the qualifier 2 winner the IPL winner if they finished higher on the points table
+                //make the qualifier 2 winner the IPL winner if they finished higher on the points table
+                IPLWinnerPointer = qualifier2WinnerPointer;
+                runnerUpPointer = qualifier1WinnerPointer;
+            }
+        }
+
+        //sort the teams new rankings based on playoffs
+        noMorePasses = false;
+        while (!noMorePasses) {
+            noMorePasses = true;
+            for (int i = 0; i < 4; i++) { //only rankings of top 4 teams will change
+                //place IPL winner into first position in the array
+                if ((i == IPLWinnerPointer) && (i != 0)) {
+                    tempTeam = teams.get(0);
+                    teams.set(0, teams.get(IPLWinnerPointer));
+                    teams.set(IPLWinnerPointer, tempTeam);
+                    IPLWinnerPointer = 0;
+                    noMorePasses = false;
+                }
+
+                //place runners up of IPL into second position in array
+                if ((i == runnerUpPointer) && (i != 1)) {
+                    tempTeam = teams.get(1);
+                    teams.set(1, teams.get(runnerUpPointer));
+                    teams.set(runnerUpPointer, tempTeam);
+                    runnerUpPointer = 1;
+                    noMorePasses = false;
+                }
+
+                //place losers of the second qualifier (third ranked team) into third position in array
+                if ((i == qualifier2LoserPointer) && (i != 2)) {
+                    tempTeam = teams.get(2);
+                    teams.set(2, teams.get(qualifier2LoserPointer));
+                    teams.set(qualifier2LoserPointer, tempTeam);
+                    qualifier2LoserPointer = 2;
+                    noMorePasses = false;
+                }
+
+                //place losers of the eliminator (fourth ranked team) into fourth position in array
+                if ((i == eliminatorLoserPointer) && (i != 3)) {
+                    tempTeam = teams.get(3);
+                    teams.set(3, teams.get(eliminatorLoserPointer));
+                    teams.set(eliminatorLoserPointer, tempTeam);
+                    eliminatorLoserPointer = 3;
+                    noMorePasses = false;
+                }
             }
         }
 
         //output the winner to the user
-        if (teams.get(IPLWinnerPointer).controlledByUser()) {
-            System.out.println("Congratulations! Your team, " + teams.get(IPLWinnerPointer).getName() + ", has won the IPL!");
+        if (teams.get(0).controlledByUser()) {
+            System.out.println("Congratulations! Your team, " + teams.get(0).getName() + ", has won the IPL!");
+            userPlaying.winTournament(); //increment user's number of tournament wins if they won
         } else {
-            System.out.println("Congratulations to " + teams.get(IPLWinnerPointer).getName() + " for winning the IPL");
+            System.out.println("Congratulations to " + teams.get(0).getName() + " for winning the IPL");
+        }
+        userPlaying.playedTournament(); //increment user's number of tournaments played
+
+        //display final team rankings upon completion of tournament
+        System.out.println("Here are the final team rankings at the end of the IPL: ");
+        for (int i = 0; i < teams.size(); i++) {
+            System.out.println(Integer.toString(i) + ". " + teams.get(i).getName());
         }
     }
 
@@ -265,6 +328,7 @@ public class IPLSimulation {
         int numTeams;
         boolean auctionWanted;
         String[] loginDetails; //stores username and password of the user (first and second elements respectively)
+        String teamName;
 
         System.out.println("Welcome to the IPL Simulation! Here you can play as a team that competes against the other"
                 + " franchises in the auction and tournament in order to win the IPL! First you must login or register"
@@ -296,6 +360,7 @@ public class IPLSimulation {
             numTeams = UserInteraction.getNumTeams();
             auctionWanted = UserInteraction.auctionWanted();
         }
+        teamName = UserInteraction.chooseTeamName();
     }
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
