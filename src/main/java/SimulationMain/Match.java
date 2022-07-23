@@ -2,6 +2,7 @@ package SimulationMain;
 import java.util.ArrayList;
 import java.util.Scanner;
 import TypeWrappers.*;
+import UserData.User;
 
 public class Match {
     private TeamFranchise team1;
@@ -24,7 +25,7 @@ public class Match {
      * Plays the match, by simulating the toss and then calling helper methods to run the innings themselves, depending
      * on which team bats first. Adjusts points table once match is complete.
      */
-    public void playMatch() {
+    public void playMatch(User userPlaying) {
         int tossNum; //number randomly generated to simulate coin toss
         Scanner batBowlChoiceInput = new Scanner(System.in);
         int batBowlChoice;
@@ -108,9 +109,11 @@ public class Match {
         if (pointsToAdd.value == 1) {
             this.team1.adjustPointsTableData(1, 0);
             this.team2.adjustPointsTableData(1, 0);
+            userPlaying.tieMatch();
         } else {
             this.team1.adjustPointsTableData(pointsToAdd.value, nrrToAdd.value);
             this.team2.adjustPointsTableData(-1 * pointsToAdd.value, -1 * nrrToAdd.value);
+
         }
     }
 

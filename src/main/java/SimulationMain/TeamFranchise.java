@@ -454,7 +454,9 @@ public class TeamFranchise {
      * @param nrrToAdd The NRR to add to the team's overall NRR
      */
     public void adjustPointsTableData(int pointsToAdd, double nrrToAdd) {
-        this.points += pointsToAdd;
+        if (pointsToAdd < 0) {
+            this.points += pointsToAdd;
+        }
         this.netRunRate += nrrToAdd;
     }
 
