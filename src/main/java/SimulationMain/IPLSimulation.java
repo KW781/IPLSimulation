@@ -315,10 +315,13 @@ public class IPLSimulation {
         }
         userPlaying.playedTournament(); //increment user's number of tournaments played
 
-        //display final team rankings upon completion of tournament
+        //display final team rankings upon completion of tournament, and also update the user's ranking
         System.out.println("Here are the final team rankings at the end of the IPL: ");
         for (int i = 0; i < teams.size(); i++) {
-            System.out.println(Integer.toString(i) + ". " + teams.get(i).getName());
+            System.out.println(Integer.toString(i + 1) + ". " + teams.get(i).getName());
+            if (teams.get(i).controlledByUser()) {
+                userPlaying.updateHighestRank(i + 1);
+            }
         }
     }
 
