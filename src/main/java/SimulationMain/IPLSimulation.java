@@ -325,13 +325,11 @@ public class IPLSimulation {
         }
     }
 
-    public static void configureGame(User userPlaying) throws ExecutionException, InterruptedException {
+    public static void configureGame(User userPlaying, IntWrap numTeams, BooleanWrap auctionWanted,
+                                     BooleanWrap tournamentWanted, StringWrap teamName) throws ExecutionException, InterruptedException {
         boolean newUser;
         boolean loginValid;
-        int numTeams;
-        boolean auctionWanted;
         String[] loginDetails; //stores username and password of the user (first and second elements respectively)
-        String teamName;
 
         System.out.println("Welcome to the IPL Simulation! Here you can play as a team that competes against the other"
                 + " franchises in the auction and tournament in order to win the IPL! First you must login or register"
@@ -359,11 +357,12 @@ public class IPLSimulation {
 
         System.out.println("Welcome to IPL Simulation, " + userPlaying.getUsername() + "!");
         System.out.println();
-        if (UserInteraction.tournamentWanted()) {
-            numTeams = UserInteraction.getNumTeams();
-            auctionWanted = UserInteraction.auctionWanted();
+        tournamentWanted.value = UserInteraction.tournamentWanted();
+        if (tournamentWanted.value) {
+            numTeams.value = UserInteraction.getNumTeams();
+            auctionWanted.value = UserInteraction.auctionWanted();
         }
-        teamName = UserInteraction.chooseTeamName();
+        teamName.value = UserInteraction.chooseTeamName();
     }
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
@@ -377,13 +376,24 @@ public class IPLSimulation {
                 "Kolkata Knight Riders",
                 "Lucknow Super Giants",
                 "Gujarat Titans"};
+        StringWrap teamName; //user's team name
+        User userPlaying; //object that store's the user's stats
+        IntWrap numTeams;
+        BooleanWrap auctionWanted;
+        BooleanWrap tournamentWanted;
         ArrayList<TeamFranchise> teams = new ArrayList<TeamFranchise>();
 
-        ArrayList<Player> auctionPool = registerPlayersInAuction();
-        instantiateTeams(teams, standardNames);
         FirebaseInitialise.initialise();
+        ArrayList<Player> auctionPool = registerPlayersInAuction();
 
+        //arbitrary initialisation of variables to avoid compiler error: will be overwritten
+        userPlaying = new User("", "", true);
+        teamName = new StringWrap();
+        numTeams = new IntWrap();
+        auctionWanted = new BooleanWrap();
+        tournamentWanted = new BooleanWrap();
 
+        configureGame(userPlaying, numTeams, auctionWanted, tournamentWanted, teamName);
     }
 }
 
