@@ -39,7 +39,7 @@ public class IPLSimulation {
             tempStat = (Long) playerMapObject.get("basePrice");
             basePrice = tempStat.doubleValue();
             isWicketkeeper = (boolean) (playerMapObject.get("isWicketkeeper"));
-            isOverseas = (boolean)(playerMapObject.get("overseas"));
+            isOverseas = (boolean) (playerMapObject.get("overseas"));
 
             tempStat = (Long) playerMapObject.get("numMatches");
             playerStats[0] = tempStat.intValue();
@@ -62,10 +62,20 @@ public class IPLSimulation {
         return auctionPool;
     }
 
-    public static void instantiateTeams(ArrayList<TeamFranchise> teams, String[] names) {
-        for (int i = 0; i < names.length; i++) {
-            teams.add(new TeamFranchise(names[i], false));
+    public static void instantiateTeams(ArrayList<TeamFranchise> teams, String[] names, String teamNameUser, int teamNum) {
+        int teamCount = 0;
+        int i = 0;
+        //add on all the computer based franchises to the teams array
+        while (teamCount < teamNum - 1) {
+            /*use the names from the names array for the computer based teams, but only if it doesn't match the user's
+            team name */
+            if (!names[i].equals(teamNameUser)) {
+                teams.add(new TeamFranchise(names[i], false));
+                teamCount++;
+            }
+            i++;
         }
+        teams.add(new TeamFranchise(teamNameUser, true)); //add on the user controlled team
     }
 
     public static void runAuction(ArrayList<TeamFranchise> teams, ArrayList<Player> auctionPool, User userPlaying) {
@@ -115,6 +125,29 @@ public class IPLSimulation {
                 if (teams.get(playerCurrentTeam).controlledByUser()) {
                     System.out.println("Congratulations, you've got " + currentPlayer.getName() + " in your squad!");
                     userPlaying.playerBought(); //increment number players bought by user if they've bought a player
+                }
+            }
+        }
+    }
+
+    public static void runRandomAuction(ArrayList<TeamFranchise> teams, ArrayList<Player> auctionPool) {
+        int teamPointer;
+        int passes;
+
+        for (Player currentPlayer : auctionPool) {
+            passes = 0;
+            teamPointer = (int)(Math.random() * teams.size());
+            while (passes < 2) {
+                try {
+                    teams.get(teamPointer).addPlayer(currentPlayer);
+                } catch (ArithmeticException e) {
+                    if (teamPointer == teams.size() - 1) {
+                        //if team pointer is at upper bound of teams array, set to zero and indicate a pass has occurred
+                        teamPointer = 0;
+                        passes++;
+                    } else {
+                        teamPointer++;
+                    }
                 }
             }
         }
@@ -386,7 +419,7 @@ public class IPLSimulation {
         FirebaseInitialise.initialise();
         ArrayList<Player> auctionPool = registerPlayersInAuction();
 
-        //arbitrary initialisation of variables to avoid compiler error: will be overwritten
+        //arbitrary initialisation of variables to avoid compiler error: will be overwritten in configureGame()
         userPlaying = new User("", "", true);
         teamName = new StringWrap();
         numTeams = new IntWrap();
@@ -394,6 +427,15 @@ public class IPLSimulation {
         tournamentWanted = new BooleanWrap();
 
         configureGame(userPlaying, numTeams, auctionWanted, tournamentWanted, teamName);
+
+        if (tournamentWanted.value) {
+            instantiateTeams(teams, standardNames, teamName.value, numTeams.value);
+            if (auctionWanted.value) {
+                runAuction(teams, auctionPool, userPlaying);
+            } else {
+                runRandomAuction(teams, auctionPool);
+            }
+        }
     }
 }
 
