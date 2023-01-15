@@ -70,12 +70,12 @@ public class IPLSimulation {
             /*use the names from the names array for the computer based teams, but only if it doesn't match the user's
             team name */
             if (!names[i].equals(teamNameUser)) {
-                teams.add(new TeamFranchise(names[i], false));
+                teams.add(new ComputerTeamFranchise(names[i]));
                 teamCount++;
             }
             i++;
         }
-        teams.add(new TeamFranchise(teamNameUser, true)); //add on the user controlled team
+        teams.add(new UserTeamFranchise(teamNameUser)); //add on the user controlled team
     }
 
     public static void runAuction(ArrayList<TeamFranchise> teams, ArrayList<Player> auctionPool, User userPlaying) {
@@ -84,6 +84,8 @@ public class IPLSimulation {
         int nextTeamToBid;
         int playerCurrentTeam = -1;
         int numTimesUnsold;
+        UserTeamFranchise userTeam;
+        ComputerTeamFranchise currentComputerTeam;
 
         for (Player currentPlayer : auctionPool) {
             System.out.println("Current player being auctioned: " + currentPlayer.getName());
@@ -100,13 +102,15 @@ public class IPLSimulation {
                     nextTeamToBid = (int) (Math.random() * (teams.size() - 1));
                 } while (nextTeamToBid == playerCurrentTeam);
 
-                if (teams.get(nextTeamToBid).bid(currentPlayer)) {
+                currentComputerTeam = (ComputerTeamFranchise) teams.get(nextTeamToBid);
+                if (currentComputerTeam.bid(currentPlayer)) {
                     playerCurrentTeam = nextTeamToBid;
                     bidOccurred = true;
                 }
 
                 //next allow the user to bid, if they have not yet opted to stop bidding completely
-                if ((userContinueBidding.value) && (teams.get(teams.size() - 1).bid(currentPlayer, userContinueBidding))) {
+                userTeam = (UserTeamFranchise) teams.get(teams.size() - 1);
+                if ((userContinueBidding.value) && (userTeam.bid(currentPlayer, userContinueBidding))) {
                     if (numTimesUnsold >= 17) {
                         System.out.println("If you choose not to bid again, bidding for " + currentPlayer.getName() + " will end.");
                     }
