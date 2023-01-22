@@ -2,6 +2,7 @@ package SimulationTestSuite;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import SimulationMain.Player;
@@ -240,8 +241,6 @@ public class PlayerTests {
 
         @Test
         public void testBowlingAverage() {
-            boolean exceptThrown = false;
-
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
             Player viratKohli = new Player("Virat Kohli", 200, false, false,
                     viratKohliStats);
@@ -292,51 +291,44 @@ public class PlayerTests {
 
             try {
                 viratKohli.getBowlingAvg();
+                fail();
             } catch(RuntimeException e) {
-                exceptThrown = true;
+
             }
-            assertTrue(exceptThrown);
-            exceptThrown = false;
 
             try {
                 kaneWilliamson.getBowlingAvg();
+                fail();
             } catch(RuntimeException e) {
-                exceptThrown = true;
+
             }
-            assertTrue(exceptThrown);
-            exceptThrown = false;
 
             try {
                 abDeVilliers.getBowlingAvg();
+                fail();
             } catch(RuntimeException e) {
-                exceptThrown = true;
+
             }
-            assertTrue(exceptThrown);
-            exceptThrown = false;
 
             try {
                 rohitSharma.getBowlingAvg();
+                fail();
             } catch(RuntimeException e) {
-                exceptThrown = true;
             }
-            assertTrue(exceptThrown);
-            exceptThrown = false;
 
             try {
                 suryakumarYadav.getBowlingAvg();
+                fail();
             } catch(RuntimeException e) {
-                exceptThrown = true;
+
             }
-            assertTrue(exceptThrown);
-            exceptThrown = false;
 
             try {
                 msDhoni.getBowlingAvg();
+                fail();
             } catch(RuntimeException e) {
-                exceptThrown = true;
+
             }
-            assertTrue(exceptThrown);
-            exceptThrown = false;
 
             assertTrue((jaspritBumrah.getBowlingAvg() > 23.045) && (jaspritBumrah.getBowlingAvg() < 23.055));
             assertTrue((lasithMalinga.getBowlingAvg() > 19.785) && (lasithMalinga.getBowlingAvg() < 19.795));
