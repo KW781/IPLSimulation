@@ -11,7 +11,8 @@ public abstract class TeamFranchise {
 
     //points table attributes
     private int points;
-    private double netRunRate;
+    private double totalRunRate;
+    private int numMatches;
 
     /**
      * Creates a TeamFranchise object, which can be either user controlled or computer controlled.
@@ -20,21 +21,29 @@ public abstract class TeamFranchise {
     public TeamFranchise(String franchiseName) {
         this.name = franchiseName;
         this.purse = 9000;
-        this.netRunRate = 0;
+        this.totalRunRate = 0;
         this.points = 0;
+        this.numMatches = 0;
         this.squad = new ArrayList<Player>(); //instantiate the squad attribute
     }
 
     /**
      * Adjusts the points and NRR of the team franchise after a match.
-     * @param pointsToAdd The number of points to add to the team's points table (either 0 or 2)
+     * @param pointsToAdd The number of points to add to the team's points table (either 0, 1, or 2)
      * @param nrrToAdd The NRR to add to the team's overall NRR
      */
     public void adjustPointsTableData(int pointsToAdd, double nrrToAdd) {
-        if (pointsToAdd < 0) {
-            this.points += pointsToAdd;
+        if ((pointsToAdd == 0) && (nrrToAdd >= 0)) {
+            throw new RuntimeException("Points is zero (team lost) but NRR to add is somehow positive");
+        } else if ((pointsToAdd == 2) && (nrrToAdd < 0)) {
+            throw new RuntimeException("Points is two (team won) but NRR to add is somehow negative");
+        } else if ((pointsToAdd == 1) && (nrrToAdd != 0)) {
+            throw new RuntimeException("Points is one (match tied) but NRR is somehow non-zero");
         }
-        this.netRunRate += nrrToAdd;
+
+        this.points += pointsToAdd;
+        this.totalRunRate += nrrToAdd;
+        this.numMatches++;
     }
 
     /**
@@ -47,7 +56,7 @@ public abstract class TeamFranchise {
      * Getter method for the current NRR of the team franchise.
      * @return Current NRR of the team franchise.
      */
-    public double getNRR() {return this.netRunRate;}
+    public double getNRR() {return this.totalRunRate / (double) this.numMatches;}
 
     /**
      * Adds a new player to the team franchise's squad, if the franchise has just won the bidding for the player in an
