@@ -29,6 +29,7 @@ public class TeamFranchiseTests {
             assertEquals(9000, myTeam.getPurse());
             assertEquals(0, myTeam.getPoints());
             assertEquals(0, myTeam.getNRR());
+            assertEquals(0, myTeam.getNumMatches());
         }
 
         @Test

@@ -62,6 +62,14 @@ public abstract class TeamFranchise {
     public double getNRR() {return this.totalRunRate / (double) this.numMatches;}
 
     /**
+     * Getter method for the number of matches played by the team franchise in the current tournament.
+     * @return Current number of matches played by the team franchise.
+     */
+    public double getNumMatches() {
+        return this.numMatches;
+    }
+
+    /**
      * Adds a new player to the team franchise's squad, if the franchise has just won the bidding for the player in an
      * auction.
      * @param newPlayer The new plyaer to add to the squad
