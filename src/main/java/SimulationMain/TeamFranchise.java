@@ -28,8 +28,9 @@ public abstract class TeamFranchise {
     }
 
     /**
-     * Adjusts the points and NRR of the team franchise after a match.
-     * @param pointsToAdd The number of points to add to the team's points table (either 0, 1, or 2)
+     * Adjusts the points and NRR of the team franchise after a match. Note that the points passed to this method
+     * can be negative to indicate a loss.
+     * @param pointsToAdd The number of points to add to the team's points table (either <=0, 1, or 2)
      * @param nrrToAdd The NRR to add to the team's overall NRR
      */
     public void adjustPointsTableData(int pointsToAdd, double nrrToAdd) {
