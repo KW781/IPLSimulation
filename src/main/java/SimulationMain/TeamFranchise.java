@@ -33,7 +33,7 @@ public abstract class TeamFranchise {
      * @param nrrToAdd The NRR to add to the team's overall NRR
      */
     public void adjustPointsTableData(int pointsToAdd, double nrrToAdd) {
-        if ((pointsToAdd == 0) && (nrrToAdd >= 0)) {
+        if ((pointsToAdd <= 0) && (nrrToAdd >= 0)) {
             throw new RuntimeException("Points is zero (team lost) but NRR to add is somehow positive");
         } else if ((pointsToAdd == 2) && (nrrToAdd < 0)) {
             throw new RuntimeException("Points is two (team won) but NRR to add is somehow negative");
@@ -41,7 +41,9 @@ public abstract class TeamFranchise {
             throw new RuntimeException("Points is one (match tied) but NRR is somehow non-zero");
         }
 
-        this.points += pointsToAdd;
+        if (pointsToAdd > 0) {
+            this.points += pointsToAdd;
+        }
         this.totalRunRate += nrrToAdd;
         this.numMatches++;
     }
