@@ -59,5 +59,71 @@ public class TeamFranchiseTests {
 
             }
         }
+
+        @Test
+        public void testAddPointsBelowZero() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(-1, -0.567);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
+
+        @Test
+        public void testAddPointsAboveThree() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(3, 0.567);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
+
+        @Test
+        public void testTeamWinsWithNegativeNRR() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(2, -0.245);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
+
+        @Test
+        public void teamLosesWithPositiveNRR() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(0, 0.81);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
+
+        @Test
+        public void teamTiesWithPositiveNRR() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(1, 0.693);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
+
+        @Test
+        public void teamTiesWithNegativeNRR() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(1, -0.693);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
     }
 }

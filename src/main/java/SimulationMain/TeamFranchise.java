@@ -30,21 +30,24 @@ public abstract class TeamFranchise {
     /**
      * Adjusts the points and NRR of the team franchise after a match. Note that the points passed to this method
      * can be negative to indicate a loss.
-     * @param pointsToAdd The number of points to add to the team's points table (either <=0, 1, or 2)
-     * @param nrrToAdd The NRR to add to the team's overall NRR
+     * @param pointsToAdd The number of points to add to the team's points table (either 0, 1, or 2)
+     * @param nrrToAdd The NRR to add to the team's total RR
+     * @throws RuntimeException If the points to add is for some reason something other than 0, 1 or 2, or if the points
+     * don't match the NRR e.g. if the points is 2 (team won) but the NRR to add is negative
      */
     public void adjustPointsTableData(int pointsToAdd, double nrrToAdd) {
-        if ((pointsToAdd <= 0) && (nrrToAdd >= 0)) {
+        if ((pointsToAdd < 0) || (pointsToAdd > 2)) {
+            throw new RuntimeException("Points to add is something other than 0, 1 or 2");
+        }
+        if ((pointsToAdd == 0) && (nrrToAdd >= 0)) {
             throw new RuntimeException("Points is zero (team lost) but NRR to add is somehow positive");
         } else if ((pointsToAdd == 2) && (nrrToAdd < 0)) {
             throw new RuntimeException("Points is two (team won) but NRR to add is somehow negative");
         } else if ((pointsToAdd == 1) && (nrrToAdd != 0)) {
-            throw new RuntimeException("Points is one (match tied) but NRR is somehow non-zero");
+            throw new RuntimeException("Points is one (match tied) but NRR to add is somehow non-zero");
         }
 
-        if (pointsToAdd > 0) {
-            this.points += pointsToAdd;
-        }
+        this.points += pointsToAdd;
         this.totalRunRate += nrrToAdd;
         this.numMatches++;
     }
@@ -59,7 +62,7 @@ public abstract class TeamFranchise {
      * Getter method for the current NRR of the team franchise.
      * @return Current NRR of the team franchise.
      */
-    public double getNRR() {return this.totalRunRate / (double) this.numMatches;}
+    public double getNRR() {return this.numMatches == 0 ? 0 : this.totalRunRate / (double) this.numMatches;}
 
     /**
      * Getter method for the number of matches played by the team franchise in the current tournament.

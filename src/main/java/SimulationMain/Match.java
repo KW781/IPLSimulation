@@ -12,6 +12,7 @@ public class Match {
     private TeamFranchise team2;
     private ArrayList<Player> playingEleven2;
     private ScorecardDetails matchScorecard; //stores the scorecard for this match
+    private Result team1Result;
 
     /**
      * Creates a Match object based on the teams that are playing the match.
@@ -31,7 +32,6 @@ public class Match {
         int tossNum; //number randomly generated to simulate coin toss
         Scanner batBowlChoiceInput = new Scanner(System.in);
         int batBowlChoice;
-        IntWrap pointsToAdd = new IntWrap(); //represents the points to be added to team 1's points
         DoubleWrap nrrToAdd = new DoubleWrap(); //represents the NRR to be added to team 1
 
         //select playing elevens for both the teams
@@ -45,22 +45,22 @@ public class Match {
 
                 //based on choice input, run what the user wants
                 if (batBowlChoice == 1) {
-                    this.runUserBattingFirst(pointsToAdd, nrrToAdd);
+                    this.runUserBattingFirst(nrrToAdd);
                 } else if (batBowlChoice == 2) {
-                    this.runUserBowlingFirst(pointsToAdd, nrrToAdd);
+                    this.runUserBowlingFirst(nrrToAdd);
                 }
             } else {
                 if (this.team2.controlledByUser()) { //if team losing the toss is controlled by the user, then inform them of the decision
                     batBowlChoice = (int) ((Math.random() * 2) + 1); //randomise whether the computer wants to bat or bowl
                     if (batBowlChoice == 1) { //if 1 is generated, the team bats first
                         System.out.println("You lost the toss, " + this.team1.getName() + " opts to bat first");
-                        this.runUserBowlingFirst(pointsToAdd, nrrToAdd);
+                        this.runUserBowlingFirst(nrrToAdd);
                     } else if (batBowlChoice == 2) { //if 2 is generated, the team bowls first
                         System.out.println("You lost the toss, " + this.team1.getName() + " opts to bowl first");
-                        this.runUserBattingFirst(pointsToAdd, nrrToAdd);
+                        this.runUserBattingFirst(nrrToAdd);
                     }
                 } else {
-                    this.runComputerFullGame(1, pointsToAdd, nrrToAdd);
+                    this.runComputerFullGame(1, nrrToAdd);
                 }
             }
         } else if (tossNum == 2) { //team 2 won the toss
@@ -69,60 +69,65 @@ public class Match {
 
                 //based on choice input, run what the user wants
                 if (batBowlChoice == 1) {
-                    this.runUserBattingFirst(pointsToAdd, nrrToAdd);
+                    this.runUserBattingFirst(nrrToAdd);
                 } else if (batBowlChoice == 2) {
-                    this.runUserBowlingFirst(pointsToAdd, nrrToAdd);
+                    this.runUserBowlingFirst(nrrToAdd);
                 }
             } else {
                 if (this.team1.controlledByUser()) {
                     batBowlChoice = (int) ((Math.random() * 2) + 1); //randomise whether the opposition wants to bat or bowl
                     if (batBowlChoice == 1) { //if 1 is generated, the team bats first
                         System.out.println("You lost the toss, " + this.team2.getName() + " opts to bat first");
-                        this.runUserBowlingFirst(pointsToAdd, nrrToAdd);
+                        this.runUserBowlingFirst(nrrToAdd);
                     } else if (batBowlChoice == 2) { //if 2 is generated, the team bowls first
                         System.out.println("You lost the toss, " + this.team2.getName() + " opts to bowl first");
-                        this.runUserBattingFirst(pointsToAdd, nrrToAdd);
+                        this.runUserBattingFirst(nrrToAdd);
                     }
                 } else {
-                    this.runComputerFullGame(2, pointsToAdd, nrrToAdd);
+                    this.runComputerFullGame(2, nrrToAdd);
                 }
             }
         }
 
         //adjust the points table of the teams
-        if (pointsToAdd.value == 1) {
-            this.team1.adjustPointsTableData(1, 0);
-            this.team2.adjustPointsTableData(1, 0);
-            userPlaying.tieMatch();
-        } else {
-            this.team1.adjustPointsTableData(pointsToAdd.value, nrrToAdd.value);
-            this.team2.adjustPointsTableData(-1 * pointsToAdd.value, -1 * nrrToAdd.value);
-            if (pointsToAdd.value > 0) {
-                //if team 1 won the match, then adjust the user's number of wins/losses if either team is controlled by them
+        switch (this.team1Result) {
+            case WIN:
+                this.team1.adjustPointsTableData(2, nrrToAdd.value);
+                this.team2.adjustPointsTableData(0, -1 * nrrToAdd.value);
+                //since team 1 won, make the user win the match if it's controlled by the user
                 if (this.team1.controlledByUser()) {
                     userPlaying.winMatch();
                 }
+                //since team 2 lost, make the user lose the match if it's controlled by the user
                 if (this.team2.controlledByUser()) {
                     userPlaying.loseMatch();
                 }
-            } else {
-                //if team 2 won the match, then adjust the user's number of wins/losses if either team is controlled by them
+            case LOSS:
+                this.team1.adjustPointsTableData(0, -1 * nrrToAdd.value);
+                this.team2.adjustPointsTableData(2, nrrToAdd.value);
+                //since team 1 lost, make the user lose the match if it's controlled by the user
                 if (this.team1.controlledByUser()) {
                     userPlaying.loseMatch();
                 }
+                //since team 2 won, make the user win the match if it's controlled by the user
                 if (this.team2.controlledByUser()) {
                     userPlaying.winMatch();
                 }
-            }
+            case TIE:
+                this.team1.adjustPointsTableData(1, 0);
+                this.team2.adjustPointsTableData(1, 0);
+                //make the user tie the match if either team is user controlled
+                if ((this.team1.controlledByUser()) || (this.team2.controlledByUser())) {
+                    userPlaying.tieMatch();
+                }
         }
     }
 
     /**
      * Helper method to run both innings of the match when the user controlled team is batting first.
-     * @param pointsToAdd IntWrap object that will store the points to add for the first team (team 1)
      * @param nrrToAdd DoubleWrap object that will store the NRR to add for the first team (team 2)
      */
-    private void runUserBattingFirst(IntWrap pointsToAdd, DoubleWrap nrrToAdd) {
+    private void runUserBattingFirst(DoubleWrap nrrToAdd) {
         Scanner intScanner = new Scanner(System.in);
         ArrayList<Player> battingFirstEleven, bowlingFirstEleven;
         int firstInnsBallsPlayed, firstInnsWicketsLost, secondInnsBallsPlayed, secondInnsWicketsLost;
@@ -317,15 +322,15 @@ public class Match {
                 //if team 1 is the team that's user controlled, then assign them to be the winning team
                 winningTeamName = this.team1.getName();
                 losingTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = 2;
+                //make team 1 the winner and calculate the NRR
+                this.team1Result = Result.WIN;
                 nrrToAdd.value = (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6)) - (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6));
             } else {
                 //if team 2 is the team that's user controlled, then assign them to be the winning team
                 losingTeamName = this.team1.getName();
                 winningTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = -2;
+                //make team 1 the loser and calculate the NRR
+                this.team1Result = Result.LOSS;
                 nrrToAdd.value = (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6)) - (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6));
             }
             //assign the team batting first to be the winning eleven for the scorecard
@@ -337,14 +342,14 @@ public class Match {
                 losingTeamName = this.team1.getName();
                 winningTeamName = this.team2.getName();
                 //return the points table data via the type wrappers
-                pointsToAdd.value = -2;
+                this.team1Result = Result.LOSS;
                 nrrToAdd.value = (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6)) - (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6));
             } else {
                 //if team 2 is the team that's user controlled, then assign them to be the losing team
                 winningTeamName = this.team1.getName();
                 losingTeamName = this.team2.getName();
                 //return the points table data via the type wrappers
-                pointsToAdd.value = 2;
+                this.team1Result = Result.WIN;
                 nrrToAdd.value = (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6)) - (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6));
             }
             //assign the team bowling first to be the winning eleven for the scorecard
@@ -355,7 +360,7 @@ public class Match {
             winningTeamName = this.team1.getName();
             losingTeamName = this.team2.getName();
             //return the points table data via the type wrappers
-            pointsToAdd.value = 1;
+            this.team1Result = Result.TIE;
             nrrToAdd.value = 0;
             //assign the team batting first to be the winning eleven for the scorecard; even tho it's arbitrary since it's a tie
             winningEleven = battingFirstEleven;
@@ -369,10 +374,9 @@ public class Match {
 
     /**
      * Helper method to run both the innings when the user controlled team is bowling first.
-     * @param pointsToAdd IntWrap object that will store the points to add for the first team (team 1)
      * @param nrrToAdd DoubleWrap object that will store the NRR to add for the first team (team 2)
      */
-    private void runUserBowlingFirst(IntWrap pointsToAdd, DoubleWrap nrrToAdd) {
+    private void runUserBowlingFirst(DoubleWrap nrrToAdd) {
         Scanner intScanner = new Scanner(System.in);
         ArrayList<Player> battingFirstEleven, bowlingFirstEleven;
         int firstInnsBallsPlayed, firstInnsWicketsLost, secondInnsBallsPlayed, secondInnsWicketsLost;
@@ -567,15 +571,15 @@ public class Match {
                 //if team 1 is the one that's user controlled then assign them to be the losing team
                 losingTeamName = this.team1.getName();
                 winningTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = -2;
+                //make team 1 the loser and calculate the NRR
+                this.team1Result = Result.LOSS;
                 nrrToAdd.value = (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6)) - (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6));
             } else {
                 //if team 2 is the one that's user controlled, then assign them to be the losing team
                 winningTeamName = this.team1.getName();
                 losingTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = 2;
+                //make team 1 the winner and calculate the NRR
+                this.team1Result = Result.WIN;
                 nrrToAdd.value = (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6)) - (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6));
             }
             //assign the team batting first to be the winning eleven
@@ -586,15 +590,15 @@ public class Match {
                 //if team 1 is the one that's user controlled then assign them to be the winning team
                 winningTeamName = this.team1.getName();
                 losingTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = 2;
+                //make team 1 the winner and calculate the NRR
+                this.team1Result = Result.WIN;
                 nrrToAdd.value = (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6)) - (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6));
             } else {
                 //if team 2 is the one that's user controlled, then assign them to be the winning team
                 losingTeamName = this.team1.getName();
                 winningTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = -2;
+                //make team 1 the loser and calculate the NRR
+                this.team1Result = Result.LOSS;
                 nrrToAdd.value = (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6)) - (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6));
             }
             //assign the team bowling first to be the winning eleven
@@ -605,7 +609,7 @@ public class Match {
             winningTeamName = this.team1.getName();
             losingTeamName = this.team2.getName();
             //return the points table data via the type wrappers
-            pointsToAdd.value = 1;
+            this.team1Result = Result.TIE;
             nrrToAdd.value = 0;
             //assign the team batting first to be the winning eleven, even though it's arbitrary since the match is tied
             winningEleven = battingFirstEleven;
@@ -620,10 +624,9 @@ public class Match {
     /**
      * Helper method to run both the innings when both the teams are computer controlled.
      * @param numBatFirst Number indicating which team is batting first (1 for team 1 and 2 for team 2)
-     * @param pointsToAdd IntWrap object that will store the points to add for the first team (team 1)
      * @param nrrToAdd DoubleWrap object that will store the NRR to add for the second team (team 1)
      */
-    private void runComputerFullGame(int numBatFirst, IntWrap pointsToAdd, DoubleWrap nrrToAdd) {
+    private void runComputerFullGame(int numBatFirst, DoubleWrap nrrToAdd) {
         ArrayList<Player> battingFirstEleven, bowlingFirstEleven;
         int firstInnsBallsPlayed, firstInnsWicketsLost, secondInnsBallsPlayed, secondInnsWicketsLost;
         int firstInnsRuns, secondInnsRuns;
@@ -790,15 +793,15 @@ public class Match {
                 //if the team batting first is team number 1, assign team number 1 to be the winning team
                 winningTeamName = this.team1.getName();
                 losingTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = 2;
+                //make team 1 the winner and calculate the NRR
+                this.team1Result = Result.WIN;
                 nrrToAdd.value = (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6)) - (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6));
             } else {
                 //if the team batting first is team number 2, assign team number 2 to be the winning team
                 losingTeamName = this.team1.getName();
                 winningTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = -2;
+                //make team 1 the loser and calculate the NRR
+                this.team1Result = Result.LOSS;
                 nrrToAdd.value = (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6)) - (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6));
             }
             //assign the team batting first to be the winning eleven
@@ -809,15 +812,15 @@ public class Match {
                 //if the team batting first is team number 1, assign team number 1 to be the losing team
                 losingTeamName = this.team1.getName();
                 winningTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = -2;
+                //make team 1 the loser and calculate the NRR
+                this.team1Result = Result.LOSS;
                 nrrToAdd.value = (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6)) - (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6));
             } else {
                 //if the team batting first is team number 2, assign team number 2 to be the losing team
                 winningTeamName = this.team1.getName();
                 losingTeamName = this.team2.getName();
-                //return the points table data via the type wrappers
-                pointsToAdd.value = 2;
+                //make team 1 the winner and calculate the NRR
+                this.team1Result = Result.WIN;
                 nrrToAdd.value = (((double)(secondInnsRuns)) / (((double)(secondInnsBallsPlayed)) / 6)) - (((double)(firstInnsRuns)) / (((double)(firstInnsBallsPlayed)) / 6));
             }
             //assign the team bowling first to be the winning eleven
@@ -828,7 +831,7 @@ public class Match {
             winningTeamName = this.team1.getName();
             losingTeamName = this.team2.getName();
             //return the points table data via the type wrappers
-            pointsToAdd.value = 1;
+            this.team1Result = Result.TIE;
             nrrToAdd.value = 0;
             //assign the team batting first to be the winning eleven, even though it's arbitrary since the match is tied
             winningEleven = battingFirstEleven;
