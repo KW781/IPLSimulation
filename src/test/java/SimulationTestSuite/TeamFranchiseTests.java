@@ -72,7 +72,7 @@ public class TeamFranchiseTests {
         }
 
         @Test
-        public void testAddPointsAboveThree() {
+        public void testAddPointsAboveTwo() {
             TeamFranchise myTeam = new ComputerTeamFranchise("India");
             try {
                 myTeam.adjustPointsTableData(3, 0.567);
@@ -105,6 +105,28 @@ public class TeamFranchiseTests {
         }
 
         @Test
+        public void teamWinsWithZeroNRR() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(2, 0);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
+
+        @Test
+        public void teamLosesWithZeroNRR() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+            try {
+                myTeam.adjustPointsTableData(0, 0);
+                fail();
+            } catch (RuntimeException e) {
+
+            }
+        }
+
+        @Test
         public void teamTiesWithPositiveNRR() {
             TeamFranchise myTeam = new ComputerTeamFranchise("India");
             try {
@@ -124,6 +146,43 @@ public class TeamFranchiseTests {
             } catch (RuntimeException e) {
 
             }
+        }
+
+        @Test
+        public void testCorrectNRRCalculations() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("India");
+
+            myTeam.adjustPointsTableData(2, 0.5);
+            assertEquals(2, myTeam.getPoints());
+            assertEquals(0.5, myTeam.getNRR());
+
+            myTeam.adjustPointsTableData(2, 0.75);
+            assertEquals(4, myTeam.getPoints());
+            assertEquals(0.625, myTeam.getNRR());
+
+            myTeam.adjustPointsTableData(0, -0.35);
+            assertEquals(4, myTeam.getPoints());
+            assertEquals(0.3, myTeam.getNRR());
+
+            myTeam.adjustPointsTableData(2, 0.3);
+            assertEquals(6, myTeam.getPoints());
+            assertEquals(0.3, myTeam.getNRR());
+
+            myTeam.adjustPointsTableData(0, -1.4);
+            assertEquals(6, myTeam.getPoints());
+            assertEquals(-0.04, myTeam.getNRR());
+
+            myTeam.adjustPointsTableData(1, 0);
+            assertEquals(7, myTeam.getPoints());
+            assertEquals(-0.033, myTeam.getNRR());
+
+            myTeam.adjustPointsTableData(1, 0);
+            assertEquals(8, myTeam.getPoints());
+            assertEquals(-0.029, myTeam.getNRR());
+
+            myTeam.adjustPointsTableData(2, 2.4);
+            assertEquals(10, myTeam.getPoints());
+            assertEquals(0.275, myTeam.getNRR());
         }
     }
 }

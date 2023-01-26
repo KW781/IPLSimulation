@@ -41,7 +41,7 @@ public abstract class TeamFranchise {
         }
         if ((pointsToAdd == 0) && (nrrToAdd >= 0)) {
             throw new RuntimeException("Points is zero (team lost) but NRR to add is somehow positive");
-        } else if ((pointsToAdd == 2) && (nrrToAdd < 0)) {
+        } else if ((pointsToAdd == 2) && (nrrToAdd <= 0)) {
             throw new RuntimeException("Points is two (team won) but NRR to add is somehow negative");
         } else if ((pointsToAdd == 1) && (nrrToAdd != 0)) {
             throw new RuntimeException("Points is one (match tied) but NRR to add is somehow non-zero");
@@ -59,10 +59,10 @@ public abstract class TeamFranchise {
     public int getPoints() {return this.points;}
 
     /**
-     * Getter method for the current NRR of the team franchise.
+     * Getter method for the current NRR of the team franchise, correct to 3 d.p
      * @return Current NRR of the team franchise.
      */
-    public double getNRR() {return this.numMatches == 0 ? 0 : this.totalRunRate / (double) this.numMatches;}
+    public double getNRR() {return this.numMatches == 0 ? 0 : Math.round((this.totalRunRate / (double) this.numMatches) * 1000.0) / 1000.0;}
 
     /**
      * Getter method for the number of matches played by the team franchise in the current tournament.
