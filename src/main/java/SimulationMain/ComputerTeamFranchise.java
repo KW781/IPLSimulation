@@ -26,6 +26,11 @@ public class ComputerTeamFranchise extends TeamFranchise {
         final double RANDOM_FACTOR_MAGNITUDE = 0.4;
         double randomFactor = (RANDOM_FACTOR_MAGNITUDE * 2) * Math.random() + (1 - RANDOM_FACTOR_MAGNITUDE);
 
+        //return if the team franchise can't afford the player
+        if (this.purse < biddingPlayer.getPrice() + 20) {
+            return false;
+        }
+
         switch (biddingRole) {
             case WICKETKEEPER:
                 maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
@@ -37,6 +42,7 @@ public class ComputerTeamFranchise extends TeamFranchise {
                         maxPrice *= 0.9; //decrease the max price by 10% if the wicketkeeper ratio is too much
                     }
                 }
+                break;
             case BATSMAN:
                 maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
                 if (this.squad.size() >= 10) { //will only start considering the ratio of roles in the squad once size >= 10
@@ -51,6 +57,7 @@ public class ComputerTeamFranchise extends TeamFranchise {
                         maxPrice *= 0.9; //decrease max price by 10% if batsman ratio is more than 7 for every 11
                     }
                 }
+                break;
             case BOWLER:
                 maxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg());
                 if (this.squad.size() >= 10) {
@@ -65,6 +72,7 @@ public class ComputerTeamFranchise extends TeamFranchise {
                         maxPrice *= 0.9; //decrease max price by 10% if bowler ratio is more than 7 for every 11
                     }
                 }
+                break;
             case ALL_ROUNDER:
                 battingMaxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
                 bowlingMaxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg());
@@ -77,6 +85,7 @@ public class ComputerTeamFranchise extends TeamFranchise {
                         maxPrice *= 0.9; //decrease max price by 10% if all-rounder ratio is too much
                     }
                 }
+                break;
         }
 
         //account for overseas player ratio in squad for calculating max price
@@ -96,14 +105,10 @@ public class ComputerTeamFranchise extends TeamFranchise {
         }
         maxPrice *= randomFactor; //apply the random factor to the max price
 
-        if (maxPrice > (currentBidPrice + 20)) {
+        if (maxPrice >= (currentBidPrice + 20)) {
             maxPrice = currentBidPrice + 20; //add on increment to current bid price if willing to pay more
-            if (this.purse > maxPrice) {
-                biddingPlayer.newBid(maxPrice);
-                return true;
-            } else {
-                return false;
-            }
+            biddingPlayer.newBid(maxPrice);
+            return true;
         } else {
             return false;
         }

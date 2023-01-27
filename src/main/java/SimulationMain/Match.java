@@ -102,6 +102,7 @@ public class Match {
                 if (this.team2.controlledByUser()) {
                     userPlaying.loseMatch();
                 }
+                break;
             case LOSS:
                 this.team1.adjustPointsTableData(0, -1 * nrrToAdd.value);
                 this.team2.adjustPointsTableData(2, nrrToAdd.value);
@@ -113,6 +114,7 @@ public class Match {
                 if (this.team2.controlledByUser()) {
                     userPlaying.winMatch();
                 }
+                break;
             case TIE:
                 this.team1.adjustPointsTableData(1, 0);
                 this.team2.adjustPointsTableData(1, 0);
@@ -120,6 +122,7 @@ public class Match {
                 if ((this.team1.controlledByUser()) || (this.team2.controlledByUser())) {
                     userPlaying.tieMatch();
                 }
+                break;
         }
     }
 
