@@ -129,8 +129,9 @@ public class ComputerTeamFranchise extends TeamFranchise {
         boolean wicketkeeperSelected, allRounderSelected;
         int overseasCount; //counter for number of overseas players in the XI
 
-        int passes; //keep track of the number of passes made through the squad when selecting any role, to avoid infinite loop
         int batPointer, bowlPointer, wkPointer, allRoundPointer; //pointers to point to players in squad when automatically generating an XI, initially randomly generated
+        //pointers to store original pointer values, so as not to check same player twice
+        int originalBatPointer, originalBowlPointer, originalWkPointer;
         int numBatsmen, numBowlers; //keep track of the number of batsmen and bowlers that have been selected in the XI, when automatically generating one
         int numAllRounders = this.countRoleInSquad(Role.ALL_ROUNDER); //extract the number of all-rounders in the squad, to determine how many to play in XI when automatically generating one
         int numBowlersToSelect; //number of bowlers that need to be selected, based on the number of all-rounders selected
@@ -138,93 +139,82 @@ public class ComputerTeamFranchise extends TeamFranchise {
         overseasCount = 0; //keep track of the number of overseas players
         //generate the pointers randomly for each role
         batPointer = (int)(Math.random() * this.squad.size());
+        originalBatPointer = batPointer;
         bowlPointer = (int)(Math.random() * this.squad.size());
+        originalBowlPointer = bowlPointer;
         wkPointer = (int)(Math.random() * this.squad.size());
+        originalWkPointer = wkPointer;
         allRoundPointer = (int)(Math.random() * this.squad.size());
 
         //select the batsmen
         numBatsmen = 0;
-        passes = 0;
         while (numBatsmen < 5) {
             if (this.squad.get(batPointer).getRole() == Role.BATSMAN) {
                 if (this.squad.get(batPointer).isOverseas()) {
                     if (overseasCount < 4) {
-                        playerNumArray.add(batPointer + 1); //only add the overseas player if the overseas cap hasn't been met
+                        playerNumArray.add(batPointer); //only add the overseas player if the overseas cap hasn't been met
                         overseasCount++;
                         numBatsmen++;
                     }
                 } else {
-                    playerNumArray.add(batPointer + 1); //fine to add if player isn't overseas
+                    playerNumArray.add(batPointer); //fine to add if player isn't overseas
                     numBatsmen++;
                 }
             }
             batPointer++;
             if (batPointer >= this.squad.size()) {
                 batPointer = 0;
-                passes++;
             }
-            if (passes >= 2) {
+            if (batPointer == originalBatPointer) {
                 throw new RuntimeException("Not enough batsmen in squad to generate XI");
             }
         }
 
         //select the wicketkeeper
         wicketkeeperSelected = false;
-        passes = 0;
         while (!wicketkeeperSelected) {
             if (this.squad.get(wkPointer).getRole() == Role.WICKETKEEPER) {
                 if (this.squad.get(wkPointer).isOverseas()) {
                     if (overseasCount < 4) {
-                        playerNumArray.add(wkPointer + 1); //only add the overseas player if the overseas cap hasn't been met
+                        playerNumArray.add(wkPointer); //only add the overseas player if the overseas cap hasn't been met
                         overseasCount++;
                         wicketkeeperSelected = true;
                     }
                 } else {
-                    playerNumArray.add(wkPointer + 1); //fine to add if player isn't overseas
+                    playerNumArray.add(wkPointer); //fine to add if player isn't overseas
                     wicketkeeperSelected = true;
                 }
             }
             wkPointer++;
             if (wkPointer >= this.squad.size()) {
                 wkPointer = 0;
-                passes++;
             }
-            if (passes >= 2) {
+            if (wkPointer == originalWkPointer) {
                 throw new RuntimeException("No wicketkeeper in squad, can't generate XI");
             }
         }
 
         //select an all-rounder if there is one
-        passes = 0;
         if (numAllRounders > 0) {
+            numBowlersToSelect = 4;
             allRounderSelected = false;
             while (!allRounderSelected) {
                 if (this.squad.get(allRoundPointer).getRole() == Role.ALL_ROUNDER) {
                     if (this.squad.get(allRoundPointer).isOverseas()) {
                         if (overseasCount < 4) {
-                            playerNumArray.add(allRoundPointer + 1); //only add the overseas player if the overseas cap hasn't been met
+                            playerNumArray.add(allRoundPointer); //only add the overseas player if the overseas cap hasn't been met
                             overseasCount++;
                             allRounderSelected = true;
                         }
                     } else {
-                        playerNumArray.add(allRoundPointer + 1); //fine to add player if not overseas
+                        playerNumArray.add(allRoundPointer); //fine to add player if not overseas
                         allRounderSelected = true;
                     }
                 }
                 allRoundPointer++;
                 if (allRoundPointer >= this.squad.size()) {
                     allRoundPointer = 0;
-                    passes++;
                 }
-                //break if we've searched the entire squad
-                if (passes >= 2) {
-                    break;
-                }
-            }
-            if (!allRounderSelected) {
-                numBowlersToSelect = 5;
-            } else {
-                numBowlersToSelect = 4;
             }
         } else {
             numBowlersToSelect = 5;
@@ -232,33 +222,31 @@ public class ComputerTeamFranchise extends TeamFranchise {
 
         //select the bowlers
         numBowlers = 0;
-        passes = 0;
         while (numBowlers < numBowlersToSelect) {
-            if (this.squad.get(bowlPointer).getRole() == Role.ALL_ROUNDER) {
+            if (this.squad.get(bowlPointer).getRole() == Role.BOWLER) {
                 if (this.squad.get(bowlPointer).isOverseas()) {
                     if (overseasCount < 4) {
-                        playerNumArray.add(bowlPointer + 1); //only add overseas player if overseas cap hasn't been met
+                        playerNumArray.add(bowlPointer); //only add overseas player if overseas cap hasn't been met
                         overseasCount++;
                         numBowlers++;
                     }
                 } else {
-                    playerNumArray.add(bowlPointer + 1); //fine to add player if not overseas
+                    playerNumArray.add(bowlPointer); //fine to add player if not overseas
                     numBowlers++;
                 }
             }
             bowlPointer++;
             if (bowlPointer >= this.squad.size()) {
                 bowlPointer = 0;
-                passes++;
             }
-            if (passes >= 2) {
+            if (bowlPointer == originalBowlPointer) {
                 throw new RuntimeException("Not enough bowlers in squad to generate XI");
             }
         }
 
         //add all the selected players to the XI using the player numbers
         for (Integer num : playerNumArray) {
-            playingEleven.add(this.squad.get(num - 1)); //subtract one because the numbers in the array are 1-indexed
+            playingEleven.add(this.squad.get(num));
         }
 
         return playingEleven;

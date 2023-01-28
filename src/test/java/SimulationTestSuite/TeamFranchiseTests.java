@@ -195,7 +195,7 @@ public class TeamFranchiseTests {
             ArrayList<Player> miniAuctionPool = this.getTestPlayerList();
 
             for (Player currentPlayer : miniAuctionPool) {
-                for (int i = 1; i <= 15; i++) {
+                for (int i = 1; i <= 100; i++) {
                     myTeam.bid(currentPlayer);
                     assertTrue(currentPlayer.getPrice() < 3000);
                 }
@@ -235,9 +235,14 @@ public class TeamFranchiseTests {
             }
 
             assertEquals(5, batsmanCount);
-            assertEquals(4, bowlerCount);
             assertEquals(1, wicketKeeperCount);
-            assertEquals(1, allRounderCount);
+            if (allRounderCount == 1) {
+                assertEquals(4, bowlerCount);
+            } else if (allRounderCount == 0) {
+                assertEquals(5, bowlerCount);
+            } else {
+                fail();
+            }
         }
 
         public ArrayList<Player> getTestPlayerList() {
@@ -266,9 +271,9 @@ public class TeamFranchiseTests {
             testPlayerList.add(new Player("Jasprit Bumrah", 200, false, false,
                     jaspritBumrahStats));
 
-            int[] lasithMalingaStats = {122, 88, 16, 99, 170, 3365, 2827};
-            testPlayerList.add(new Player("Lasith Malinga", 200, false, true,
-                    lasithMalingaStats));
+            int[] arshdeepSinghStats = {23, 2, 1, 6, 30, 669, 457};
+            testPlayerList.add(new Player("Arshdeep Singh", 20, false, false,
+                    arshdeepSinghStats));
 
             int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
             testPlayerList.add(new Player("Rashid Khan", 200, false, true,
@@ -281,6 +286,10 @@ public class TeamFranchiseTests {
             int[] trentBoultStats = {62, 13, 3, 19, 76, 1983, 1417};
             testPlayerList.add(new Player("Trent Boult", 150, false, true,
                     trentBoultStats));
+
+            int[] bhuvneshwarKumarStats = {132, 217, 26, 224, 142, 3588, 2949};
+            testPlayerList.add(new Player("Bhuvneshwar Kumar", 150, false, false,
+                    bhuvneshwarKumarStats));
 
             int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
             testPlayerList.add(new Player("MS Dhoni", 200, true, false,
