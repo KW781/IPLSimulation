@@ -68,13 +68,11 @@ public class UserTeamFranchise extends TeamFranchise {
 
 
     /**
-     * Selects the playing XI from the team franchise's squad. If the team is user controlled, it does so by collecting
-     * user input. If the team is computer controlled, it uses an algorithm that chooses an XI by randomly generating
-     * pointers at players in the squad (one pointer for each role), then iterating the pointers for each role until an
-     * XI is selected.
+     * Selects the playing XI from the team franchise's squad. It does so by collecting user input for each player they
+     * would like to play, and also validates the user input by checking they've selected a wicketkeeper and that
+     * they've selected at least 5 bowlers/all-rounders. The user also has the option to select the same playing XI
+     * as the previous game if they've already played at least one game.
      * @return An ArrayList of players, constituting the playing XI selected by the team franchise
-     * @throws RuntimeException If there are not enough players of a particular role to select a playing XI (e.g. not
-     *                          enough batsmen)
      */
     public ArrayList<Player> selectPlayingEleven() {
         ArrayList<Player> playingEleven = new ArrayList<Player>();
@@ -82,9 +80,10 @@ public class UserTeamFranchise extends TeamFranchise {
         int samePlayingEleven;
         int playerNum;
         ArrayList<Integer> playerNumArray = new ArrayList<Integer>();
-        boolean wicketkeeperSelected, allRounderSelected;
+        boolean wicketkeeperSelected;
         boolean samePlayer, playerInSquad, validPlayer;
         int overseasCount; //counter for number of overseas players in the XI
+        int numBowlers; //number of players who can bowl (including all-rounders) in the XI
 
         //first ask the user if they want to play the same XI as the previous game, assuming it's not the first game
         samePlayingEleven = 0;
@@ -122,13 +121,14 @@ public class UserTeamFranchise extends TeamFranchise {
         //enter all the player numbers from the user, ensuring that a wicketkeeper is selected through a validation loop
         wicketkeeperSelected = false;
         overseasCount = 0;
+        numBowlers = 0;
         do {
             for (int i = 1; i <= 11; i++) {
                 //use a validation loop to ensure the same player isn't already selected
                 do {
                     validPlayer = true;
                     System.out.print("Enter player " + Integer.toString(i) + ": ");
-                    playerNum = intScanner.nextInt();
+                    playerNum = intScanner.nextInt() - 1;
                     playerInSquad = ((playerNum >= 1) && (playerNum <= this.squad.size())); //check whether the player number is a valid number
                     if (playerInSquad) {
                         samePlayer = false;
@@ -143,7 +143,7 @@ public class UserTeamFranchise extends TeamFranchise {
                             System.out.println("Player already selected in the playing XI!");
                             validPlayer = false;
                         } else {
-                            if (this.squad.get(playerNum - 1).isOverseas() && (overseasCount == 4)) {
+                            if (this.squad.get(playerNum).isOverseas() && (overseasCount == 4)) {
                                 System.out.println("You aren't allowed any more overseas players!");
                                 validPlayer = false;
                             }
@@ -154,23 +154,31 @@ public class UserTeamFranchise extends TeamFranchise {
                 } while (!validPlayer);
                 playerNumArray.add(playerNum); //add the player number to the array once validated
                 //if a wicketkeeper was just selected, then set the validation flag for that to true
-                if (this.squad.get(playerNum - 1).getRole() == Role.WICKETKEEPER) {
+                if (this.squad.get(playerNum).getRole() == Role.WICKETKEEPER) {
                     wicketkeeperSelected = true;
                 }
                 //if an overseas player was just selected, then increment the overseas count
-                if (this.squad.get(playerNum - 1).isOverseas()) {
+                if (this.squad.get(playerNum).isOverseas()) {
                     overseasCount++;
+                }
+                //if a bowler or all-rounder was selected, increment the count for it
+                if ((this.squad.get(playerNum).getRole() == Role.BOWLER) || (this.squad.get(playerNum).getRole() == Role.ALL_ROUNDER)) {
+                    numBowlers++;
                 }
             }
             if (!wicketkeeperSelected) {
                 System.out.println("You must select a wicketkeeper"); //inform the user if a wicketkeeper wasn't selected
                 playerNumArray = new ArrayList<Integer>(); //reset the player num array
             }
-        } while (!wicketkeeperSelected);
+            if (numBowlers < 5) {
+                System.out.println("You must select at least 5 bowlers/all-rounders to bowl 20 overs");
+                playerNumArray = new ArrayList<Integer>();
+            }
+        } while (!wicketkeeperSelected && (numBowlers < 5));
 
         //add all the selected players to the XI using the player numbers
         for (Integer num : playerNumArray) {
-            playingEleven.add(this.squad.get(num - 1)); //subtract one because the numbers in the array are 1-indexed
+            playingEleven.add(this.squad.get(num)); //subtract one because the numbers in the array are 1-indexed
         }
         this.currentPlayingEleven = playingEleven;
 
