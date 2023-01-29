@@ -192,7 +192,7 @@ public class TeamFranchiseTests {
         @Test
         public void testRealisticBids() {
             ComputerTeamFranchise myTeam = new ComputerTeamFranchise("RCB");
-            ArrayList<Player> miniAuctionPool = this.getTestPlayerList();
+            ArrayList<Player> miniAuctionPool = this.getGeneralTestPlayerList();
 
             for (Player currentPlayer : miniAuctionPool) {
                 for (int i = 1; i <= 100; i++) {
@@ -203,9 +203,9 @@ public class TeamFranchiseTests {
         }
 
         @Test
-        public void testValidPlayingXI() {
+        public void testValidGeneralPlayingXI() {
             TeamFranchise myTeam = new ComputerTeamFranchise("RCB");
-            ArrayList<Player> squad = this.getTestPlayerList();
+            ArrayList<Player> squad = this.getGeneralTestPlayerList();
             ArrayList<Player> playingXI;
             int batsmanCount = 0;
             int bowlerCount = 0;
@@ -234,18 +234,51 @@ public class TeamFranchiseTests {
                 }
             }
 
-            assertEquals(5, batsmanCount);
-            assertEquals(1, wicketKeeperCount);
-            if (allRounderCount == 1) {
-                assertEquals(4, bowlerCount);
-            } else if (allRounderCount == 0) {
-                assertEquals(5, bowlerCount);
-            } else {
-                fail();
-            }
+            assertTrue(batsmanCount + allRounderCount >= 5);
+            assertTrue(bowlerCount + allRounderCount >= 5);
+            assertTrue(wicketKeeperCount >= 1);
+            assertEquals(11, playingXI.size());
         }
 
-        public ArrayList<Player> getTestPlayerList() {
+        @Test
+        public void testValidEdgePlayingXI() {
+            TeamFranchise myTeam = new ComputerTeamFranchise("RCB");
+            ArrayList<Player> squad = this.getEdgeTestPlayerList();
+            ArrayList<Player> playingXI;
+            int batsmanCount = 0;
+            int bowlerCount = 0;
+            int allRounderCount = 0;
+            int wicketKeeperCount = 0;
+
+            for (Player currentPlayer : squad) {
+                myTeam.addPlayer(currentPlayer);
+            }
+
+            playingXI = myTeam.selectPlayingEleven();
+            for (Player currentPLayer : playingXI) {
+                switch (currentPLayer.getRole()) {
+                    case BATSMAN:
+                        batsmanCount++;
+                        break;
+                    case BOWLER:
+                        bowlerCount++;
+                        break;
+                    case ALL_ROUNDER:
+                        allRounderCount++;
+                        break;
+                    case WICKETKEEPER:
+                        wicketKeeperCount++;
+                        break;
+                }
+            }
+
+            assertTrue(batsmanCount + allRounderCount >= 5);
+            assertTrue(bowlerCount + allRounderCount >= 5);
+            assertTrue(wicketKeeperCount >= 1);
+            assertEquals(11, playingXI.size());
+        }
+
+        public ArrayList<Player> getGeneralTestPlayerList() {
             ArrayList<Player> testPlayerList = new ArrayList<>();
             int[] viratKohliStats = {207, 6283, 168, 4835, 4, 368, 251};
             testPlayerList.add(new Player("Virat Kohli", 200, false, false,
@@ -271,9 +304,9 @@ public class TeamFranchiseTests {
             testPlayerList.add(new Player("Jasprit Bumrah", 200, false, false,
                     jaspritBumrahStats));
 
-            int[] arshdeepSinghStats = {23, 2, 1, 6, 30, 669, 457};
-            testPlayerList.add(new Player("Arshdeep Singh", 20, false, false,
-                    arshdeepSinghStats));
+            int[] lasithMalingaStats = {122, 88, 16, 99, 170, 3365, 2827};
+            testPlayerList.add(new Player("Lasith Malinga", 200, false, true,
+                    lasithMalingaStats));
 
             int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
             testPlayerList.add(new Player("Rashid Khan", 200, false, true,
@@ -347,9 +380,63 @@ public class TeamFranchiseTests {
             testPlayerList.add(new Player("Dwayne Bravo", 150, false, true,
                     dwayneBravoStats));
 
+            int[] axarPatelStats = {109, 953, 55, 761, 95, 2762, 2295};
+            testPlayerList.add(new Player("Axar Patel", 150, false, false,
+                    axarPatelStats));
+
             int[] glennMaxwellStats = {97, 2018, 80, 1329, 22, 915, 642};
             testPlayerList.add(new Player("Glenn Maxwell", 200, false, true,
                     glennMaxwellStats));
+
+            return testPlayerList;
+        }
+
+        public ArrayList<Player> getEdgeTestPlayerList() {
+            ArrayList<Player> testPlayerList = new ArrayList<Player>();
+
+            int[] rashidKhanStats = {76, 222, 24, 162, 93, 1912, 1812};
+            testPlayerList.add(new Player("Player 1", 200, false, true,
+                    rashidKhanStats));
+
+            int[] dwayneBravoStats = {151, 1537, 67, 1180, 167, 4061, 2913};
+            testPlayerList.add(new Player("Player 2", 150, false, true,
+                    dwayneBravoStats));
+
+            int[] shakibAlHasanStats = {71, 793, 40, 637, 63, 1839, 1484};
+            testPlayerList.add(new Player("Player 3", 200, false, true,
+                    shakibAlHasanStats));
+
+            int[] mohammadNabiStats = {17, 180, 12, 119, 13, 408, 343};
+            testPlayerList.add(new Player("Player 4", 100, false, true,
+                    mohammadNabiStats));
+
+            int[] axarPatelStats = {109, 953, 55, 761, 95, 2762, 2295};
+            testPlayerList.add(new Player("Player 5", 150, false, false,
+                    axarPatelStats));
+
+            int[] benStokesStats = {43, 920, 36, 684, 28, 974, 683};
+            testPlayerList.add(new Player("Player 6", 150, false, false,
+                    benStokesStats));
+
+            int[] shaneWatsonStats = {145, 3874, 125, 2809, 92, 2682, 2029};
+            testPlayerList.add(new Player("Player 7", 150, false, false,
+                    shaneWatsonStats));
+
+            int[] hardikPandyaStats = {92, 1476, 54, 959, 42, 1313, 869};
+            testPlayerList.add(new Player("Player 8", 150, false, false,
+                    hardikPandyaStats));
+
+            int[] jacquesKallisStats = {98, 2427, 85, 2222, 65, 2293, 1742};
+            testPlayerList.add(new Player("Player 9", 200, false, false,
+                    jacquesKallisStats));
+
+            int[] ravindraJadejaStats = {200, 2386, 88, 1862, 127, 3816, 3007};
+            testPlayerList.add(new Player("Player 10", 200, false, false,
+                    ravindraJadejaStats));
+
+            int[] msDhoniStats = {220, 4746, 120, 3494, 0, 0, 0};
+            testPlayerList.add(new Player("Player 11", 200, true, false,
+                    msDhoniStats));
 
             return testPlayerList;
         }
