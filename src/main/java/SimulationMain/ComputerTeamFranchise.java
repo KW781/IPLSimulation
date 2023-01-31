@@ -27,13 +27,14 @@ public class ComputerTeamFranchise extends TeamFranchise {
         double randomFactor = (RANDOM_FACTOR_MAGNITUDE * 2) * Math.random() + (1 - RANDOM_FACTOR_MAGNITUDE);
 
         //return if the team franchise can't afford the player
-        if (this.purse < biddingPlayer.getPrice() + 20) {
+        if (this.purse < currentBidPrice + 20) {
             return false;
         }
 
         switch (biddingRole) {
             case WICKETKEEPER:
-                maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
+                maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg(),
+                        biddingPlayer.getNumMatches());
                 if (this.squad.size() >= 10) { //will only start considering the ratio of roles in the squad once size >= 10
                     wicketkeeperRatio = ((double)this.countRoleInSquad(Role.WICKETKEEPER)) / this.squad.size();
                     if (wicketkeeperRatio < (1.0/11)) {
@@ -44,7 +45,8 @@ public class ComputerTeamFranchise extends TeamFranchise {
                 }
                 break;
             case BATSMAN:
-                maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
+                maxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg(),
+                        biddingPlayer.getNumMatches());
                 if (this.squad.size() >= 10) { //will only start considering the ratio of roles in the squad once size >= 10
                     batsmanRatio = ((double)this.countRoleInSquad(Role.BATSMAN)) / this.squad.size();
                     if (batsmanRatio < (3.0/11)) {
@@ -59,7 +61,8 @@ public class ComputerTeamFranchise extends TeamFranchise {
                 }
                 break;
             case BOWLER:
-                maxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg());
+                maxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg(),
+                        biddingPlayer.getNumMatches());
                 if (this.squad.size() >= 10) {
                     bowlerRatio = ((double)this.countRoleInSquad(Role.BOWLER)) / this.squad.size();
                     if (bowlerRatio < (3.0/11)) {
@@ -74,8 +77,10 @@ public class ComputerTeamFranchise extends TeamFranchise {
                 }
                 break;
             case ALL_ROUNDER:
-                battingMaxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg());
-                bowlingMaxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg());
+                battingMaxPrice = this.calculateBatsmanStatsPrice(biddingPlayer.getStrikeRate(), biddingPlayer.getBattingAvg(),
+                        biddingPlayer.getNumMatches());
+                bowlingMaxPrice = this.calculateBowlerStatsPrice(biddingPlayer.getEconomy(), biddingPlayer.getBowlingAvg(),
+                        biddingPlayer.getNumMatches());
                 maxPrice = (battingMaxPrice + bowlingMaxPrice) / 2; //calculate average of batting and bowling max prices
                 if (this.squad.size() >= 10) {
                     allRounderRatio = ((double)this.countRoleInSquad(Role.ALL_ROUNDER)) / this.squad.size();
@@ -302,5 +307,56 @@ public class ComputerTeamFranchise extends TeamFranchise {
         }
 
         return playingEleven;
+    }
+
+    /**
+     * Helper method to calculate the initial auction price for a batsman based purely on stats, used in the bidding
+     * algorithm for a computer controlled franchise.
+     * @param strikeRate The strike rate of the batsman
+     * @param battingAvg The batting average of the batsman
+     * @return The stats based auction price of the batsman
+     */
+    private double calculateBatsmanStatsPrice(double strikeRate, double battingAvg, int numMatches) {
+        double numerator = 9 * Math.pow(strikeRate, 3) * Math.pow(battingAvg, 2);
+        double denominator = 4 * Math.pow(10, 7);
+        double price = numerator / denominator;
+        return adjustPriceForNumberOfMatches(price, numMatches);
+    }
+
+    /**
+     * Helper method to calculate the initial auction price for a batsman based purely on stats, used in the bidding
+     * algorithm for a computer controlled franchise.
+     * @param economy The economy of the bowler
+     * @param bowlingAvg The bowling average of the bowler
+     * @return The stats based auction price of the bowler
+     */
+    private double calculateBowlerStatsPrice(double economy, double bowlingAvg, int numMatches) {
+        double numerator = 27 * Math.pow(10, 7);
+        double denominator = Math.pow(economy, 3) * Math.pow(bowlingAvg, 2);
+        double price = numerator / denominator;
+        return adjustPriceForNumberOfMatches(price, numMatches);
+    }
+
+    /**
+     * Helper method to scale the price up/down if need be depending on the number of matches, because good stats may
+     * not be accurate representation of a player's ability if they've played few matches. Conversely, good stats
+     * are an even better representation of a player's ability if they've played a lot of matches.
+     * @param price The current price of the player, purely based on statistics
+     * @param numMatches The number of matches played by the player
+     * @return The new price of the player adjusted for experience (number of matches they've played)
+     */
+    private double adjustPriceForNumberOfMatches(double price, int numMatches) {
+        if (price >= 1100) {
+            if (numMatches >= 150) {
+                return price * 1.3;
+            } else if (numMatches >= 80) {
+                return price * 1.15;
+            } else if (numMatches <= 15) {
+                return price * 0.5;
+            } else if (numMatches <= 40) {
+                return price * 0.75;
+            }
+        }
+        return price;
     }
 }

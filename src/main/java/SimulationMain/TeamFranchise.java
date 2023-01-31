@@ -145,30 +145,4 @@ public abstract class TeamFranchise {
         }
         return count;
     }
-
-    /**
-     * Helper method to calculate the initial auction price for a batsman based purely on stats, used in the bidding
-     * algorithm for a computer controlled franchise.
-     * @param strikeRate The strike rate of the batsman
-     * @param battingAvg The batting average of the batsman
-     * @return The stats based auction price of the batsman
-     */
-    protected double calculateBatsmanStatsPrice(double strikeRate, double battingAvg) {
-        double numerator = this.purse * Math.pow(strikeRate, 3) * Math.pow(battingAvg, 2);
-        double denominator = 4 * Math.pow(10, 10);
-        return numerator / denominator;
-    }
-
-    /**
-     * Helper method to calculate the initial auction price for a batsman based purely on stats, used in the bidding
-     * algorithm for a computer controlled franchise.
-     * @param economy The economy of the bowler
-     * @param bowlingAvg The bowling average of the bowler
-     * @return The stats based auction price of the bowler
-     */
-    protected double calculateBowlerStatsPrice(double economy, double bowlingAvg) {
-        double numerator = this.purse * 3 * Math.pow(10, 4);
-        double denominator = Math.pow(economy, 3) * Math.pow(bowlingAvg, 2);
-        return numerator / denominator;
-    }
 }

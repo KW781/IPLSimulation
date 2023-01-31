@@ -273,6 +273,14 @@ public class Player {
     }
 
     /**
+     * Getter method for the number of matches the player has played.
+     * @return The number of matches the player has played
+     */
+    public int getNumMatches() {
+        return this.numMatches;
+    }
+
+    /**
      * Getter method for the player's current auction price
      * @return The player's auction price
      */
