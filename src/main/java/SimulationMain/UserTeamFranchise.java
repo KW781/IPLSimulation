@@ -30,6 +30,11 @@ public class UserTeamFranchise extends TeamFranchise {
         double bidValue = -10; //initialise bidValue to an invalid value
         boolean valid = false;
 
+        //return if the team franchise can't afford the player, or if max squad size limit has been reached
+        if ((this.purse < currentBidPrice + 20) || (this.squad.size() >= 25)) {
+            return false;
+        }
+
         System.out.println("Enter the bid you would like to place for " + playerName + ".");
         System.out.println("If don't want to place a bid, enter 0.");
         System.out.print("If you no longer want to make any bids for this player, enter -1: ");

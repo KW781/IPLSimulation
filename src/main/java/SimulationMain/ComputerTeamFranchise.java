@@ -23,11 +23,11 @@ public class ComputerTeamFranchise extends TeamFranchise {
         double battingMaxPrice, bowlingMaxPrice;
 
         //A random factor to create a form of unpredictability in the auction process
-        final double RANDOM_FACTOR_MAGNITUDE = 0.4;
+        final double RANDOM_FACTOR_MAGNITUDE = 0.3;
         double randomFactor = (RANDOM_FACTOR_MAGNITUDE * 2) * Math.random() + (1 - RANDOM_FACTOR_MAGNITUDE);
 
-        //return if the team franchise can't afford the player
-        if (this.purse < currentBidPrice + 20) {
+        //return if the team franchise can't afford the player, or if max squad size limit has been reached
+        if ((this.purse < currentBidPrice + 20) || (this.squad.size() >= 25)) {
             return false;
         }
 
@@ -108,7 +108,35 @@ public class ComputerTeamFranchise extends TeamFranchise {
                 maxPrice *= 0.85;
             }
         }
+
         maxPrice *= randomFactor; //apply the random factor to the max price
+
+        //account for purse size relative to squad size for price calculation
+        if ((this.purse <= 6750) && (this.squad.size() <= 2)) {
+            maxPrice = maxPrice >= 1100 ? maxPrice * 0.8 : maxPrice;
+        } else if ((this.purse <= 4500) && (this.squad.size() <= 8)) {
+            if (maxPrice >= 1100) {
+                maxPrice *= 0.6;
+            } else if (maxPrice >= 700) {
+                maxPrice *= 0.8;
+            }
+        } else if ((this.purse <= 2250) && (this.squad.size() <= 15)) {
+            if (maxPrice >= 1100) {
+                maxPrice *= 0.4;
+            } else if (maxPrice >= 700) {
+                maxPrice *= 0.6;
+            } else if (maxPrice >= 500) {
+                maxPrice *= 0.8;
+            }
+        } else if ((this.purse <= 1125) && (this.squad.size() <= 20)) {
+            if (maxPrice >= 1100) {
+                maxPrice *= 0.2;
+            } else if (maxPrice >= 700) {
+                maxPrice *= 0.4;
+            } else if (maxPrice >= 500) {
+                maxPrice *= 0.6;
+            }
+        }
 
         if (maxPrice >= (currentBidPrice + 20)) {
             maxPrice = currentBidPrice + 20; //add on increment to current bid price if willing to pay more
